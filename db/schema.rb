@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130818214500) do
+ActiveRecord::Schema.define(:version => 20130818215602) do
 
   create_table "branches", :force => true do |t|
     t.integer  "project_id", :null => false
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(:version => 20130818214500) do
     t.string   "name",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "parties", :force => true do |t|
+    t.integer  "project_id",                      :null => false
+    t.integer  "user_id",                         :null => false
+    t.boolean  "required",     :default => false, :null => false
+    t.boolean  "mail_send_to", :default => false, :null => false
+    t.boolean  "mail_send_cc", :default => false, :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   create_table "projects", :force => true do |t|

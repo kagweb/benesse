@@ -1,4 +1,7 @@
 Benesse::Application.routes.draw do
+  resources :parties
+
+
   resources :branches
 
 
