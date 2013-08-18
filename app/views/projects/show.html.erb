@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Code:</b>
+  <%= @project.code %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @project.name %>
+</p>
+
+<p>
+  <b>Authorizer:</b>
+  <%= @project.authorizer_id %>
+</p>
+
+<p>
+  <b>Promoter:</b>
+  <%= @project.promoter_id %>
+</p>
+
+<p>
+  <b>Operator:</b>
+  <%= @project.operator_id %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @project.status %>
+</p>
+
+<p>
+  <b>Confirmed:</b>
+  <%= @project.confirmed %>
+</p>
+
+<p>
+  <b>Upload url:</b>
+  <%= @project.upload_url %>
+</p>
+
+<p>
+  <b>Production upload url:</b>
+  <%= @project.production_upload_url %>
+</p>
+
+<p>
+  <b>Test upload at:</b>
+  <%= @project.test_upload_at %>
+</p>
+
+<p>
+  <b>Production upload at:</b>
+  <%= @project.production_upload_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_project_path(@project) %> |
+<%= link_to 'Back', projects_path %>

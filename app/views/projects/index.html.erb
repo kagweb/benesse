@@ -1,0 +1,43 @@
+<h1>Listing projects</h1>
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th>Authorizer</th>
+    <th>Promoter</th>
+    <th>Operator</th>
+    <th>Status</th>
+    <th>Confirmed</th>
+    <th>Upload url</th>
+    <th>Production upload url</th>
+    <th>Test upload at</th>
+    <th>Production upload at</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @projects.each do |project| %>
+  <tr>
+    <td><%= project.code %></td>
+    <td><%= project.name %></td>
+    <td><%= project.authorizer_id %></td>
+    <td><%= project.promoter_id %></td>
+    <td><%= project.operator_id %></td>
+    <td><%= project.status %></td>
+    <td><%= project.confirmed %></td>
+    <td><%= project.upload_url %></td>
+    <td><%= project.production_upload_url %></td>
+    <td><%= project.test_upload_at %></td>
+    <td><%= project.production_upload_at %></td>
+    <td><%= link_to 'Show', project %></td>
+    <td><%= link_to 'Edit', edit_project_path(project) %></td>
+    <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Project', new_project_path %>

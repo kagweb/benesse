@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  code: 
+  name: MyString
+  authorizer_id: 1
+  promoter_id: 1
+  operator_id: 1
+  status: 1
+  confirmed: false
+  upload_url: MyString
+  production_upload_url: 
+  test_upload_at: 2013-08-19 06:34:41
+  production_upload_at: 2013-08-19 06:34:41
+
+two:
+  code: 
+  name: MyString
+  authorizer_id: 1
+  promoter_id: 1
+  operator_id: 1
+  status: 1
+  confirmed: false
+  upload_url: MyString
+  production_upload_url: 
+  test_upload_at: 2013-08-19 06:34:41
+  production_upload_at: 2013-08-19 06:34:41

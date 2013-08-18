@@ -1,0 +1,61 @@
+<%= form_for(@project) do |f| %>
+  <% if @project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+      <ul>
+      <% @project.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :code %><br />
+    <%= f.text_field :code %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :authorizer_id %><br />
+    <%= f.number_field :authorizer_id %>
+  </div>
+  <div class="field">
+    <%= f.label :promoter_id %><br />
+    <%= f.number_field :promoter_id %>
+  </div>
+  <div class="field">
+    <%= f.label :operator_id %><br />
+    <%= f.number_field :operator_id %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br />
+    <%= f.number_field :status %>
+  </div>
+  <div class="field">
+    <%= f.label :confirmed %><br />
+    <%= f.check_box :confirmed %>
+  </div>
+  <div class="field">
+    <%= f.label :upload_url %><br />
+    <%= f.text_field :upload_url %>
+  </div>
+  <div class="field">
+    <%= f.label :production_upload_url %><br />
+    <%= f.text_field :production_upload_url %>
+  </div>
+  <div class="field">
+    <%= f.label :test_upload_at %><br />
+    <%= f.datetime_select :test_upload_at %>
+  </div>
+  <div class="field">
+    <%= f.label :production_upload_at %><br />
+    <%= f.datetime_select :production_upload_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
