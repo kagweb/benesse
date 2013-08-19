@@ -1,3 +1,6 @@
 class Party < ActiveRecord::Base
-  attr_accessible :mail_send_cc, :mail_send_to, :project_id, :required, :user_id
+  has_many :projects
+  has_many :users
+
+  attr_accessible :mail_send_cc, :mail_send_to, :required
 end

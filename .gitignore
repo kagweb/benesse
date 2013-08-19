@@ -4,18 +4,49 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile ~/.gitignore_global
 
+# Ignore schema.rb
+/db/schema.rb
+
 # Ignore bundler config
-vender/bundle/*
 /.bundle
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
 
+# Ignore database.yml
+# /config/database.yml
+
 # Ignore all logfiles and tempfiles.
-log/*
-tmp/*
+/log
+/tmp
 
+# Ignore all bundle gems
+/vendor/bundle/
+/vendor/cache/
+
+# Ignore Eclipse project
+.project
+
+# Ignore action cache
+/public/*.json
+
+# Ignore jasmine-headless-webkit cache
+/.jhw-cache
+
+# Ignore asset cache
+/public/assets
+
+# Ignore uploaded images
+/public/uploads/
+
+# Ignore .DS_Store
 .DS_Store
-*.swp
-*.lock
 
+# Ignore swap file
+*.swp
+
+# Ignore .dropbox
+.dropbox
+
+# Ignore "Icon\r"
+Icon^M^M

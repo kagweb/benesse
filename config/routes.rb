@@ -1,24 +1,13 @@
 Benesse::Application.routes.draw do
+  root to: 'users#index'
+
   resources :comments
-
-
   resources :confirmations
-
-
   resources :parties
-
-
   resources :branches
-
-
   resources :projects
-
-
   resources :departments
-
-
   resources :users
-
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
