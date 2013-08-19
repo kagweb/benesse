@@ -4,7 +4,7 @@ class CreateConfirmations < ActiveRecord::Migration
       t.with_options null: false  do |t|
         t.references :project
         t.references :user
-        t.integer :status, :default => 0
+        t.integer :status, default: 0
         t.string :type
       end
 
@@ -14,11 +14,3 @@ class CreateConfirmations < ActiveRecord::Migration
     add_index :confirmations, :user_id
   end
 end
-
-
-
-
-
-
-
-
