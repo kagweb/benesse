@@ -1,7 +1,7 @@
 class CreateComments < ActiveRecord::Migration
   def change
     create_table :comments do |t|
-      t.with_options null: false  do |t|
+      t.with_options null: false do |t|
         t.references :project
         t.references :user
         t.integer :status, default: 0

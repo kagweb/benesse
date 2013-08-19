@@ -1,7 +1,7 @@
 class CreateProjects < ActiveRecord::Migration
   def change
     create_table :projects do |t|
-      t.with_options null: false  do |t|
+      t.with_options null: false do |t|
         t.string :code
          t.string :name
          t.integer :promoter_id, null: false
