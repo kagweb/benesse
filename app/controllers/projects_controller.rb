@@ -1,7 +1,8 @@
 class ProjectsController < ApplicationController
-  before_filter :require_login
+  before_filter :require_login, except: :index
 
   def index
+    redirect_to login_url unless current_user
     @projects = Project.all
   end
 

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :require_login
+  before_filter :promotion_department_required
 
   def index
     @users = User.all
