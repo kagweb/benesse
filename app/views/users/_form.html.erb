@@ -1,11 +1,12 @@
-<%= simple_form_for(@user) do |f| %>
-
+<%= simple_form_for @user  do |f| %>
   <%= f.error_notification %>
-  <%= f.input :username %>
+
+  <%= f.association :department, collection: Department.all %>
+  <%= f.input :name %>
   <%= f.input :email %>
+  <%= f.input :username %>
   <%= f.input :password %>
   <%= f.input :password_confirmation, required: true%>
-  <%= f.association :department, collection: Department.all %>
-  <%= f.submit %>
+  <%= f.button :submit, class: 'btn btn-primary' %>
 
 <% end %>

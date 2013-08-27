@@ -32,20 +32,16 @@
   </thead>
   <tbody>
 
-    <% for i in 0..10 %>
-
+  <% @project.each do |project| %>
     <tr>
-      <td>ライブ講義アーカイブページ</td>
-      <td>前田</td>
-      <td>2013/8/20</td>
-      <td>2013/8/31</td>
-      <td>IE6でのトップページの表示崩れに関して、修整...</td>
-      <td>
-        <a href="#" class="btn">個票</a>
-      </td>
+      <td>project.name</td>
+      <td>project.promoter.name</td>
+      <td>project.test_upload_at.presence || '未定'</td>
+      <td>project.production_upload_at.presence || '未定'</td>
+      <td>project.comments.last.presence || ''</td>
+      <td><%= link_to '個票', project %></td>
     </tr>
-
-    <% end %>
+  <% end %>
 
   </tbody>
 <table>
