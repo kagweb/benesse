@@ -1,9 +1,9 @@
 <h1>Home</h1>
 
 <ul class="unstyled">
-  <li><%= link_to 'Create User (デジタル推進課のみ表示) ' , { controller: 'users', action: 'new' } %></li>
+  <li><%= link_to 'Create User (デジタル推進課のみ表示) ', new_user_path %></li>
   <li><%= link_to 'Upload to AWS ' , '#' %></li>
-  <li><%= link_to 'Create new project', { controller: 'projects', action: 'new' } %></li>
+  <li><%= link_to 'Create new project', new_project_path %></li>
 </ul>
 
 <h2>Projects <small>2013/8/1 ~ 2013/8/31</small></h2>
