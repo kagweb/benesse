@@ -29,6 +29,8 @@
           <li><%= link_to 'projects', projects_path %></li>
           <li><%= link_to 'departments', departments_path %></li>
           <li><%= link_to 'users', users_path %></li>
+          <li><%= link_to 'login', login_path unless current_user %></li>
+          <li><%= link_to 'logout', logout_path if current_user %></li>
         </ul>
       </div>
     </div>

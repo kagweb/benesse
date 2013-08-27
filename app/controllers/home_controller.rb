@@ -1,7 +1,5 @@
 class HomeController < ApplicationController
   def index
-  end
-
-  def login
+    redirect_to login_url unless current_user
   end
 end

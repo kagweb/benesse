@@ -1,8 +1,5 @@
 Benesse::Application.routes.draw do
-  get "home/login"
-  get "home/index"
-
-  root to: 'home#login'
+  root to: 'home#index'
 
   resources :comments
   resources :confirmations
@@ -11,6 +8,9 @@ Benesse::Application.routes.draw do
   resources :projects
   resources :departments
   resources :users
+  resources :sessions, only: [:new, :create, :destroy]
+  match 'login' => 'sessions#new', as: :login
+  match 'logout' => 'sessions#destroy', as: :logout
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
