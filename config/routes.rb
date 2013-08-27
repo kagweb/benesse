@@ -1,5 +1,8 @@
 Benesse::Application.routes.draw do
-  root to: 'users#index'
+  get "home/login"
+  get "home/index"
+
+  root to: 'home#login'
 
   resources :comments
   resources :confirmations

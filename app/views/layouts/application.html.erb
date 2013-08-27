@@ -18,27 +18,18 @@
   </head>
   <body>
 
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
       <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">Benesse</a>
-          <div class="container nav-collapse">
-            <ul class="nav">
-              <li><%= link_to 'comments', comments_path %></li>
-              <li><%= link_to 'confirmations', confirmations_path %></li>
-              <li><%= link_to 'parties', parties_path %></li>
-              <li><%= link_to 'branches', branches_path %></li>
-              <li><%= link_to 'projects', projects_path %></li>
-              <li><%= link_to 'departments', departments_path %></li>
-              <li><%= link_to 'users', users_path %></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
+        <a class="brand" href="#">Benesse</a>
+        <ul class="nav">
+          <li><%= link_to 'comments', comments_path %></li>
+          <li><%= link_to 'confirmations', confirmations_path %></li>
+          <li><%= link_to 'parties', parties_path %></li>
+          <li><%= link_to 'branches', branches_path %></li>
+          <li><%= link_to 'projects', projects_path %></li>
+          <li><%= link_to 'departments', departments_path %></li>
+          <li><%= link_to 'users', users_path %></li>
+        </ul>
       </div>
     </div>
 
