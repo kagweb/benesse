@@ -1,10 +1,11 @@
 ja:
   activerecord:
     models:
-      users: 'ユーザー'
+      users: ユーザー
     attributes:
       user:
-        username: 'ユーザー名'
-        email: 'メールアドレス'
-        password: 'パスワード'
-        department: '所属部署'
+        username: ユーザーID
+        name: ユーザ名
+        email: メールアドレス
+        password: パスワード
+        department: 所属部署
