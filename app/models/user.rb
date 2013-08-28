@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :confirmations
   has_many :parties
+  has_many :projects
 
   attr_accessible :username, :email, :password, :password_confirmation, :department_id
 
