@@ -1,5 +1,6 @@
 ja:
   view:
+    projects: 移送案件
     project:
       status:
         working: 仕掛中
@@ -9,6 +10,7 @@ ja:
       test: テスト環境
       production: 本番環境
       transition: 年度以降対象
+      mail_send: リマインドメール送信
     utility:
       undefined: 登録されていません。
       confirmed: 承認
@@ -18,3 +20,4 @@ ja:
       registration:
         temporary: 仮登録
         production: 本登録
+      required: 必須
