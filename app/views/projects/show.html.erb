@@ -5,34 +5,29 @@
     <h2>
       <%= @project.name %>
       <small><%= sprintf '%07d', @project.id %>-<%= sprintf '%02d', 0 %></small>
-      <span class="label label-warning">仮登録</span>
-      <span class="label label-success">本登録</span>
-      <span class="label label-important">年度以降対象</span>
+      <span class="label label-warning"><%= t 'view.utility.registration.temporary' %></span>
+      <span class="label label-success"><%= t 'view.utility.registration.production' %></span>
+      <span class="label label-important"><%= t 'view.project.transition' %></span>
     </h2>
 
     <p>
       <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
-      <%= @project.authorizer.username %> [Confirmed: <%= @project.confirmed %> ]
+      <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %> [<%= t 'view.utility.confirmed' %>: <%= @project.confirmed ? t('view.utility.confirm.ok') : t('view.utility.confirm.ng') %> ]
     </p>
 
     <p>
       <b><%= t 'activerecord.attributes.project.promoter' %>:</b>
-      <%= @project.promoter.username %>
+      <%= @project.promoter ? @project.promoter.name : t('view.utility.undefined') %>
     </p>
 
     <p>
       <b><%= t 'activerecord.attributes.project.operator' %>:</b>
-      <%= @project.operator.username %>
-    </p>
-
-    <p>
-      <b><%= t 'activerecord.attributes.project.status' %>:</b>
-      <%= @project.status %>
+      <%= @project.operator ? @project.operator.name : t('view.utility.undefined') %>
     </p>
 
     <p>
       <b><%= t 'activerecord.attributes.project.upload_url' %>:</b>
-      <%= @project.upload_url %>
+      <%= @project.upload_url ? @project.upload_url : t('view.utility.undefined') %>
     </p>
 
     <% unless @project.production_upload_url.blank? %>
@@ -44,14 +39,14 @@
 
     <p>
       <b><%= t 'activerecord.attributes.project.test_upload_at' %>:</b>
-      <%= @project.test_upload_at %>
+      <%= @project.test_upload_at ? @project.test_uplaod_at : t('view.utility.undefined') %>
     </p>
 
     <p>
       <b><%= t 'activerecord.attributes.project.production_upload_at' %>:</b>
-      <%= @project.production_upload_at %>
+      <%= @project.production_upload_at ? @project.production_upload_at : t('view.utility.undefined') %>
     </p>
-    
+
     <%= link_to 'Edit', edit_project_path(@project) %>
   </div>
 

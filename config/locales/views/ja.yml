@@ -2,9 +2,19 @@ ja:
   view:
     project:
       status:
-        working: '仕掛中'
-        compleated: '完了'
+        working: 仕掛中
+        compleated: 完了
         preparing: ''
-      html: 'HTML稿'
-      test: 'テスト環境'
-      production: '本番環境'
+      html: HTML稿
+      test: テスト環境
+      production: 本番環境
+      transition: 年度以降対象
+    utility:
+      undefined: 登録されていません。
+      confirmed: 承認
+      confirm:
+        ok: 承認済み
+        ng: 未承認
+      registration:
+        temporary: 仮登録
+        production: 本登録
