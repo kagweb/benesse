@@ -29,7 +29,7 @@
           <li><%= link_to 'projects', projects_path %></li>
           <li><%= link_to 'departments', departments_path %></li>
           <li><%= link_to 'users', users_path %></li>
-          <li><%= link_to 'ユーザー登録', new_user_path if current_user.is_promotion_department? %></li>
+          <li><%= link_to 'ユーザー登録', new_user_path if current_user && current_user.is_promotion_department? %></li>
           <li><%= link_to 'ログイン', login_path unless current_user %></li>
           <li><%= link_to 'ログアウト', logout_path if current_user %></li>
         </ul>
