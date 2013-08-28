@@ -1,15 +1,15 @@
 ja:
   activerecord:
     models:
-      projects: 'ユーザー'
+      projects: ユーザー
     attributes:
       project:
-        code: '管理番号'
-        name: '企画名'
-        authorizer: '承認者'
-        promoter: '担当者'
-        operator: '更新作業担当者'
-        test_upload_at: 'テスト環境移送日'
-        production_upload_at: '本番環境移送日'
-        status: '状況'
-        upload_url: 'アップロードURL'
+        code: 管理番号
+        name: 企画名
+        authorizer: 承認者
+        promoter: 担当者
+        operator: 更新作業担当者
+        test_upload_at: テスト環境移送日
+        production_upload_at: 本番環境移送日
+        status: 状況
+        upload_url: アップロードURL
