@@ -6,7 +6,6 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
-gem 'mysql2'
 gem 'jquery-rails'
 #gem 'execjs', platforms: :ruby
 gem 'squeel'
