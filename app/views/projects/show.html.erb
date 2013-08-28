@@ -1,60 +1,70 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Code:</b>
-  <%= @project.code %>
-</p>
+<div class="row">
+  <div class="span6">
+    <h2>
+      <%= @project.name %>
+      <small><%= sprintf '%07d', @project.id %>-<%= sprintf '%02d', 0 %></small>
+      <span class="label label-warning">仮登録</span>
+      <span class="label label-success">本登録</span>
+      <span class="label label-important">年度以降対象</span>
+    </h2>
 
-<p>
-  <b>Name:</b>
-  <%= @project.name %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
+      <%= @project.authorizer.username %> [Confirmed: <%= @project.confirmed %> ]
+    </p>
 
-<p>
-  <b>Authorizer:</b>
-  <%= @project.authorizer_id %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.promoter' %>:</b>
+      <%= @project.promoter.username %>
+    </p>
 
-<p>
-  <b>Promoter:</b>
-  <%= @project.promoter_id %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.operator' %>:</b>
+      <%= @project.operator.username %>
+    </p>
 
-<p>
-  <b>Operator:</b>
-  <%= @project.operator_id %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.status' %>:</b>
+      <%= @project.status %>
+    </p>
 
-<p>
-  <b>Status:</b>
-  <%= @project.status %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.upload_url' %>:</b>
+      <%= @project.upload_url %>
+    </p>
 
-<p>
-  <b>Confirmed:</b>
-  <%= @project.confirmed %>
-</p>
+    <% unless @project.production_upload_url.blank? %>
+    <p>
+      <b><%= t 'activerecord.attributes.project.production_upload_url' %>:</b>
+      <%= @project.production_upload_url %>
+    </p>
+    <% end %>
 
-<p>
-  <b>Upload url:</b>
-  <%= @project.upload_url %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.test_upload_at' %>:</b>
+      <%= @project.test_upload_at %>
+    </p>
 
-<p>
-  <b>Production upload url:</b>
-  <%= @project.production_upload_url %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.production_upload_at' %>:</b>
+      <%= @project.production_upload_at %>
+    </p>
+    
+    <%= link_to 'Edit', edit_project_path(@project) %>
+  </div>
 
-<p>
-  <b>Test upload at:</b>
-  <%= @project.test_upload_at %>
-</p>
+  <div class="span6">
+    <div class="row">
+      <% for i in ['html', 'test', 'production'] %>
+      <div class="span2">
+        <button class="btn btn-large btn-block <%= disabled i %>"><%= t 'view.project.'  + i %></button>
+        <p class="text-center"><%= t 'view.project.status.'  + (status i) %></p>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
 
-<p>
-  <b>Production upload at:</b>
-  <%= @project.production_upload_at %>
-</p>
-
-
-<%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>
