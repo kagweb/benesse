@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <div class="row">
-  <div class="span6">
+  <div class="span5">
     <h2>
       <%= @project.name %>
       <small><%= sprintf '%07d', @project.id %>-<%= sprintf '%02d', 0 %></small>
@@ -50,7 +50,7 @@
     <%= link_to 'Edit', edit_project_path(@project) %>
   </div>
 
-  <div class="span6">
+  <div class="span7">
     <div class="row">
       <% for i in ['html', 'test', 'production'] %>
       <div class="span2">
@@ -61,13 +61,15 @@
     </div>
 
     <div class="clearfix">
-      <textarea class="input-block-level"></textarea>
+      <textarea rows="10" class="input-block-level"></textarea>
       <button class="btn btn-primary pull-right"><%= t 'view.project.mail_send' %></button>
     </div>
 
     <table class="table table-striped">
       <thead>
         <tr>
+          <th>TO</th>
+          <th>CC</th>
           <th><%= t 'view.utility.required' %></th>
           <th><%= t 'activerecord.attributes.user.department' %></th>
           <th><%= t 'activerecord.attributes.user.name' %></th>
@@ -77,14 +79,18 @@
         </tr>
       </thead>
       <tbody>
+        <% @project.parties.each do |party| %>
         <tr>
-          <td>hogehoge</td>
-          <td>hogehoge</td>
-          <td>hogehoge</td>
+          <td><input type="checkbox"></td>
+          <td><input type="checkbox"></td>
+          <td><%= raw ( party.required ? '<i class="icon-ok"></i>' : '') %></td>
+          <td><%= party.user.department.name %></td>
+          <td><%= party.user.name %></td>
           <td>OK</td>
           <td>NG</td>
           <td>FB</td>
         </tr>
+        <% end %>
       </tbody>
     </table>
   </div>
