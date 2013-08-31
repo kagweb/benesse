@@ -11,6 +11,10 @@ ja:
       production: 本番環境
       transition: 年度以降対象
       mail_send: リマインドメール送信
+      update_project: 更新
+      update_authors: 付替え
+      add_party: 関係者を追加
+      delete_party: 削除
     utility:
       undefined: 登録されていません。
       confirmed: 承認

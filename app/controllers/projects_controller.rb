@@ -41,4 +41,7 @@ class ProjectsController < ApplicationController
     @project.destroy
     redirect_to projects_url
   end
+  
+  def authors
+  end
 end
