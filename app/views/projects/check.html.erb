@@ -1,0 +1,73 @@
+<div class="clearfix">
+  <h1><%= t 'view.project.check' %> <small><%= t('view.project.' + params[:type])  %></small></h1>
+  
+  <p>
+    <b><%= t 'view.project.name' %>:</b> <%= @project.name %>
+    [ <%= sprintf '%07d', @project.id %>-<%= sprintf '%02d', 0 %> ]
+  </p>
+  
+  <p>
+    <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
+    <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %> [<%= t 'view.utility.confirmed' %>: <%= @project.confirmed ? t('view.utility.confirm.ok') : t('view.utility.confirm.ng') %> ]
+  </p>
+  
+  <p>
+    <b><%= t 'activerecord.attributes.project.promoter' %>:</b>
+    <%= @project.promoter ? @project.promoter.name : t('view.utility.undefined') %>
+  </p>
+  
+  <p>
+    <b><%= t 'activerecord.attributes.project.operator' %>:</b>
+    <%= @project.operator ? @project.operator.name : t('view.utility.undefined') %>
+  </p>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= t 'view.utility.required' %></th>
+        <th><%= t 'activerecord.attributes.user.department' %></th>
+        <th><%= t 'activerecord.attributes.user.name' %></th>
+        <th class="span2">Feedback</th>
+        <th class="span2">OK</th>
+        <th class="span2">NG</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @project.parties.each do |party| %>
+      <tr>
+        <td><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
+        <td><%= party.user.department.name %></td>
+        <td><%= party.user.name %></td>
+  
+        <% if current_user == party.user%>
+        <td><input type="radio"></td>
+        <td><input type="radio"></td>
+        <td><input type="radio"></td>
+        <% else %>
+        <td></td>
+        <td><i class="icon-ok"></i></td>
+        <td></td>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <button class="btn btn-primary pull-right btn-large">submit</button>
+</div>
+
+<h2><%= t 'view.utility.comment' %></h2>
+<ul class="well unstyled">
+  <% @project.comments.each do |c| %>
+  <li>
+    <%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %>
+    <b><%= c.user.name %>: </b>
+    <%= c.comment%>
+  </li>
+  <% end %>
+</div>
+
+<form class="clearfix span12">
+  <textarea class="input-block-level"></textarea>
+  <input type="submit" class="btn btn-primary btn-large pull-right" value="comment">
+</form>

@@ -55,7 +55,7 @@
     <div class="row">
       <% for i in ['html', 'test', 'production'] %>
       <div class="span2">
-        <button class="btn btn-large btn-block <%= disabled i %>"><%= t 'view.project.'  + i %></button>
+        <%= link_to t('view.project.'  + i), { controller: 'projects', action: 'check', type: i }, { class: "btn btn-large btn-block #{disabled i}" } %>
         <p class="text-center"><%= t 'view.project.status.'  + (status i) %></p>
       </div>
       <% end %>

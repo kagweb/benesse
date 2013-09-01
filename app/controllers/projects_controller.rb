@@ -48,6 +48,17 @@ class ProjectsController < ApplicationController
 
   def check
     @project = Project.find params[:id]
+
+    case
+      when params[:type] == 'test'
+        status = 1
+      when params[:type] == 'production'
+        status = 2
+      else
+        status = 0
+    end
+
+    @comments = @project.comments.find :all, conditions: [ "status = ?", status ]
   end
 
 end

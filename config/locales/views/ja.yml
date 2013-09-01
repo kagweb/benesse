@@ -16,6 +16,8 @@ ja:
       add_party: 関係者を追加
       delete_party: 削除
       authors: 付け替え
+      check: 案件状況確認画面
+      name: 企画名
     utility:
       undefined: 登録されていません。
       confirmed: 承認
@@ -26,3 +28,4 @@ ja:
         temporary: 仮登録
         production: 本登録
       required: 必須
+      comment: コメント
