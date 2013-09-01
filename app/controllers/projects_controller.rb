@@ -41,7 +41,13 @@ class ProjectsController < ApplicationController
     @project.destroy
     redirect_to projects_url
   end
-  
+
   def authors
+    @project = Project.find params[:id]
   end
+
+  def check
+    @project = Project.find params[:id]
+  end
+
 end

@@ -97,7 +97,7 @@
       </tbody>
     </table>
 
-    <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new' }, { class: 'pull-right' } %>
+    <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right' } %>
   </div>
 </div>
 

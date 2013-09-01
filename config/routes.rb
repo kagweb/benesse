@@ -12,8 +12,9 @@ Benesse::Application.routes.draw do
   match 'login' => 'sessions#new', as: :login
   match 'logout' => 'sessions#destroy', as: :logout
   match 'projects/:id/authors' => 'projects#authors'
+  match 'projects/:id/check/:type' => 'projects#check'
+  match 'parties/new/:project_id' => 'parties#new'
   match 'parties/:id/:project_id' => 'parties#destory', via: :delete
-
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

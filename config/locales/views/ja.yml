@@ -15,6 +15,7 @@ ja:
       update_authors: 付替え
       add_party: 関係者を追加
       delete_party: 削除
+      authors: 付け替え
     utility:
       undefined: 登録されていません。
       confirmed: 承認
