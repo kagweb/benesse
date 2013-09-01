@@ -32,11 +32,15 @@ if Rails.env.development?
   end
 
   projects.each do |project|
+    party = project.parties.new(required: true)
+    party.project = project
+    party.user = user
+    party.save
+
     (rand 5..10).times do |i|
-      user = users[rand(users.length)]
       party = project.parties.new(required: rand(2) == 1)
       party.project = project
-      party.user = user
+      party.user = users[rand(users.length)]
       party.save
     end
   end
