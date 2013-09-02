@@ -1,11 +1,19 @@
-<h1>Home</h1>
+<div class="row">
+  <div class="span6">
+    <%= link_to 'AWS にアップロード' , '#', class: 'btn btn-primary btn-block btn-large' %>
+  </div>
+  <div class="span6">
+    <%= link_to '新しい企画を作成', new_project_path, class: 'btn btn-success btn-block btn-large' %>
+  </div>
+</div>
 
-<ul class="unstyled">
-  <li><%= link_to 'Upload to AWS ' , '#' %></li>
-  <li><%= link_to 'Create new project', new_project_path %></li>
-</ul>
-
-<h2>Projects <small>2013/8/1 ~ 2013/8/31</small></h2>
+<h2>
+  <%= t 'view.home.project_list' %>
+  <small>
+    <%= Date.new @date.year, @date.month, 1 %> ~
+    <%= Date.new @date.year, @date.month, -1 %>
+  </small>
+</h2>
 
 <form class="form-inline">
   <select class="input-medium">
@@ -15,17 +23,17 @@
     <option>本番環境</option>
     <option>テスト環境</option>
   </select>
-  <button type="submit" class="btn">Search</button>
+  <button type="submit" class="btn">検索</button>
 </form>
 
 <table class="table table-striped table-hover">
   <thead>
     <tr>
-      <th>Project name</th>
-      <th>Promoter</th>
-      <th>Test Upload at</th>
-      <th>Production Upload at</th>
-      <th>Comment</th>
+      <th><%= t 'activerecord.attributes.project.name' %></th>
+      <th><%= t 'activerecord.attributes.project.promoter' %></th>
+      <th><%= t 'activerecord.attributes.project.test_upload_at' %></th>
+      <th><%= t 'activerecord.attributes.project.production_upload_at' %></th>
+      <th><%= t 'view.utility.comment' %></th>
       <th></th>
     <tr>
   </thead>
@@ -37,7 +45,7 @@
       <td><%= project.promoter.name %></td>
       <td><%= project.test_upload_at.presence || '未定' %></td>
       <td><%= project.production_upload_at.presence || '未定' %></td>
-      <td><%= project.comments.last.presence || '' %></td>
+      <td><%= project.comments.last.presence.comment || '' %></td>
       <td><%= link_to '個票', project, class: 'btn' %></td>
     </tr>
   <% end %>
@@ -45,5 +53,5 @@
   </tbody>
 <table>
 
-<%= link_to '< Prev month', '#' %>
-<%= link_to 'Next month >', '#', { class: 'pull-right' } %>
+<%= link_to '< Prev month', { date: @date << 1 } %>
+<%= link_to 'Next month >', { date: @date >> 1 }, { class: 'pull-right' } %>

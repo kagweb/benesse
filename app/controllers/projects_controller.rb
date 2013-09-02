@@ -3,7 +3,8 @@ class ProjectsController < ApplicationController
 
   def index
     redirect_to login_url unless current_user
-    @projects = Project.all
+    @date = params[:date] ? Date.strptime(params[:date]) : Date.new(Time.now.year, Time.now.month, 1)
+    @projects = Project.find :all, conditions: ['created_at >= ? and created_at < ?', @date, @date >> 1]
   end
 
   def show

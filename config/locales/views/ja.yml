@@ -1,5 +1,7 @@
 ja:
   view:
+    home:
+      project_list: 移送案件一覧
     projects: 移送案件
     project:
       status:
