@@ -27,7 +27,7 @@
 
     <p>
       <b><%= t 'activerecord.attributes.project.upload_url' %>:</b>
-      <%= @project.upload_url ? @project.upload_url : t('view.utility.undefined') %>
+      <%= link_to url_for(controller: 'upload', action: 'index', project_id: @project.id, only_path: false), {controller: 'upload', action: 'index', project_id: @project.id} %>
     </p>
 
     <% unless @project.production_upload_url.blank? %>

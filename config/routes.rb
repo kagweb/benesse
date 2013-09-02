@@ -15,6 +15,7 @@ Benesse::Application.routes.draw do
   match 'projects/:id/check/:type' => 'projects#check'
   match 'parties/new/:project_id' => 'parties#new'
   match 'parties/:id/:project_id' => 'parties#destory', via: :delete
+  match 'upload/:project_id' => 'upload#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
