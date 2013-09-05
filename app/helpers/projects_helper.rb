@@ -35,5 +35,9 @@ module ProjectsHelper
 
     return ''
   end
-
+  
+  def response ( user )
+    confirmation = user.confirmations.find :first, conditions: { project_id: @project.id, status: @status }
+    return confirmation ? confirmation.response : ''
+  end
 end

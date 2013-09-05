@@ -51,15 +51,22 @@ class ProjectsController < ApplicationController
     @project = Project.find params[:id]
 
     case
-      when params[:type] == 'test'
-        status = 1
-      when params[:type] == 'production'
-        status = 2
+      when params[:status] == 'test'
+        @status = 1
+      when params[:status] == 'production'
+        @status = 2
       else
-        status = 0
+        @status = 0
     end
 
-    @comments = @project.comments.find :all, conditions: [ "status = ?", status ]
+    if request.post? and params[:confirmation]
+      Confirmation.delete_all project_id: @project.id, user_id: current_user.id, status: @status 
+      @confirmation = @project.confirmations.new response: params[:confirmation][:response], status: @status
+      @confirmation.user = current_user
+      @confirmation.save
+    end
+
+    @comments = @project.comments.find :all, conditions: { status: @status }
   end
 
 end
