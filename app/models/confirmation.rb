@@ -1,6 +1,6 @@
 class Confirmation < ActiveRecord::Base
-  has_many :projects
-  has_many :users
+  belongs_to :project
+  belongs_to :user
 
-  attr_accessible :status, :type
+  attr_accessible :status, :response
 end
