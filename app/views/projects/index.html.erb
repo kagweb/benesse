@@ -36,7 +36,7 @@
       <td><%= project.promoter.name %></td>
       <td><%= project.test_upload_at.presence || '未定' %></td>
       <td><%= project.production_upload_at.presence || '未定' %></td>
-      <td><%= project.comments.last.presence.comment || '' %></td>
+      <td><%= truncate project.comments.last.presence.comment || '' %></td>
       <td><%= link_to '個票', project, class: 'btn' %></td>
     </tr>
   <% end %>

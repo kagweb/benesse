@@ -76,7 +76,7 @@
   <li>
     <%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %>
     <b><%= c.user.name %>: </b>
-    <%= c.comment%>
+    <%= raw c.comment.gsub(/\r\n|\r|\n/, "<br />") %>
   </li>
   <% end %>
 </div>
