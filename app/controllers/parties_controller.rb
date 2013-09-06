@@ -18,7 +18,10 @@ class PartiesController < ApplicationController
   end
 
   def create
-    @party = Party.new params[:party]
+    @party = Party.new required: params[:party][:required]
+    @party.project = Project.find params[:party][:project_id]
+    @party.user = User.find params[:party][:user]
+    
     if @party.save
       redirect_to @party, notice: 'Party was successfully created.'
     else
