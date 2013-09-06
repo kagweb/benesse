@@ -1,4 +1,6 @@
 Benesse::Application.routes.draw do
+  get "api/user_list" => 'api#user_list'
+
   root to: 'projects#index'
 
   resources :comments
