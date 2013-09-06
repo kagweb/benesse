@@ -11,6 +11,7 @@ class PartiesController < ApplicationController
 
   def new
     @party = Party.new
+    @party.project = Project.find params[:project_id]
   end
 
   def edit
