@@ -72,7 +72,7 @@
 
 <h2><%= t 'view.utility.comment' %></h2>
 <ul class="well unstyled">
-  <% @project.comments.each do |c| %>
+  <% @project.comments.reverse_order.each do |c| %>
   <li>
     <%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %>
     <b><%= c.user.name %>: </b>
@@ -81,7 +81,9 @@
   <% end %>
 </div>
 
-<form class="clearfix span12">
-  <textarea class="input-block-level"></textarea>
-  <input type="submit" class="btn btn-primary btn-large pull-right" value="comment">
-</form>
+<%= simple_form_for @comment, html: { class: 'clearfix span12' } do |f| %>
+  <%= f.input :project_id, as: :hidden %>
+  <%= f.input :status, as: :hidden  %>
+  <%= f.input :comment, { as: :text, label: false, input_html: { class: 'input-block-level', rows: 10 } } %>
+  <%= f.submit value: 'comment', class: 'btn btn-primary btn-large pull-right' %>
+<% end %>

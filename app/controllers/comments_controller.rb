@@ -18,7 +18,10 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = Comment.new params[:comment]
+    @comment = Comment.new status: params[:comment][:status], comment: params[:comment][:comment]
+    @comment.project = Project.find params[:comment][:project_id]
+    @comment.user = current_user
+
     if @comment.save
       redirect_to @comment, notice: 'Comment was successfully created.'
     else

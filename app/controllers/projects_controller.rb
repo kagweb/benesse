@@ -66,6 +66,9 @@ class ProjectsController < ApplicationController
       @confirmation.save
     end
 
+    @comment = Comment.new status: @status
+    @comment.project = @project
+    @comment.user = current_user
     @comments = @project.comments.find :all, conditions: { status: @status }
   end
 
