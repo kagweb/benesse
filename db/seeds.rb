@@ -15,7 +15,6 @@ if Rails.env.development?
     end
   end
 
-
   department = Department.find_by_name('デジタル推進課')
 
   # 開発用ログインユーザ
@@ -24,7 +23,7 @@ if Rails.env.development?
   projects = []
 
   100.times do |i|
-    tmp = Project.new(name: "プロジェクト#{i}")
+    tmp = Project.new name: "プロジェクト#{i}"
     tmp.authorizer = user
     tmp.promoter = user
     tmp.operator = user
@@ -35,7 +34,7 @@ if Rails.env.development?
   projects.each do |project|
     parties = []
     # 開発用ログインユーザを各プロジェクトの関係者にアサイン
-    party = project.parties.new(required: true)
+    party = project.parties.new required: true
     party.project = project
     party.user = user
     party.save
@@ -43,7 +42,7 @@ if Rails.env.development?
 
     # 関係者を5~10人適当に登録
     (rand 5..10).times do |i|
-      party = project.parties.new(required: rand(2) == 1)
+      party = project.parties.new required: rand(2) == 1
       party.project = project
       party.user = users[rand(users.length)]
       party.save
