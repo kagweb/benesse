@@ -78,4 +78,9 @@ class ProjectsController < ApplicationController
     @comments = @project.comments.find :all, conditions: { status: @status }
   end
 
+  def update_branch
+    project = Project.find params[:id]
+    project.update_branch
+    redirect_to project
+  end
 end

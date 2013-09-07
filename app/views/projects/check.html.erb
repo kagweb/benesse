@@ -1,11 +1,11 @@
 <div class="clearfix">
   <h1><%= t 'view.project.check' %> <small><%= t('view.project.' + params[:status])  %></small></h1>
-  
+
   <p>
     <b><%= t 'view.project.name' %>:</b> <%= @project.name %>
-    [ <%= sprintf '%07d', @project.id %>-<%= sprintf '%02d', 0 %> ]
+    [ <%= project_number @project %> ]
   </p>
-  
+
   <p>
     <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
     <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %>
@@ -15,12 +15,12 @@
     <b><%= t 'activerecord.attributes.project.promoter' %>:</b>
     <%= @project.promoter ? @project.promoter.name : t('view.utility.undefined') %>
   </p>
-  
+
   <p>
     <b><%= t 'activerecord.attributes.project.operator' %>:</b>
     <%= @project.operator ? @project.operator.name : t('view.utility.undefined') %>
   </p>
-  
+
   <%= form_tag "/projects/#{params[:id]}/check/#{params[:status]}" do %>
     <table class="table table-striped">
       <thead>
