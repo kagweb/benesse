@@ -23,7 +23,7 @@ if Rails.env.development?
   projects = []
 
   100.times do |i|
-    tmp = Project.new name: "プロジェクト#{i}"
+    tmp = Project.new name: "プロジェクト#{i}", memo: "プロジェクト#{i}のメモ。 " * 10
     tmp.authorizer = user
     tmp.promoter = user
     tmp.operator = user
