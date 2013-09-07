@@ -72,7 +72,7 @@
 
 <h2><%= t 'view.utility.comment' %></h2>
 <ul class="well unstyled">
-  <% @project.comments.reverse_order.each do |c| %>
+  <% @project.comments.where(status: @status).reverse_order.each do |c| %>
   <li>
     <%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %>
     <b><%= c.user.name %>: </b>
