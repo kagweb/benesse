@@ -92,35 +92,29 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>TO</th>
-          <th>CC</th>
-          <th><%= t 'view.utility.required' %></th>
-          <th><%= t 'activerecord.attributes.user.department' %></th>
-          <th><%= t 'activerecord.attributes.user.name' %></th>
-          <th><%= t 'view.project.html' %></th>
-          <th><%= t 'view.project.test' %></th>
-          <th><%= t 'view.project.production' %></th>
+          <th class="center">TO</th>
+          <th class="center">CC</th>
+          <th class="center"><%= t 'view.utility.required' %></th>
+          <th class="center"><%= t 'activerecord.attributes.user.department' %></th>
+          <th class="center"><%= t 'activerecord.attributes.user.name' %></th>
+          <th class="center"><%= t 'view.project.html' %></th>
+          <th class="center"><%= t 'view.project.test' %></th>
+          <th class="center"><%= t 'view.project.production' %></th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <% @project.parties.each do |party| %>
         <tr>
-          <td><input type="checkbox"></td>
-          <td><input type="checkbox"></td>
-          <td><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
+          <td class="center"><input type="checkbox"></td>
+          <td class="center"><input type="checkbox"></td>
+          <td class="center"><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
           <td><%= party.user.department.name %></td>
           <td><%= party.user.name %></td>
-          <td>
-            <%= response(party.user, 0).upcase %>
-          </td>
-          <td>
-            <%= response(party.user, 1).upcase %>
-          </td>
-          <td>
-            <%= response(party.user, 2).upcase %>
-          </td>
-          <td><%= link_to t('view.project.delete_party'), { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id}, { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
+          <td class="center"><%= response(party.user, 0).upcase %></td>
+          <td class="center"><%= response(party.user, 1).upcase %></td>
+          <td class="center"><%= response(party.user, 2).upcase %></td>
+          <td class="center"><%= link_to t('view.project.delete_party'), { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id}, { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
         </tr>
         <% end %>
       </tbody>
