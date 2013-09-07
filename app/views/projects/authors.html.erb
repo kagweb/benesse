@@ -1,0 +1,24 @@
+<h1><%= t 'view.project.authors' %></h1>
+
+<%= form_tag "/projects/#{params[:id]}/authors", { class: 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= label :project, :authorizer, t('activerecord.attributes.project.authorizer'), class: 'control-label' %>
+    <div class="controls">
+      <%= select :project, :authorizer, User.all.map{|u| [ u.name, u.id ] }, selected: @project.authorizer.id %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label :project, :promoter, t('activerecord.attributes.project.promoter'), class: 'control-label' %>
+    <div class="controls">
+      <%= select :project, :promoter, User.all.map{|u| [ u.name, u.id ] }, selected: @project.promoter.id %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn btn-primary">send</button>
+    </div>
+  </div>
+
+<% end %>

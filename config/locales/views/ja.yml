@@ -1,0 +1,37 @@
+ja:
+  view:
+    home:
+      project_list: 移送案件一覧
+    projects: 移送案件
+    project:
+      status:
+        working: 仕掛中
+        compleated: 完了
+        preparing: ''
+      html: HTML稿
+      test: テスト環境
+      production: 本番環境
+      transition: 年度以降対象
+      mail_send: リマインドメール送信
+      update_project: 更新
+      update_authors: 付替え
+      update_branch: 枝番更新
+      add_party: 関係者を追加
+      delete_party: 削除
+      authors: 付け替え
+      check: 案件状況確認画面
+      name: 企画名
+    utility:
+      undefined: 登録されていません。
+      confirmed: 承認
+      confirm:
+        ok: 承認済み
+        ng: 未承認
+      registration:
+        temporary: 仮登録
+        production: 本登録
+      required: 必須
+      comment: コメント
+    confirm:
+      update_branch: 枝番を上げてもよろしいですか？
+      delete: 削除してもよろしいですか？

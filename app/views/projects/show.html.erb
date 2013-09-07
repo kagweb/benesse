@@ -1,60 +1,118 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Code:</b>
-  <%= @project.code %>
-</p>
+<div class="row">
+  <div class="span5">
+    <h2>
+      <%= @project.name %>
+      <small><%= project_number @project %></small>
 
-<p>
-  <b>Name:</b>
-  <%= @project.name %>
-</p>
+      <% if @project.registration_status %>
+        <span class="label label-success"><%= t 'view.utility.registration.production' %></span>
+      <% else %>
+        <span class="label label-warning"><%= t 'view.utility.registration.temporary' %></span>
+      <% end %>
 
-<p>
-  <b>Authorizer:</b>
-  <%= @project.authorizer_id %>
-</p>
+      <% if @project.year_migrate %>
+        <span class="label label-important"><%= t 'view.project.transition' %></span>
+      <% end %>
+    </h2>
 
-<p>
-  <b>Promoter:</b>
-  <%= @project.promoter_id %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
+      <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %> [<%= t 'view.utility.confirmed' %>: <%= @project.confirmed ? t('view.utility.confirm.ok') : t('view.utility.confirm.ng') %> ]
+    </p>
 
-<p>
-  <b>Operator:</b>
-  <%= @project.operator_id %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.promoter' %>:</b>
+      <%= @project.promoter ? @project.promoter.name : t('view.utility.undefined') %>
+    </p>
 
-<p>
-  <b>Status:</b>
-  <%= @project.status %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.operator' %>:</b>
+      <%= @project.operator ? @project.operator.name : t('view.utility.undefined') %>
+    </p>
 
-<p>
-  <b>Confirmed:</b>
-  <%= @project.confirmed %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.upload_url' %>:</b>
+      <%= link_to url_for(controller: 'upload', action: 'index', project_id: @project.id, only_path: false), {controller: 'upload', action: 'index', project_id: @project.id} %>
+    </p>
 
-<p>
-  <b>Upload url:</b>
-  <%= @project.upload_url %>
-</p>
+    <% unless @project.production_upload_url.blank? %>
+    <p>
+      <b><%= t 'activerecord.attributes.project.production_upload_url' %>:</b>
+      <%= @project.production_upload_url %>
+    </p>
+    <% end %>
 
-<p>
-  <b>Production upload url:</b>
-  <%= @project.production_upload_url %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.test_upload_at' %>:</b>
+      <%= @project.test_upload_at ? @project.test_uplaod_at : t('view.utility.undefined') %>
+    </p>
 
-<p>
-  <b>Test upload at:</b>
-  <%= @project.test_upload_at %>
-</p>
+    <p>
+      <b><%= t 'activerecord.attributes.project.production_upload_at' %>:</b>
+      <%= @project.production_upload_at ? @project.production_upload_at : t('view.utility.undefined') %>
+    </p>
 
-<p>
-  <b>Production upload at:</b>
-  <%= @project.production_upload_at %>
-</p>
+    <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'), edit_project_path(@project), { class: 'btn' } %>
+    <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'), { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
+    <%= link_to raw('<i class=" icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'), { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
+  </div>
 
+  <form action="" class="span7">
+    <div class="row">
+      <% for i in ['html', 'test', 'production'] %>
+      <div class="span2">
+        <%= link_to t('view.project.'  + i), { controller: 'projects', action: 'check', status: i }, { class: "btn btn-large btn-block #{disabled i}" } %>
+        <p class="text-center"><%= t 'view.project.status.'  + (status i) %></p>
+      </div>
+      <% end %>
+    </div>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
+    <div class="clearfix">
+      <textarea rows="10" class="input-block-level"></textarea>
+      <button class="btn btn-primary pull-right"><%= t 'view.project.mail_send' %></button>
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>TO</th>
+          <th>CC</th>
+          <th><%= t 'view.utility.required' %></th>
+          <th><%= t 'activerecord.attributes.user.department' %></th>
+          <th><%= t 'activerecord.attributes.user.name' %></th>
+          <th><%= t 'view.project.html' %></th>
+          <th><%= t 'view.project.test' %></th>
+          <th><%= t 'view.project.production' %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @project.parties.each do |party| %>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><input type="checkbox"></td>
+          <td><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
+          <td><%= party.user.department.name %></td>
+          <td><%= party.user.name %></td>
+          <td>
+            <%= response(party.user, 0).upcase %>
+          </td>
+          <td>
+            <%= response(party.user, 1).upcase %>
+          </td>
+          <td>
+            <%= response(party.user, 2).upcase %>
+          </td>
+          <td><%= link_to t('view.project.delete_party'), { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id}, { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right' } %>
+  </div>
+</div>
+
 <%= link_to 'Back', projects_path %>

@@ -1,37 +1,18 @@
-<%= form_for(@party) do |f| %>
-  <% if @party.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@party.errors.count, "error") %> prohibited this party from being saved:</h2>
+<%= simple_form_for @party do |f| %>
 
-      <ul>
-      <% @party.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+  <%= f.error_notification %>
+
+  <%= f.input :project_id, as: 'hidden'%>
+
+  <%= f.input :required %>
+
+  <div class="control-group">
+    <%= label :departments, :name, t('activerecord.attributes.department.name'), class: 'control-label' %>
+    <div class="controls">
+      <%= select :departments, :name, Department.all.map{|u| [ u.name, u.id ] }, { include_blank: true }, { onchange: 'user_list($(this).val())' } %>
     </div>
-  <% end %>
+  </div>
 
-  <div class="field">
-    <%= f.label :project_id %><br />
-    <%= f.number_field :project_id %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :required %><br />
-    <%= f.check_box :required %>
-  </div>
-  <div class="field">
-    <%= f.label :mail_send_to %><br />
-    <%= f.check_box :mail_send_to %>
-  </div>
-  <div class="field">
-    <%= f.label :mail_send_cc %><br />
-    <%= f.check_box :mail_send_cc %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.input :user, collection: User.all, label_method: :name, value_method: :id %>
+  <%= f.submit %>
 <% end %>

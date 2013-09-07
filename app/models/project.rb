@@ -8,13 +8,17 @@ class Project < ActiveRecord::Base
   belongs_to :promoter, class_name: 'User'
   belongs_to :operator, class_name: 'User'
 
-  attr_accessible :authorizer_id, :code, :confirmed, :name, :production_upload_at, :production_upload_url, :promoter_id, :status, :test_upload_at, :upload_url
+  attr_accessible :code, :confirmed, :name, :production_upload_at, :production_upload_url, :status, :test_upload_at, :upload_url
 
-  after_create :create_branche
+  after_create :create_branch
+
+  def update_branch
+    branches.create code: format("%02d", branches.last.code.to_i + 1)
+  end
 
   private
 
-  def create_branche
-    branches.create code: (format("%07d", id) + '01') # テストしてない
+  def create_branch
+    branches.create code: '01'
   end
 end

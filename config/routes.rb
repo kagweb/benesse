@@ -1,4 +1,6 @@
 Benesse::Application.routes.draw do
+  get "api/user_list" => 'api#user_list'
+
   root to: 'projects#index'
 
   resources :comments
@@ -11,6 +13,13 @@ Benesse::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   match 'login' => 'sessions#new', as: :login
   match 'logout' => 'sessions#destroy', as: :logout
+  match 'projects/:id/authors' => 'projects#authors'
+  match 'projects/:id/check/:status' => 'projects#check'
+  match 'projects/:id/update_branch' => 'projects#update_branch'
+  match 'parties/new/:project_id' => 'parties#new'
+  match 'parties/:id/:project_id' => 'parties#destory', via: :delete
+  match 'upload/aws' => 'upload#aws'
+  match 'upload/:project_id' => 'upload#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
