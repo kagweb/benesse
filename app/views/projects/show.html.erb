@@ -5,9 +5,16 @@
     <h2>
       <%= @project.name %>
       <small><%= sprintf '%07d', @project.id %>-<%= sprintf '%02d', 0 %></small>
-      <span class="label label-warning"><%= t 'view.utility.registration.temporary' %></span>
-      <span class="label label-success"><%= t 'view.utility.registration.production' %></span>
-      <span class="label label-important"><%= t 'view.project.transition' %></span>
+
+      <% if @project.registration_status %>
+        <span class="label label-success"><%= t 'view.utility.registration.production' %></span>
+      <% else %>
+        <span class="label label-warning"><%= t 'view.utility.registration.temporary' %></span>
+      <% end %>
+
+      <% if @project.year_migrate %>
+        <span class="label label-important"><%= t 'view.project.transition' %></span>
+      <% end %>
     </h2>
 
     <p>
@@ -49,6 +56,7 @@
 
     <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'), edit_project_path(@project), { class: 'btn' } %>
     <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'), { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
+    <%= link_to raw('<i class=" icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'), '#', { class: 'btn', confirm: t('view.confirm.update_branch') } %>
   </div>
 
   <form action="" class="span7">
@@ -97,7 +105,7 @@
           <td>
             <%= response(party.user, 2).upcase %>
           </td>
-          <td><%= link_to t('view.project.delete_party'), { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id}, { method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-mini'} %></td>
+          <td><%= link_to t('view.project.delete_party'), { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id}, { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
         </tr>
         <% end %>
       </tbody>

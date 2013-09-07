@@ -15,6 +15,7 @@ ja:
       mail_send: リマインドメール送信
       update_project: 更新
       update_authors: 付替え
+      update_branch: 枝番更新
       add_party: 関係者を追加
       delete_party: 削除
       authors: 付け替え
@@ -31,3 +32,6 @@ ja:
         production: 本登録
       required: 必須
       comment: コメント
+    confirm:
+      update_branch: 枝番を上げてもよろしいですか？
+      delete: 削除してもよろしいですか？
