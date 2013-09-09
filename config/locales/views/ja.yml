@@ -12,6 +12,7 @@ ja:
       test: テスト環境
       production: 本番環境
       transition: 年度以降対象
+      server_update: 43, 44, 45 サーバ更新
       mail_send: リマインドメール送信
       update_project: 更新
       update_authors: 付替え

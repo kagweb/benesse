@@ -11,15 +11,26 @@
       <% else %>
         <span class="label label-warning"><%= t 'view.utility.registration.temporary' %></span>
       <% end %>
-
-      <% if @project.year_migrate %>
-        <span class="label label-important"><%= t 'view.project.transition' %></span>
-      <% end %>
     </h2>
 
     <p>
+      <% unless @project.year_migrate %>
+        <span class="label label-info"><%= t 'view.project.transition' %></span>
+      <% end %>
+
+      <% unless @project.server_update %>
+        <span class="label label-info"><%= t 'view.project.server_update' %></span>
+      <% end %>
+    </p>
+    <p>
       <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
-      <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %> [<%= t 'view.utility.confirmed' %>: <%= @project.confirmed ? t('view.utility.confirm.ok') : t('view.utility.confirm.ng') %> ]
+      <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %>
+
+      <% if @project.confirmed %>
+        <span class="label label-success"><%= t 'view.utility.confirm.ok' %></span>
+      <% else%>
+        <span class="label label-warning"><%= t 'view.utility.confirm.ng' %></span>
+      <% end %>
     </p>
 
     <p>
@@ -53,6 +64,10 @@
       <b><%= t 'activerecord.attributes.project.production_upload_at' %>:</b>
       <%= @project.production_upload_at ? @project.production_upload_at : t('view.utility.undefined') %>
     </p>
+    
+    <p class="well">
+      <%= @project.memo %>
+    </p>
 
     <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'), edit_project_path(@project), { class: 'btn' } %>
     <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'), { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
@@ -77,35 +92,29 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>TO</th>
-          <th>CC</th>
-          <th><%= t 'view.utility.required' %></th>
-          <th><%= t 'activerecord.attributes.user.department' %></th>
-          <th><%= t 'activerecord.attributes.user.name' %></th>
-          <th><%= t 'view.project.html' %></th>
-          <th><%= t 'view.project.test' %></th>
-          <th><%= t 'view.project.production' %></th>
+          <th class="center">TO</th>
+          <th class="center">CC</th>
+          <th class="center"><%= t 'view.utility.required' %></th>
+          <th class="center"><%= t 'activerecord.attributes.user.department' %></th>
+          <th class="center"><%= t 'activerecord.attributes.user.name' %></th>
+          <th class="center"><%= t 'view.project.html' %></th>
+          <th class="center"><%= t 'view.project.test' %></th>
+          <th class="center"><%= t 'view.project.production' %></th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <% @project.parties.each do |party| %>
         <tr>
-          <td><input type="checkbox"></td>
-          <td><input type="checkbox"></td>
-          <td><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
+          <td class="center"><input type="checkbox"></td>
+          <td class="center"><input type="checkbox"></td>
+          <td class="center"><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
           <td><%= party.user.department.name %></td>
           <td><%= party.user.name %></td>
-          <td>
-            <%= response(party.user, 0).upcase %>
-          </td>
-          <td>
-            <%= response(party.user, 1).upcase %>
-          </td>
-          <td>
-            <%= response(party.user, 2).upcase %>
-          </td>
-          <td><%= link_to t('view.project.delete_party'), { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id}, { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
+          <td class="center"><%= response(party.user, 0).upcase %></td>
+          <td class="center"><%= response(party.user, 1).upcase %></td>
+          <td class="center"><%= response(party.user, 2).upcase %></td>
+          <td class="center"><%= link_to t('view.project.delete_party'), { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id}, { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
         </tr>
         <% end %>
       </tbody>

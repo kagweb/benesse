@@ -1,73 +1,77 @@
 <div class="clearfix">
   <h1><%= t 'view.project.check' %> <small><%= t('view.project.' + params[:status])  %></small></h1>
 
-  <p>
-    <b><%= t 'view.project.name' %>:</b> <%= @project.name %>
-    [ <%= project_number @project %> ]
-  </p>
+  <div class="row">
+    <div class="span4">
+      <p>
+        <b><%= t 'view.project.name' %>:</b> <%= @project.name %>
+        [ <%= project_number @project %> ]
+      </p>
 
-  <p>
-    <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
-    <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %>
-  </p>
-  
-  <p>
-    <b><%= t 'activerecord.attributes.project.promoter' %>:</b>
-    <%= @project.promoter ? @project.promoter.name : t('view.utility.undefined') %>
-  </p>
+      <p>
+        <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
+        <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %>
+      </p>
 
-  <p>
-    <b><%= t 'activerecord.attributes.project.operator' %>:</b>
-    <%= @project.operator ? @project.operator.name : t('view.utility.undefined') %>
-  </p>
+      <p>
+        <b><%= t 'activerecord.attributes.project.promoter' %>:</b>
+        <%= @project.promoter ? @project.promoter.name : t('view.utility.undefined') %>
+      </p>
 
-  <%= form_tag "/projects/#{params[:id]}/check/#{params[:status]}" do %>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th><%= t 'view.utility.required' %></th>
-          <th><%= t 'activerecord.attributes.user.department' %></th>
-          <th><%= t 'activerecord.attributes.user.name' %></th>
-          <th class="span2">Feedback</th>
-          <th class="span2">OK</th>
-          <th class="span2">NG</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @project.parties.each do |party| %>
-        <tr>
-          <td><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
-          <td><%= party.user.department.name %></td>
-          <td><%= party.user.name %></td>
+      <p>
+        <b><%= t 'activerecord.attributes.project.operator' %>:</b>
+        <%= @project.operator ? @project.operator.name : t('view.utility.undefined') %>
+      </p>
+    </div>
 
-          <% if current_user == party.user%>
-          <td>
-            <%= radio_button :confirmation, :response, 'feedback' , { checked: response(current_user) == 'feedback' } %>
-          </td>
-          <td>
-            <%= radio_button :confirmation, :response, 'ok' , { checked: response(current_user) == 'ok' } %>
-          </td>
-          <td>
-            <%= radio_button :confirmation, :response, 'ng' , { checked: response(current_user) == 'ng' } %>
-          </td>
-          <% else %>
-          <td>
-            <%= raw response(party.user) == 'feedback' ? '<i class="icon-ok"></i>' : '' %>
-          </td>
-          <td>
-            <%= raw response(party.user) == 'ok' ? '<i class="icon-ok"></i>' : '' %>
-          </td>
-          <td>
-            <%= raw response(party.user) == 'ng' ? '<i class="icon-ok"></i>' : '' %>
-          </td>
+    <%= form_tag "/projects/#{params[:id]}/check/#{params[:status]}", class: 'span8' do %>
+      <table class="table table-striped table-hover table-condensed">
+        <thead>
+          <tr>
+            <th class="center"><%= t 'view.utility.required' %></th>
+            <th><%= t 'activerecord.attributes.user.department' %></th>
+            <th><%= t 'activerecord.attributes.user.name' %></th>
+            <th class="span1 center">Feedback</th>
+            <th class="span1 center">OK</th>
+            <th class="span1 center">NG</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @project.parties.each do |party| %>
+          <tr>
+            <td class="center"><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
+            <td><%= party.user.department.name %></td>
+            <td><%= party.user.name %></td>
+
+            <% if current_user == party.user%>
+            <td class="center">
+              <%= radio_button :confirmation, :response, 'feedback' , { checked: response(current_user) == 'feedback' } %>
+            </td>
+            <td class="center">
+              <%= radio_button :confirmation, :response, 'ok' , { checked: response(current_user) == 'ok' } %>
+            </td>
+            <td class="center">
+              <%= radio_button :confirmation, :response, 'ng' , { checked: response(current_user) == 'ng' } %>
+            </td>
+            <% else %>
+            <td class="center">
+              <%= raw response(party.user) == 'feedback' ? '<i class="icon-ok"></i>' : '' %>
+            </td>
+            <td class="center">
+              <%= raw response(party.user) == 'ok' ? '<i class="icon-ok"></i>' : '' %>
+            </td>
+            <td class="center">
+              <%= raw response(party.user) == 'ng' ? '<i class="icon-ok"></i>' : '' %>
+            </td>
+            <% end %>
+          </tr>
           <% end %>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
 
-    <input type="submit" class="btn btn-primary btn-large pull-right" value="submit">
-  <% end %>
+      <input type="submit" class="btn btn-primary btn-large pull-right" value="submit">
+    <% end %>
+  </div>
 </div>
 
 <h2><%= t 'view.utility.comment' %></h2>
