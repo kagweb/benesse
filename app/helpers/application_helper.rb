@@ -18,10 +18,12 @@ module ApplicationHelper
       resolved_path = f.to_s.gsub(path.to_s, '').gsub(/^\//, '').split /\//
       next if resolved_path.empty?
       tmp = dir
+      count = 0
 
       resolved_path.each do |r|
+        count += 1
         tmp[r] = { '_path_' => resolved_path.join('/'), '_files_' => {} } unless tmp.key? r
-        tmp[r] = resolved_path.join('/') if FileTest.file? f and r == resolved_path.last  
+        tmp[r] = resolved_path.join('/') if FileTest.file? f and count == resolved_path.length
         tmp    = tmp[r]['_files_']
       end
     end
