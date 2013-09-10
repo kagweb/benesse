@@ -42,15 +42,11 @@ module ProjectsHelper
   end
 
   def break_dir ( dir )
-    if dir[1].instance_of? String
-      return "<li class=\"file\"><i class=\"icon-file\"></i> #{dir[0]}</li>"
-    end
+    return '' if dir[0] == '_path_'
+    return "<li><a href=\"#{dir[1]}\"><i class=\"icon-file\"></i> #{dir[0]}</a></li>" if dir[1].instance_of? String
+    element = "<li><a href=\"#{dir[1]['_path_']}\"><i class=\"icon-folder-open\"></i> #{dir[0]}</a><ul class=\"unstyled\">"
+    dir[1]['_files_'].each {|d| element += break_dir d }
 
-    element = "<li class=\"folder\"><i class=\"icon-folder-open\"></i> #{dir[0]}<ul class=\"unstyled\">"
-
-    dir[1].each do |d|
-      element += break_dir d
-    end
     return element + "</ul></li>"
   end
 end

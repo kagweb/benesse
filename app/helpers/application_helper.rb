@@ -10,7 +10,7 @@ module ApplicationHelper
       path = Rails.root.join('sample_dir') if Rails.env.development? and path.nil?
 
     path = Pathname.new path if path.instance_of? Pathname
-    return {} unless path.exist?
+    return false unless path.exist?
 
     dir = {}
 
@@ -20,10 +20,9 @@ module ApplicationHelper
       tmp = dir
 
       resolved_path.each do |r|
-        logger.debug r
-        tmp[r] = {} unless tmp.key? r
-        tmp[r] = f.to_s if FileTest.file? f and r == resolved_path.last  
-        tmp    = tmp[r]
+        tmp[r] = { '_path_' => resolved_path.join('/'), '_files_' => {} } unless tmp.key? r
+        tmp[r] = resolved_path.join('/') if FileTest.file? f and r == resolved_path.last  
+        tmp    = tmp[r]['_files_']
       end
     end
 

@@ -15,17 +15,13 @@
     li {
       padding: 3px 10px;
 
-      &.file:hover {
-        background: #ddd;
-        cursor: pointer;
+      a {
+        color: #555;
       }
 
       &.selected {
-        background: #ddf;
-      }
-
-      .icon-folder-open {
-        cursor: pointer;
+        background: #ddd;
+        border-radius: 3px;
       }
     }
   }
