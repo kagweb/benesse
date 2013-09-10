@@ -83,4 +83,12 @@ class ProjectsController < ApplicationController
     project.update_branch
     redirect_to project
   end
+
+  def remind_mail
+    project = Project.find params[:id]
+    logger.debug params[:to] # TOに付けるユーザの ID 一覧
+    logger.debug params[:cc] # CCに付けるユーザの ID 一覧
+    logger.debug params[:mail_text] # メール本文
+    redirect_to project
+  end
 end
