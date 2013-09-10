@@ -40,4 +40,17 @@ module ProjectsHelper
     confirmation = user.confirmations.find :first, conditions: { project_id: @project.id, status: status }
     return confirmation ? confirmation.response : ''
   end
+
+  def break_dir ( dir )
+    if dir[1].instance_of? String
+      return "<li class=\"file\"><i class=\"icon-file\"></i> #{dir[0]}</li>"
+    end
+
+    element = "<li class=\"folder\"><i class=\"icon-folder-open\"></i> #{dir[0]}<ul class=\"unstyled\">"
+
+    dir[1].each do |d|
+      element += break_dir d
+    end
+    return element + "</ul></li>"
+  end
 end
