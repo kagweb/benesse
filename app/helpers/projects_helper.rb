@@ -1,19 +1,20 @@
 module ProjectsHelper
 
   def status ( place )
-    if place == 'html'
+    case place
+    when 'html'
       if @project.status == 0
         return 'working'
       else
         return 'compleated'
       end
-    elsif place == 'test'
+    when 'test'
       if @project.status == 1
         return 'working'
       elsif @project.status >= 2
         return 'compleated'
       end
-    elsif place == 'production' 
+    when 'production' 
       if @project.status == 2
         return 'working'
       elsif @project.status == 3
@@ -25,12 +26,13 @@ module ProjectsHelper
   end
 
   def disabled ( place )
-    if place == 'html'
+    case place
+    when 'html'
       return ''
-    elsif place == 'test' and @project.status < 1
-      return 'disabled'
-    elsif place == 'production' and @project.status < 2
-      return 'disabled'
+    when 'test'
+      return 'disabled' if @project.status < 1
+    when 'production'
+      return 'disabled' if @project.status < 2
     end
 
     return ''
