@@ -6,5 +6,5 @@ $ ->
   $('.file_viewer ul.files li a').on 'click', ->
     $('.selected').removeClass 'selected'
     $(this).parent('li').addClass 'selected'
-    $('input[type="hidden"][name="path"]').val $(this).attr('href')
+    $('input[type="text"][name="path"]').val $(this).attr('href')
     return false

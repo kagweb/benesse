@@ -3,20 +3,20 @@
     <h2>アップロード済みファイル</h2>
   
     <%= form_tag '', { class: "form-inline" } do %>
-      <button class="btn" type="button"><i class="icon-th-list"></i> List</button>
-      <button class="btn" type="button"><i class="icon-folder-open"></i> Folder</button>
-      <select name="root_dir">
+      <select name="root_dir" class="span2">
         <option>ssl_htdocs</option>
         <option>contents</option>
       </select>
-      <input type="hidden" value="" name="path">
+      <input type="text" value="" name="path" disabled>
+      <button class="btn" type="button"><i class="icon-th-list"></i> List</button>
+      <button class="btn" type="button"><i class="icon-folder-open"></i> Folder</button>
       <input type="submit" value="download" class="btn btn-primary">
     <% end %>
   
     <% if dir = get_dir_structure %>
     <ul class="files unstyled clearfix">
-      <% dir.each do |d| %>
-        <%= raw break_dir(d) %>
+      <% dir.each do |name, info| %>
+        <%= raw break_dir(name, info) %>
       <% end %>
     </ul>
     <% else %>

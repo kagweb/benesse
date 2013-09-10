@@ -41,11 +41,11 @@ module ProjectsHelper
     return confirmation ? confirmation.response : ''
   end
 
-  def break_dir ( dir )
-    return '' if dir[0] == '_path_'
-    return "<li><a href=\"#{dir[1]}\"><i class=\"icon-file\"></i> #{dir[0]}</a></li>" if dir[1].instance_of? String
-    element = "<li><a href=\"#{dir[1]['_path_']}\"><i class=\"icon-folder-open\"></i> #{dir[0]}</a><ul class=\"unstyled\">"
-    dir[1]['_files_'].each {|d| element += break_dir d }
+  def break_dir ( name, info )
+    return '' if name == '_path_'
+    return "<li><a href=\"#{info}\"><i class=\"icon-file\"></i> #{name}</a></li>" if info.instance_of? String
+    element = "<li><a href=\"#{info['_path_']}\"><i class=\"icon-folder-open\"></i> #{name}</a><ul class=\"unstyled\">"
+    info['_files_'].each {|n, i| element += break_dir n, i }
 
     return element + "</ul></li>"
   end
