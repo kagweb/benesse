@@ -55,15 +55,7 @@ class ProjectsController < ApplicationController
 
   def check
     @project = Project.find params[:id]
-
-    case
-      when params[:status] == 'test'
-        @status = 1
-      when params[:status] == 'production'
-        @status = 2
-      else
-        @status = 0
-    end
+    @status = _status_code params[:status]
 
     if request.post? and params[:confirmation]
       Confirmation.delete_all project_id: @project.id, user_id: current_user.id, status: @status 
@@ -83,8 +75,7 @@ class ProjectsController < ApplicationController
     @comment.project = Project.find params[:id]
     @comment.user = current_user
 
-    status = { 0 => 'html', 1 => 'test', 2 => 'production' }
-    status = status[params[:comment][:status].to_i]
+    status = _status_slug params[:comment][:status].to_i
 
     if @comment.save
       redirect_to "/projects/#{params[:id]}/check/#{status}", notice: 'Comment was successfully created.'
@@ -101,9 +92,23 @@ class ProjectsController < ApplicationController
 
   def remind_mail
     project = Project.find params[:id]
-    logger.debug params[:to] # TOに付けるユーザの ID 一覧
-    logger.debug params[:cc] # CCに付けるユーザの ID 一覧
-    logger.debug params[:mail_text] # メール本文
+    pp params[:to] # TOに付けるユーザの ID 一覧
+    pp params[:cc] # CCに付けるユーザの ID 一覧
+    pp params[:mail_text] # メール本文
     redirect_to project
+  end
+
+  private
+
+  def _status_slug(code)
+    return code if ['html', 'test', 'production'].include? code
+    status = { 0 => 'html', 1 => 'test', 2 => 'production' }
+    return status[code.to_i]
+  end
+
+  def _status_code(slug)
+    return slug if [0..2].include? slug
+    status = { 'html' => 0, 'test' => 1, 'production' => 2 }
+    return status[slug]
   end
 end

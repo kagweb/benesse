@@ -80,7 +80,7 @@
       <% for i in ['html', 'test', 'production'] %>
       <div class="span2">
         <%= link_to t('view.project.'  + i), { controller: 'projects', action: 'check', status: i }, { class: "btn btn-large btn-block #{disabled i}" } %>
-        <p class="text-center"><%= t 'view.project.status.'  + (status i) %></p>
+        <p class="text-center"><%= t 'view.project.status.'  + (now_status i) %></p>
       </div>
       <% end %>
     </div>

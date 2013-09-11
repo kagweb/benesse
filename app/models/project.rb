@@ -12,6 +12,11 @@ class Project < ActiveRecord::Base
 
   after_create :create_branch
 
+  def status_slug
+    tmp = { 0 => 'html', 1 => 'test', 2 => 'production', 3 => 'closed'}
+    return tmp[self.status]
+  end
+
   def update_branch
     branches.create code: format("%02d", branches.last.code.to_i + 1)
   end
