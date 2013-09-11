@@ -17,6 +17,7 @@ Benesse::Application.routes.draw do
   match 'projects/:id/check/:status' => 'projects#check'
   match 'projects/:id/update_branch' => 'projects#update_branch'
   match 'projects/:id/remind_mail' => 'projects#remind_mail', via: :post
+  match 'projects/:id/comment' => 'projects#comment', via: :post
   match 'parties/new/:project_id' => 'parties#new'
   match 'parties/:id/:project_id' => 'parties#destory', via: :delete
   match 'upload/aws' => 'upload#aws'

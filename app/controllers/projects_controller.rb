@@ -78,6 +78,21 @@ class ProjectsController < ApplicationController
     @comments = @project.comments.where status: @status
   end
 
+  def comment
+    @comment = Comment.new status: params[:comment][:status], comment: params[:comment][:comment]
+    @comment.project = Project.find params[:id]
+    @comment.user = current_user
+
+    status = { 0 => 'html', 1 => 'test', 2 => 'production' }
+    status = status[params[:comment][:status].to_i]
+
+    if @comment.save
+      redirect_to "/projects/#{params[:id]}/check/#{status}", notice: 'Comment was successfully created.'
+    else
+      redirect_to "/projects/#{params[:id]}/check/#{status}"
+    end
+  end
+
   def update_branch
     project = Project.find params[:id]
     project.update_branch
