@@ -1,0 +1,28 @@
+<div class="row clearfix">
+  <div class="span12 file_viewer">
+    <h2>アップロード済みファイル</h2>
+  
+    <%= form_tag '', { class: "form-inline" } do %>
+      <select name="root_dir" class="span2">
+        <option>ssl_htdocs</option>
+        <option>contents</option>
+      </select>
+      <input type="text" value="" name="path" disabled>
+      <button class="btn" type="button"><i class="icon-th-list"></i> List</button>
+      <button class="btn" type="button"><i class="icon-folder-open"></i> Folder</button>
+      <input type="submit" value="download" class="btn btn-primary">
+    <% end %>
+  
+    <% if dir = get_dir_structure %>
+    <ul class="files unstyled clearfix">
+      <% dir.each do |name, info| %>
+        <%= raw break_dir(name, info) %>
+      <% end %>
+    </ul>
+    <% else %>
+    <p>
+      <strong class="text-error">現在アップロードされているファイルはありません。</strong>
+    </p>
+    <% end %>
+  </div>
+</div>

@@ -74,7 +74,7 @@
     <%= link_to raw('<i class=" icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'), { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
   </div>
 
-  <form action="" class="span7">
+  <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>
     <div class="row">
       <% for i in ['html', 'test', 'production'] %>
       <div class="span2">
@@ -85,8 +85,8 @@
     </div>
 
     <div class="clearfix">
-      <textarea rows="10" class="input-block-level"></textarea>
-      <button class="btn btn-primary pull-right"><%= t 'view.project.mail_send' %></button>
+      <textarea rows="10" class="input-block-level" name="mail_text"></textarea>
+      <input type="submit" class="btn btn-primary pull-right" value="<%= t 'view.project.mail_send' %>">
     </div>
 
     <table class="table table-striped">
@@ -106,8 +106,8 @@
       <tbody>
         <% @project.parties.each do |party| %>
         <tr>
-          <td class="center"><input type="checkbox"></td>
-          <td class="center"><input type="checkbox"></td>
+          <td class="center"><input type="checkbox" name="to[<%= party.user.id %>]"></td>
+          <td class="center"><input type="checkbox" name="cc[<%= party.user.id %>]"></td>
           <td class="center"><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
           <td><%= party.user.department.name %></td>
           <td><%= party.user.name %></td>
@@ -121,7 +121,9 @@
     </table>
 
     <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right' } %>
-  </div>
+  <% end %>
 </div>
+
+<%= render 'file_viewer' %>
 
 <%= link_to 'Back', projects_path %>
