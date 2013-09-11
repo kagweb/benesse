@@ -7,9 +7,9 @@ class ProjectsController < ApplicationController
     @date = params[:date] ? Date.strptime(params[:date]) : Date.new(Time.now.year, Time.now.month, 1)
 
     if params[:server] and ! params[:server].empty?
-      @projects = Project.find :all, conditions: ['created_at >= ? and created_at < ? and upload_server = ?', @date, @date >> 1, params[:server]]
+      @projects = Project.where ['created_at >= ? and created_at < ? and upload_server = ?', @date, @date >> 1, params[:server]]
     else
-      @projects = Project.find :all, conditions: ['created_at >= ? and created_at < ?', @date, @date >> 1]
+      @projects = Project.where ['created_at >= ? and created_at < ?', @date, @date >> 1]
     end
   end
 
@@ -75,7 +75,7 @@ class ProjectsController < ApplicationController
     @comment = Comment.new status: @status
     @comment.project = @project
     @comment.user = current_user
-    @comments = @project.comments.find :all, conditions: { status: @status }
+    @comments = @project.comments.where status: @status
   end
 
   def update_branch

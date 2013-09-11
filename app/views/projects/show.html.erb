@@ -14,11 +14,11 @@
     </h2>
 
     <p>
-      <% unless @project.year_migrate %>
+      <% if @project.year_migrate %>
         <span class="label label-info"><%= t 'view.project.transition' %></span>
       <% end %>
 
-      <% unless @project.server_update %>
+      <% if @project.server_update %>
         <span class="label label-info"><%= t 'view.project.server_update' %></span>
       <% end %>
     </p>

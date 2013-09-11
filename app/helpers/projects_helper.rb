@@ -39,8 +39,8 @@ module ProjectsHelper
   end
   
   def response ( user, status = @status )
-    confirmation = user.confirmations.find :first, conditions: { project_id: @project.id, status: status }
-    return confirmation ? confirmation.response : ''
+    confirmation = user.confirmations.where project_id: @project.id, status: status
+    return confirmation.empty? ? '' : confirmation.last.response
   end
 
   def break_dir ( name, info )
