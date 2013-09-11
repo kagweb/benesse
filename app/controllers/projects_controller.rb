@@ -69,7 +69,7 @@ class ProjectsController < ApplicationController
       Confirmation.delete_all project_id: @project.id, user_id: current_user.id, status: @status 
       @confirmation = @project.confirmations.new response: params[:confirmation][:response], status: @status
       @confirmation.user = current_user
-      @confirmation.save
+      flash[:notice] = "Confirmation was successfully created." if @confirmation.save
     end
 
     @comment = Comment.new status: @status
