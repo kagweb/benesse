@@ -3,7 +3,6 @@ Benesse::Application.routes.draw do
 
   root to: 'projects#index'
 
-  resources :comments
   resources :confirmations
   resources :parties
   resources :branches
