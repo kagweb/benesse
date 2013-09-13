@@ -3,25 +3,26 @@ Benesse::Application.routes.draw do
 
   root to: 'projects#index'
 
-  resources :confirmations
-  resources :parties
-  resources :branches
   resources :projects do
-    get :authors, on: :member
+    member do
+      get :authors
+      get :check, constraints: { status: /^html|^test|^production/ }
+      get :update_branch
+      post :remind_mail
+      post :comment
+    end
+
+    resources :parties
+    resources :branches
+    resources :confirmations
+    resources :upload, only: [:index, :aws], controller: 'upload'
   end
   resources :departments
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   match 'login' => 'sessions#new', as: :login
   match 'logout' => 'sessions#destroy', as: :logout
-  match 'projects/:id/check/:status' => 'projects#check'
-  match 'projects/:id/update_branch' => 'projects#update_branch'
-  match 'projects/:id/remind_mail' => 'projects#remind_mail', via: :post
-  match 'projects/:id/comment' => 'projects#comment', via: :post
-  match 'parties/new/:project_id' => 'parties#new'
-  match 'parties/:id/:project_id' => 'parties#destory', via: :delete
   match 'upload/aws' => 'upload#aws'
-  match 'upload/:project_id' => 'upload#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

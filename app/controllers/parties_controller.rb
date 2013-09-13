@@ -24,7 +24,7 @@ class PartiesController < ApplicationController
     @party.user = User.find params[:party][:user]
     
     if @party.save
-      redirect_to @party, notice: 'Party was successfully created.'
+      redirect_to @party.project, notice: 'Party was successfully created.'
     else
       render :new
     end
@@ -41,8 +41,8 @@ class PartiesController < ApplicationController
 
   def destroy
     @party = Party.find params[:id]
+    project = @party.project
     @party.destroy
-    project = Project.find params[:project_id]
     redirect_to project
   end
 end
