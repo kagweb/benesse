@@ -1,22 +1,5 @@
 class ApiController < ApplicationController
   def user_list
-    unless request.xhr?
-      render :nothing => true, :status => 404
-      return;
-    end
-
-    if params[:department].empty?
-      users = User.all
-    else
-      department = Department.find params[:department]
-      users = User.where  department_id: department.id
-    end
-
-    unless users
-      render :nothing => true, :status => 404
-      return;
-    end
-
-    render json: users.to_json
+    render json: params[:department].empty? ? User.all : Department.find(params[:department]).try(:users)
   end
 end
