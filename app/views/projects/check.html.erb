@@ -1,4 +1,5 @@
 <div class="clearfix">
+
   <h1><%= t 'view.project.check' %> <small><%= t('view.project.' + params[:status])  %></small></h1>
 
   <div class="row">
@@ -85,9 +86,9 @@
   <% end %>
 </div>
 
-<%= simple_form_for @comment, html: { class: 'clearfix span12' } do |f| %>
-  <%= f.input :project_id, as: :hidden %>
-  <%= f.input :status, as: :hidden  %>
-  <%= f.input :comment, { as: :text, label: false, input_html: { class: 'input-block-level', rows: 10 } } %>
-  <%= f.submit value: 'comment', class: 'btn btn-primary btn-large pull-right' %>
+<%= form_tag "/projects/#{params[:id]}/comment", class: 'clearfix span12' do %>
+  <%= hidden_field :comment, :project_id %>
+  <%= hidden_field :comment, :status  %>
+  <%= text_area :comment, :comment, { class: 'input-block-level', rows: 10 } %>
+  <input type="submit" class="btn btn-primary btn-large pull-right" value="comment">
 <% end %>

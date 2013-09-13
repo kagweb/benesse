@@ -9,7 +9,7 @@ class ApiController < ApplicationController
       users = User.all
     else
       department = Department.find params[:department]
-      users = User.find :all, conditions: { department_id: department.id }
+      users = User.where  department_id: department.id
     end
 
     unless users

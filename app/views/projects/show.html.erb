@@ -14,14 +14,15 @@
     </h2>
 
     <p>
-      <% unless @project.year_migrate %>
+      <% if @project.year_migrate %>
         <span class="label label-info"><%= t 'view.project.transition' %></span>
       <% end %>
 
-      <% unless @project.server_update %>
+      <% if @project.server_update %>
         <span class="label label-info"><%= t 'view.project.server_update' %></span>
       <% end %>
     </p>
+
     <p>
       <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
       <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %>
@@ -66,7 +67,7 @@
     </p>
     
     <p class="well">
-      <%= @project.memo %>
+      <%= @project.memo.empty? ? 'メモは登録されていません。' : @project.memo %>
     </p>
 
     <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'), edit_project_path(@project), { class: 'btn' } %>
@@ -79,7 +80,7 @@
       <% for i in ['html', 'test', 'production'] %>
       <div class="span2">
         <%= link_to t('view.project.'  + i), { controller: 'projects', action: 'check', status: i }, { class: "btn btn-large btn-block #{disabled i}" } %>
-        <p class="text-center"><%= t 'view.project.status.'  + (status i) %></p>
+        <p class="text-center"><%= t 'view.project.status.'  + (now_status i) %></p>
       </div>
       <% end %>
     </div>

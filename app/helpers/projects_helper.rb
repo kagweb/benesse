@@ -1,13 +1,9 @@
 module ProjectsHelper
 
-  def status ( place )
+  def now_status ( place )
     case place
     when 'html'
-      if @project.status == 0
-        return 'working'
-      else
-        return 'compleated'
-      end
+      return @project.status == 0 ? 'working' : 'compleated'
     when 'test'
       if @project.status == 1
         return 'working'
@@ -37,10 +33,10 @@ module ProjectsHelper
 
     return ''
   end
-  
+
   def response ( user, status = @status )
-    confirmation = user.confirmations.find :first, conditions: { project_id: @project.id, status: status }
-    return confirmation ? confirmation.response : ''
+    confirmation = user.confirmations.where project_id: @project.id, status: status
+    return confirmation.empty? ? '' : confirmation.last.response
   end
 
   def break_dir ( name, info )
