@@ -47,13 +47,6 @@
       <%= link_to url_for(controller: 'upload', action: 'index', project_id: @project.id, only_path: false), {controller: 'upload', action: 'index', project_id: @project.id} %>
     </p>
 
-    <% unless @project.production_upload_url.blank? %>
-    <p>
-      <b><%= t 'activerecord.attributes.project.production_upload_url' %>:</b>
-      <%= @project.production_upload_url %>
-    </p>
-    <% end %>
-
     <p>
       <b><%= t 'activerecord.attributes.project.test_upload_at' %>:</b>
       <%= @project.test_upload_at ? @project.test_uplaod_at : t('view.utility.undefined') %>
@@ -65,7 +58,7 @@
     </p>
     
     <p class="well">
-      <%= @project.memo.empty? ? 'メモは登録されていません。' : @project.memo %>
+      <%= @project.memo.blank? ? 'メモは登録されていません。' : @project.memo %>
     </p>
 
     <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'), edit_project_path(@project), { class: 'btn' } %>
