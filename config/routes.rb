@@ -6,13 +6,14 @@ Benesse::Application.routes.draw do
   resources :confirmations
   resources :parties
   resources :branches
-  resources :projects
+  resources :projects do
+    get :authors, on: :member
+  end
   resources :departments
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   match 'login' => 'sessions#new', as: :login
   match 'logout' => 'sessions#destroy', as: :logout
-  match 'projects/:id/authors' => 'projects#authors'
   match 'projects/:id/check/:status' => 'projects#check'
   match 'projects/:id/update_branch' => 'projects#update_branch'
   match 'projects/:id/remind_mail' => 'projects#remind_mail', via: :post
