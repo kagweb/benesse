@@ -7,22 +7,48 @@
         <option>ssl_htdocs</option>
         <option>contents</option>
       </select>
-      <input type="text" value="" name="path" disabled>
-      <button class="btn" type="button"><i class="icon-th-list"></i> List</button>
-      <button class="btn" type="button"><i class="icon-folder-open"></i> Folder</button>
+      <input type="text" value="<%= params[:path] %>" name="path" class="span7" disabled>
+      <%= link_to raw('<i class="icon-th-list"></i> List'), project_path(@project, view: 'list') , class: 'btn list' %>
+      <%= link_to raw('<i class="icon-folder-open"></i> Folder'), project_path(@project, view: 'folder') , class: 'btn' %>
       <input type="submit" value="download" class="btn btn-primary">
     <% end %>
-  
-    <% if dir = get_dir_structure %>
-    <ul class="files unstyled clearfix">
-      <% dir.each do |name, info| %>
-        <%= raw break_dir(name, info) %>
-      <% end %>
-    </ul>
+
+    <% if params[:view].blank? or params[:view] != 'list' %>
+      <ul class="files unstyled clearfix">
+        <% get_dir_structure('sample_dir').each do |name, info| %>
+          <%= raw folder(name, info) %>
+        <% end %>
+      </ul>
     <% else %>
-    <p>
-      <strong class="text-error">現在アップロードされているファイルはありません。</strong>
-    </p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>パス</th>
+            <th>ファイル名</th>
+            <th>種類</th>
+            <th>サイズ</th>
+            <th class="span3">更新日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if list_path %>
+              <% dir = get_dir_structure(list_path, 3) %>
+              <% pp '===============================' %>
+              <% pp dir %>
+            <% dir.each do |name, info| %>
+              <tr>
+                <td><%= info['_path_'] %></td>
+                <td><%= name %></td>
+                <td><%= info['_type_'].upcase %></td>
+                <td><%= info['_size_'] %></td>
+                <td><%= info['_updated_at_'] %></td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr><td><span class="text-error">ファイルが選択されていません。フォルダーに戻ってファイルを選択してください。</td><td></td><td></td><td></td><td></td></tr>
+          <% end %>
+        </tbody>
+      </table>
     <% end %>
   </div>
 </div>

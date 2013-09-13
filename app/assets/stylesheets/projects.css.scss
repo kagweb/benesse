@@ -17,15 +17,18 @@
     }
 
     li {
-      padding: 3px 10px;
-      width: 100%;
+      padding: 3px 0 3px 10px ;
 
       a {
         color: #555;
       }
 
+      .file:hover {
+        background: #eef;
+      }
+
       &.selected {
-        background: #ddd;
+        background: #ddd !important;
         border-radius: 3px;
       }
     }
