@@ -1,5 +1,19 @@
 <h1>New project</h1>
 
-<%= render 'form' %>
+<%= simple_form_for(@project) do |f| %>
+
+  <%= f.error_notification %>
+
+  <%= f.input :name %>
+  <%= f.input :authorizer, collection: User.all, label_method: :name, value_method: :id %>
+  <%= f.input :promoter, collection: User.all, label_method: :name, value_method: :id %>
+  <%= f.input :operator, collection: User.all, label_method: :name, value_method: :id %>
+  <%= f.input :upload_server, { as: :select, collection: Benesse::Application.config.servers } %>
+  <%= f.input :test_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
+  <%= f.input :production_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
+  <%= f.input :memo %>
+  <%= f.submit %>
+
+<% end %>
 
 <%= link_to 'Back', projects_path %>

@@ -26,7 +26,32 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.new params[:project]
+    @project = Project.new(
+      name: params[:project][:name],
+      upload_server: params[:project][:upload_server],
+      test_upload_at: params[:project][:test_upload_at],
+      production_upload_at: params[:project][:production_upload_at],
+      memo: params[:project][:memo]
+    )
+
+    User.where(['id IN (?)', [ params[:project][:authorizer], params[:project][:promoter], params[:project][:operator] ]]).each do |user|
+      case user.id
+        when params[:project][:authorizer].to_i
+          @project.authorizer = user
+        when params[:project][:promoter].to_i
+          @project.promoter = user
+        when params[:project][:operator].to_i
+          @project.operator = user
+      end
+
+      pp user.id
+      pp params[:project][:authorizer]
+      pp params[:project][:promoter]
+      pp params[:project][:operator]
+    end
+
+    pp @project
+
     if @project.save
       redirect_to @project, notice: 'Project was successfully created.'
     else
@@ -57,7 +82,7 @@ class ProjectsController < ApplicationController
     @project = Project.find params[:id]
     @status = _status_code params[:status]
 
-    if request.post? and params[:confirmation]
+    if request.post? and ! params[:confirmation].blank?
       Confirmation.delete_all project_id: @project.id, user_id: current_user.id, status: @status 
       @confirmation = @project.confirmations.new response: params[:confirmation][:response], status: @status
       @confirmation.user = current_user

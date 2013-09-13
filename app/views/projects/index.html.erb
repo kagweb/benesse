@@ -7,17 +7,12 @@
 </h2>
 
 <form class="form-inline" method="GET">
-  <input type="hidden" name="date" value="<%= @date %>">
   <select class="input-medium" name="server">
     <option></option>
-    <option>kzemi</option>
+    <% Benesse::Application.config.servers.each do |s| %>
+    <option value="<%= s %>"><%= s %></option>
+    <% end %>
   </select>
-<!--
-  <select class="input-medium">
-    <option>本番環境</option>
-    <option>テスト環境</option>
-  </select>
--->
   <button type="submit" class="btn">検索</button>
 </form>
 
