@@ -26,31 +26,15 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.new(
-      name: params[:project][:name],
-      upload_server: params[:project][:upload_server],
-      test_upload_at: params[:project][:test_upload_at],
-      production_upload_at: params[:project][:production_upload_at],
-      memo: params[:project][:memo]
-    )
+    users = [ params[:project][:authorizer], params[:project][:promoter], params[:project][:operator] ]
+    ['authorizer', 'promoter', 'operator'].each {|u| params[:project].delete u }
 
-    User.where(['id IN (?)', [ params[:project][:authorizer], params[:project][:promoter], params[:project][:operator] ]]).each do |user|
-      case user.id
-        when params[:project][:authorizer].to_i
-          @project.authorizer = user
-        when params[:project][:promoter].to_i
-          @project.promoter = user
-        when params[:project][:operator].to_i
-          @project.operator = user
-      end
-
-      pp user.id
-      pp params[:project][:authorizer]
-      pp params[:project][:promoter]
-      pp params[:project][:operator]
+    @project = Project.new params[:project]
+    User.where(['id IN (?)',users]).each do |user|
+      @project.authorizer = user if user.id == users[0].to_i
+      @project.promoter   = user if user.id == users[1].to_i
+      @project.operator   = user if user.id == users[2].to_i
     end
-
-    pp @project
 
     if @project.save
       redirect_to @project, notice: 'Project was successfully created.'
