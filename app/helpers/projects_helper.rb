@@ -49,7 +49,7 @@ module ProjectsHelper
     return "<li class=\"file\"><a href=\"#{info['_path_']}\"><i class=\"icon-file\"></i> #{name} #{tmp} </a></li>" unless info['_type_'] == 'dir'
 
     # ディレクトリの場合はディレクトリの中身を再帰的に解析
-    element = "<li><a href=\"#{info['_path_']}\"><i class=\"icon-folder-open\"></i> #{name}</a><ul class=\"unstyled\">"
+    element = "<li><span class=\"folder-control folder-close\">&#9658;</span><a href=\"#{info['_path_']}\"><i class=\"icon-folder-close\"></i> #{name}</a><ul class=\"unstyled\">"
     info['_files_'].each {|n, i| element += folder n, i }
 
     return element + "</ul></li>"

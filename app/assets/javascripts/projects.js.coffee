@@ -17,3 +17,15 @@ $ ->
     new_params += 'path=' + encodeURIComponent($(this).attr 'href')
     $('a.list').attr 'href',  href[0] + '?' + new_params
     return false
+  
+  $('.file_viewer ul.files li .folder-control').on 'click', ->
+    if $(this).hasClass 'folder-open'
+      $(this).removeClass 'folder-open'
+      $(this).addClass 'folder-close'
+      $(this).html "&#9658;"
+      $(this).parent('li').children('ul').slideUp 200
+    else
+      $(this).removeClass 'folder-close'
+      $(this).addClass 'folder-open'
+      $(this).html "&#9660;"
+      $(this).parent('li').children('ul').slideDown 200

@@ -13,7 +13,8 @@
     padding: 10px 30px;
 
     ul {
-      margin-left: 30px;
+      margin-left: 10px;
+      display: none;
     }
 
     li {
@@ -23,13 +24,28 @@
         color: #555;
       }
 
-      .file:hover {
-        background: #eef;
+      .file {
+        margin-left: 15px;
+
+        &:hover {
+          background: #eef;
+        }
       }
 
       &.selected {
         background: #ddd !important;
         border-radius: 3px;
+      }
+    }
+
+    .folder-control {
+      font-size: 80%;
+      padding: 2px;
+      color: #888;
+      cursor: pointer;
+
+      &:hover {
+        color: #aaa;
       }
     }
   }
