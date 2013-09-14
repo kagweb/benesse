@@ -62,16 +62,16 @@ module ProjectsHelper
     return path
   end
 
-  def get_dir_structure(path, depth = nil)
+  def get_dir_structure(path = '', depth = nil)
     require "find"
 
-    path = Rails.root.join path
-    return false unless path.exist?
+    path = _create_path
+    return [] unless path
 
     dir = {}
 
     Find.find path do |f|
-      resolved_path = f.to_s.gsub(Rails.root.to_s, '').gsub(/^\//, '').split /\//
+      resolved_path = f.to_s.gsub(path.to_s, '').gsub(/^\//, '').split /\//
       next if resolved_path.empty?
 
       tmp = dir
@@ -104,5 +104,24 @@ module ProjectsHelper
     end
 
     return dir
+  end
+
+  private
+
+  def _create_path
+    project = Project.find params[:id]
+
+    # @todo upload_server で読み込むパスを操作する処理を追加する。
+    # project.upload_server
+
+    # @todo root_dir(ssh_htdocs, contents) で読み込むパスを操作する処理を追加する。
+    # params[:root_dir]
+
+    path = Rails.root
+    path = path.join(Rails.env.development? ? 'sample_dir' : format("%07d", project.id))
+    # @todo 任意のディレクトリ構造を見られないようにバリデーションを書く
+    path = path.join(params[:branch_code].presence || project.branches.last.code)
+
+    return path.exist? ? path : false
   end
 end

@@ -71,5 +71,11 @@ module Benesse
       'NKD',
       'go.nkd'
     ]
+
+    # ダウンロード用ディレクトリ
+    config.root_dir = [
+      'ssl_htdocs',
+      'contents'
+    ]
   end
 end
