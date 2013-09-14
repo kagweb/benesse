@@ -6,6 +6,7 @@ Benesse::Application.routes.draw do
   resources :projects do
     member do
       get :authors
+      put :authors, action: :author_update
       get :check, constraints: { status: /^html|^test|^production/ }
       get :update_branch
       get :confirm

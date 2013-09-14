@@ -48,6 +48,7 @@ class ProjectsController < ApplicationController
     params[:project].delete 'operator'
     @project = Project.find params[:id]
     @project.attributes = params[:project]
+    @project.operator = operator
 
     if @project.save
       redirect_to @project, notice: 'Project was successfully updated.'
@@ -64,6 +65,13 @@ class ProjectsController < ApplicationController
 
   def authors
     @project = Project.find params[:id]
+  end
+
+  def author_update
+    @project = Project.find params[:id]
+    @project.authorizer = User.find params[:project][:authorizer]
+    @project.promoter   = User.find params[:project][:promoter]
+    @project.save ? redirect_to(@project, notice: 'Updated authors') : render(:authors)
   end
 
   def check
