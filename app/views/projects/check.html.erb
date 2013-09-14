@@ -25,7 +25,7 @@
       </p>
     </div>
 
-    <%= form_tag "/projects/#{params[:id]}/check/#{params[:status]}", class: 'span8' do %>
+    <%= form_tag "/projects/#{params[:id]}/check/#{params[:status]}", method: 'put', class: 'span8' do %>
       <table class="table table-striped table-hover table-condensed">
         <thead>
           <tr>
@@ -80,12 +80,15 @@
 
 <h2><%= t 'view.utility.comment' %></h2>
 <ul class="well unstyled">
-  <% @project.comments.where(status: @status).reverse_order.each do |c| %>
+  <% @comments.reverse_order.each do |c| %>
   <li>
     <%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %>
     <b><%= c.user.name %>: </b>
     <%= raw c.comment.gsub(/\r\n|\r|\n/, "<br />") %>
   </li>
+  <% end %>
+  <% if @comments.blank? %>
+  <li class="text-error">コメントが投稿されていません。</li>
   <% end %>
 </div>
 
