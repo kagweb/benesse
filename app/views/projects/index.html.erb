@@ -33,8 +33,8 @@
     <tr>
       <td><%= project.name %></td>
       <td><%= project.promoter.name %></td>
-      <td><%= project.test_upload_at.blank? ? '未定' : l(project.test_upload_at, format: :date) %></td>
-      <td><%= project.production_upload_at.blank? ? '未定' : l(project.production_upload_at, format: :date) %></td>
+      <td><%= l(project.test_upload_at, format: :date) %></td>
+      <td><%= l(project.production_upload_at, format: :date) %></td>
       <td><%= truncate project.comments.last.try(:comment) || '' %></td>
       <td class="center"><%= link_to '個票', project, class: 'btn' %></td>
     </tr>

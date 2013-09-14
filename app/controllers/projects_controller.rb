@@ -7,9 +7,9 @@ class ProjectsController < ApplicationController
     @date = params[:date] ? Date.strptime(params[:date]) : Date.new(Time.now.year, Time.now.month, 1)
 
     if params[:server] and ! params[:server].empty?
-      @projects = Project.where ['created_at >= ? and created_at < ? and upload_server = ?', @date, @date >> 1, params[:server]]
+      @projects = Project.where(['production_upload_at >= ? and production_upload_at < ? and upload_server = ?', @date, @date >> 1, params[:server]]).order('production_upload_at')
     else
-      @projects = Project.where ['created_at >= ? and created_at < ?', @date, @date >> 1]
+      @projects = Project.where(['production_upload_at >= ? and production_upload_at < ?', @date, @date >> 1]).order('production_upload_at')
     end
   end
 
