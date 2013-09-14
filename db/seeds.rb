@@ -26,6 +26,7 @@ if Rails.env.development?
     project = Project.new name: "プロジェクト#{i}", memo: "プロジェクト#{i}のメモ。 " * 10
     project.test_upload_at = Date.new 2013, rand(9..10), rand(1..30)
     project.production_upload_at = project.test_upload_at + (rand 10..30).day
+    project.upload_server = Benesse::Application.config.servers[rand(Benesse::Application.config.servers.length)]
     project.authorizer = user
     project.promoter = user
     project.operator = user

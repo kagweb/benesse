@@ -7,10 +7,11 @@
 </h2>
 
 <form class="form-inline" method="GET">
+  <input type="hidden" name="date" value="<%= @date %>">
   <select class="input-medium" name="server">
     <option></option>
     <% Benesse::Application.config.servers.each do |s| %>
-    <option value="<%= s %>"><%= s %></option>
+    <option value="<%= s %>" <%= params[:server].present? and params[:server] == s ? 'selected' : '' %>><%= s %></option>
     <% end %>
   </select>
   <button type="submit" class="btn">検索</button>
