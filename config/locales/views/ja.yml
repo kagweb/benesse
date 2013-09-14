@@ -17,6 +17,7 @@ ja:
       update_project: 更新
       update_authors: 付替え
       update_branch: 枝番更新
+      authenticate: 承認
       add_party: 関係者を追加
       delete_party: 削除
       authors: 付け替え
@@ -36,3 +37,4 @@ ja:
     confirm:
       update_branch: 枝番を上げてもよろしいですか？
       delete: 削除してもよろしいですか？
+      confirm_project: "この案件を承認してもよろしいですか？\n承認は取り消すことができません。"

@@ -19,6 +19,10 @@
       <% if @project.server_update %>
         <span class="label label-info"><%= t 'view.project.server_update' %></span>
       <% end %>
+
+      <% if @project.exists_test_server %>
+        <span class="label label-info"><%= t 'view.project.exists_test_server' %></span>
+      <% end %>
     </p>
 
     <p>
@@ -49,14 +53,14 @@
 
     <p>
       <b><%= t 'activerecord.attributes.project.test_upload_at' %>:</b>
-      <%=l @project.test_upload_at.presence || t('view.utility.undefined') %>
+      <%= @project.test_upload_at.presence %>
     </p>
 
     <p>
       <b><%= t 'activerecord.attributes.project.production_upload_at' %>:</b>
-      <%=l @project.production_upload_at.presence || t('view.utility.undefined') %>
+      <%= @project.production_upload_at.presence %>
     </p>
-    
+
     <p class="well">
       <%= @project.memo.blank? ? 'メモは登録されていません。' : @project.memo %>
     </p>
@@ -64,6 +68,9 @@
     <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'), edit_project_path(@project), { class: 'btn' } %>
     <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'), { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
     <%= link_to raw('<i class=" icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'), { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
+    <% if current_user.id == @project.authorizer.id and ! @project.confirmed %>
+      <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'), { controller: 'projects', action: 'confirm' }, { class: 'btn', confirm: t('view.confirm.confirm_project') } %>
+    <% end %>
   </div>
 
   <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>

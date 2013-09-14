@@ -44,8 +44,12 @@ class ProjectsController < ApplicationController
   end
 
   def update
+    operator = User.find params[:project][:operator]
+    params[:project].delete 'operator'
     @project = Project.find params[:id]
-    if @project.update_attributes params[:project]
+    @project.attributes = params[:project]
+
+    if @project.save
       redirect_to @project, notice: 'Project was successfully updated.'
     else
       render :edit
@@ -97,6 +101,19 @@ class ProjectsController < ApplicationController
     project = Project.find params[:id]
     project.update_branch
     redirect_to project
+  end
+
+  def confirm
+    project = Project.find params[:id]
+
+    unless current_user.id == project.authorizer_id
+      redirect_to project
+      return
+    end
+
+    project.confirmed = true
+    project.save
+    redirect_to project, notice: 'Confirm this project.'
   end
 
   def remind_mail

@@ -1,6 +1,19 @@
 <h1>Editing project</h1>
 
-<%= render 'form' %>
+<%= simple_form_for(@project) do |f| %>
+
+  <%= f.error_notification %>
+
+  <%= f.input :registration_status %>
+  <%= f.input :name %>
+  <%= f.input :operator, collection: User.all, label_method: :name, value_method: :id, include_blank: false %>
+  <%= f.input :upload_server, { as: :select, collection: Benesse::Application.config.servers, include_blank: false } %>
+  <%= f.input :test_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
+  <%= f.input :production_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
+  <%= f.input :memo %>
+  <%= f.submit %>
+
+<% end %>
 
 <%= link_to 'Show', @project %> |
 <%= link_to 'Back', projects_path %>

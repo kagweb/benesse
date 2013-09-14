@@ -8,6 +8,7 @@ Benesse::Application.routes.draw do
       get :authors
       get :check, constraints: { status: /^html|^test|^production/ }
       get :update_branch
+      get :confirm
       post :remind_mail
       post :comment
     end
