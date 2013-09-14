@@ -1,9 +1,9 @@
-<h1>New party</h1>
+<h1>関係者の追加</h1>
 
 <%= simple_form_for @party, url: { action: 'index' } do |f| %>
   <%= f.error_notification %>
   <%= f.input :project_id, as: 'hidden'%>
-  <%= f.input :required %>
+  <%= f.input :required, label: false, inline_label: '必須'%>
   <div class="control-group">
     <%= label :departments, :name, t('activerecord.attributes.department.name'), class: 'control-label' %>
     <div class="controls">

@@ -1,13 +1,13 @@
-<h1>Editing project</h1>
+<h1>案件詳細の編集</h1>
 
 <%= simple_form_for(@project) do |f| %>
 
   <%= f.error_notification %>
 
-  <%= f.input :registration_status %>
-  <%= f.input :year_migrate %>
-  <%= f.input :exists_test_server, { as: :radio_buttons, checked: 'false' } %>
   <%= f.input :name %>
+  <%= f.input :year_migrate, inline_label: '年度移行対象', label: false %>
+  <%= f.input :registration_status, { collection: {'仮登録' => 0, '本登録' => 1}, as: :radio_buttons, inline_label: '本登録', checked: @project.registration_status.blank? ? 0 : 1 } %>
+  <%= f.input :exists_test_server, { collection: {'なし' => 0, 'あり' => 1}, as: :radio_buttons ,checked: @project.exists_test_server.blank? ? 0 : 1 } %>
   <%= f.input :operator, collection: User.all, label_method: :name, value_method: :id, include_blank: false, selected: @project.operator.id %>
   <%= f.input :upload_server, { as: :select, collection: Benesse::Application.config.servers, include_blank: false } %>
   <%= f.input :test_upload_at, { as: :date, input_html: { class: 'input-small' } } %>

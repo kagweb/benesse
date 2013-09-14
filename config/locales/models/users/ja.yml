@@ -9,3 +9,4 @@ ja:
         email: メールアドレス
         password: パスワード
         department: 所属部署
+        password_confirmation: パスワード再入力
