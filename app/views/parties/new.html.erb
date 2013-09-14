@@ -1,5 +1,22 @@
 <h1>New party</h1>
 
-<%= render 'form' %>
+<%= simple_form_for @party, url: { action: 'index' } do |f| %>
 
-<%= link_to 'Back', projects_path %>
+  <%= f.error_notification %>
+
+  <%= f.input :project_id, as: 'hidden'%>
+
+  <%= f.input :required %>
+
+  <div class="control-group">
+    <%= label :departments, :name, t('activerecord.attributes.department.name'), class: 'control-label' %>
+    <div class="controls">
+      <%= select :departments, :name, Department.all.map{|u| [ u.name, u.id ] }, { include_blank: true }, { onchange: 'user_list($(this).val())' } %>
+    </div>
+  </div>
+
+  <%= f.input :user, collection: User.all, label_method: :name, value_method: :id, include_blank: false %>
+  <%= f.submit %>
+<% end %>
+
+<%= link_to 'Back', @party.project %>

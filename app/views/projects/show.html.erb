@@ -4,6 +4,12 @@
       <%= @project.name %>
       <small><%= project_number @project %></small>
 
+      <% if @project.confirmed %>
+        <span class="label label-success"><%= t 'view.utility.confirm.ok' %></span>
+      <% else%>
+        <span class="label label-warning"><%= t 'view.utility.confirm.ng' %></span>
+      <% end %>
+
       <% if @project.registration_status %>
         <span class="label label-success"><%= t 'view.utility.registration.production' %></span>
       <% else %>
@@ -28,12 +34,6 @@
     <p>
       <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
       <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %>
-
-      <% if @project.confirmed %>
-        <span class="label label-success"><%= t 'view.utility.confirm.ok' %></span>
-      <% else%>
-        <span class="label label-warning"><%= t 'view.utility.confirm.ng' %></span>
-      <% end %>
     </p>
 
     <p>
@@ -53,12 +53,12 @@
 
     <p>
       <b><%= t 'activerecord.attributes.project.test_upload_at' %>:</b>
-      <%= @project.test_upload_at.presence %>
+      <%= @project.test_upload_at.blank? ? '未登録': l(@project.test_upload_at, format: :date) %>
     </p>
 
     <p>
       <b><%= t 'activerecord.attributes.project.production_upload_at' %>:</b>
-      <%= @project.production_upload_at.presence %>
+      <%= @project.production_upload_at.blank? ? '未登録' : l(@project.production_upload_at, format: :date) %>
     </p>
 
     <p class="well">
@@ -81,11 +81,6 @@
         <p class="text-center"><%= t 'view.project.status.'  + (now_status i) %></p>
       </div>
       <% end %>
-    </div>
-
-    <div class="clearfix">
-      <textarea rows="10" class="input-block-level" name="mail_text"></textarea>
-      <input type="submit" class="btn btn-primary pull-right" value="<%= t 'view.project.mail_send' %>">
     </div>
 
     <table class="table table-striped">
@@ -118,8 +113,12 @@
         <% end %>
       </tbody>
     </table>
-
     <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right' } %>
+
+    <div class="clearfix">
+      <textarea rows="10" class="input-block-level" name="mail_text"></textarea>
+      <input type="submit" class="btn btn-primary pull-right" value="<%= t 'view.project.mail_send' %>">
+    </div>
   <% end %>
 </div>
 

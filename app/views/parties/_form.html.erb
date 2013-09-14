@@ -13,6 +13,6 @@
     </div>
   </div>
 
-  <%= f.input :user, collection: User.all, label_method: :name, value_method: :id %>
+  <%= f.input :user, collection: User.all, label_method: :name, value_method: :id, include_blank: false %>
   <%= f.submit %>
 <% end %>
