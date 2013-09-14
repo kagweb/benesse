@@ -3,7 +3,7 @@
 <%= simple_form_for @project, { url: {action: 'authors'}, class: 'form-horizontal' } do |f| %>
   <%= f.input :authorizer, collection: User.all, label_method: :name, value_method: :id, include_blank: false, selected: @project.authorizer.id %>
   <%= f.input :promoter, collection: User.all, label_method: :name, value_method: :id, include_blank: false, selected: @project.promoter.id %>
-  <%= f.submit %>
+  <%= f.button :wrapped, class: 'btn btn-primary' %>
 <% end %>
 
 <%= link_to 'Back', @project %>

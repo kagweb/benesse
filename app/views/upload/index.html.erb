@@ -1,7 +1,4 @@
-<h1>
-  <%= @project.name %>
-  <small><%= sprintf '%07d', @project.id %>-<%= sprintf '%02d', 0 %></small>
-</h1>
+<h1><%= @project.name %> <small><%= project_number @project %></small></h1>
 
 <p>
   <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>

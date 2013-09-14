@@ -1,9 +1,8 @@
 <div class="row">
   <div class="span5">
-    <h2>
-      <%= @project.name %>
-      <small><%= project_number @project %></small>
+    <h2> <%= @project.name %> <small><%= project_number @project %></small></h2>
 
+    <p>
       <% if @project.confirmed %>
         <span class="label label-success"><%= t 'view.utility.confirm.ok' %></span>
       <% else%>
@@ -15,9 +14,7 @@
       <% else %>
         <span class="label label-warning"><%= t 'view.utility.registration.temporary' %></span>
       <% end %>
-    </h2>
 
-    <p>
       <% if @project.year_migrate %>
         <span class="label label-info"><%= t 'view.project.transition' %></span>
       <% end %>

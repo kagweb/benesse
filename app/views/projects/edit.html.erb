@@ -5,13 +5,15 @@
   <%= f.error_notification %>
 
   <%= f.input :registration_status %>
+  <%= f.input :year_migrate %>
+  <%= f.input :exists_test_server, { as: :radio_buttons, checked: 'false' } %>
   <%= f.input :name %>
   <%= f.input :operator, collection: User.all, label_method: :name, value_method: :id, include_blank: false, selected: @project.operator.id %>
   <%= f.input :upload_server, { as: :select, collection: Benesse::Application.config.servers, include_blank: false } %>
   <%= f.input :test_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
   <%= f.input :production_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
   <%= f.input :memo %>
-  <%= f.submit %>
+  <%= f.button :wrapped, class: 'btn btn-primary' %>
 
 <% end %>
 
