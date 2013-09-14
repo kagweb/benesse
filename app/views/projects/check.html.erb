@@ -70,7 +70,10 @@
         </tbody>
       </table>
 
-      <input type="submit" class="btn btn-primary btn-large pull-right" value="submit">
+      <% if @project.parties.blank? %>
+        <p class="text-error">関係者が登録されていません。</p>
+      <% end %>
+      <input type="submit" class="btn btn-primary btn-large pull-right" value="登録">
     <% end %>
   </div>
 </div>

@@ -63,11 +63,18 @@
     </p>
 
     <% if current_user.id == @project.authorizer.id and ! @project.confirmed %>
-      <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'), { controller: 'projects', action: 'confirm' }, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
+      <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'),
+        { controller: 'projects', action: 'confirm' }, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
     <% end %>
-    <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'), edit_project_path(@project), { class: 'btn' } %>
-    <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'), { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
-    <%= link_to raw('<i class=" icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'), { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
+
+    <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'),
+      edit_project_path(@project), { class: 'btn' } %>
+
+    <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'),
+      { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
+
+    <%= link_to raw('<i class=" icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'),
+      { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
   </div>
 
   <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>
@@ -95,7 +102,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @project.parties.each do |party| %>
+      <% @project.parties.each do |party| %>
         <tr>
           <td class="center"><input type="checkbox" name="to[<%= party.user.id %>]"></td>
           <td class="center"><input type="checkbox" name="cc[<%= party.user.id %>]"></td>
@@ -105,11 +112,18 @@
           <td class="center"><%= response(party.user, 0).upcase %></td>
           <td class="center"><%= response(party.user, 1).upcase %></td>
           <td class="center"><%= response(party.user, 2).upcase %></td>
-          <td class="center"><%= link_to t('view.project.delete_party'), { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id}, { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
+          <td class="center"><%= link_to t('view.project.delete_party'), 
+                              { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id},
+                              { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
         </tr>
-        <% end %>
+      <% end %>
       </tbody>
     </table>
+
+    <% if @project.parties.blank? %>
+      <p class="text-error">関係者が登録されていません。</p>
+    <% end %>
+
     <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right' } %>
 
     <div class="clearfix">
