@@ -23,12 +23,14 @@ if Rails.env.development?
   projects = []
 
   100.times do |i|
-    tmp = Project.new name: "プロジェクト#{i}", memo: "プロジェクト#{i}のメモ。 " * 10
-    tmp.authorizer = user
-    tmp.promoter = user
-    tmp.operator = user
-    tmp.save
-    projects << tmp
+    project = Project.new name: "プロジェクト#{i}", memo: "プロジェクト#{i}のメモ。 " * 10
+    project.test_upload_at = Date.new 2013, rand(9..10), rand(1..30)
+    project.production_upload_at = project.test_upload_at + (rand 10..30).day
+    project.authorizer = user
+    project.promoter = user
+    project.operator = user
+    project.save
+    projects << project
   end
 
   projects.each do |project|
