@@ -65,12 +65,12 @@
       <%= @project.memo.blank? ? 'メモは登録されていません。' : @project.memo %>
     </p>
 
+    <% if current_user.id == @project.authorizer.id and ! @project.confirmed %>
+      <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'), { controller: 'projects', action: 'confirm' }, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
+    <% end %>
     <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'), edit_project_path(@project), { class: 'btn' } %>
     <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'), { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
     <%= link_to raw('<i class=" icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'), { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
-    <% if current_user.id == @project.authorizer.id and ! @project.confirmed %>
-      <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'), { controller: 'projects', action: 'confirm' }, { class: 'btn', confirm: t('view.confirm.confirm_project') } %>
-    <% end %>
   </div>
 
   <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>
