@@ -79,7 +79,7 @@
 </div>
 
 <h2><%= t 'view.utility.comment' %></h2>
-<ul class="well unstyled">
+<ul class="well unstyled comments">
   <% @comments.reverse_order.each do |c| %>
   <li>
     <%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %>

@@ -1,0 +1,8 @@
+<form method="post" class="form-inline">
+  <p>URL: <a href="#">http://<%= @project.upload_server %>.benesse.ne.jp/<span class="download_path"></span></a></p>
+  <%= link_to raw('<i class="icon-th-list"></i> List'), project_path(@project, view: 'list') , class: 'btn list' %>
+  <%= link_to raw('<i class="icon-folder-open"></i> Folder'), project_path(@project, view: 'folder') , class: 'btn' %>
+  <%= link_to raw('<i class="icon-download"></i> Download'), project_path(@project) , class: 'btn' %>
+  <%= link_to raw('<i class="icon-envelope"></i> Mail'), project_path(@project) , class: 'btn' %>
+  <%= link_to raw('<i class="icon-ok"></i> Confirm'), project_path(@project) , class: 'btn' %>
+</form>

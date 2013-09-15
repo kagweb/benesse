@@ -6,7 +6,7 @@ $ ->
   $('.file_viewer ul.files li a').on 'click', ->
     $('.selected').removeClass 'selected'
     $(this).parent('li').addClass 'selected'
-    $('input[type="text"][name="path"]').val $(this).attr('href')
+    $('.download_path').html $(this).attr('href')
 
     # List 表示画面へのリンクのパラメータを書き換え
     href = $('a.list').attr('href').split '?'

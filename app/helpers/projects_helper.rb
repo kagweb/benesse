@@ -46,10 +46,10 @@ module ProjectsHelper
     tmp += "<div class=\"pull-right span1\">#{info['_type_'].upcase}</div>"
 
     # ディレクトリでない場合は li 要素を返す
-    return "<li class=\"file\"><a href=\"#{info['_path_']}\"><i class=\"icon-file\"></i> #{name} #{tmp} </a></li>" unless info['_type_'] == 'dir'
+    return "<li class=\"file\"><a href=\"#{info['_basepath_']}/#{info['_path_']}\"><i class=\"icon-file\"></i> #{name} #{tmp} </a></li>" unless info['_type_'] == 'dir'
 
     # ディレクトリの場合はディレクトリの中身を再帰的に解析
-    element = "<li><span class=\"folder-control folder-close\">&#9658;</span><a href=\"#{info['_path_']}\"><i class=\"icon-folder-close\"></i> #{name}</a><ul class=\"unstyled\">"
+    element = "<li><span class=\"folder-control folder-close\">&#9658;</span><a href=\"#{info['_basepath_']}/#{info['_path_']}\"><i class=\"icon-folder-close\"></i> #{name}</a><ul class=\"unstyled\">"
     info['_files_'].each {|n, i| element += folder n, i }
 
     return element + "</ul></li>"
@@ -62,7 +62,7 @@ module ProjectsHelper
     return path
   end
 
-  def get_dir_structure(path = '', depth = nil)
+  def dir_to_a(depth = nil)
     require "find"
 
     path = _create_path
@@ -83,6 +83,7 @@ module ProjectsHelper
         if FileTest.file? f and count == resolved_path.length
           tmp[r] = {
             '_path_' => resolved_path.join('/'),
+            '_basepath_' => path.to_s.gsub(Rails.root.to_s, '').gsub(/^\//, ''),
             '_type_' => r.split('.').last.upcase,
             '_size_' => number_to_human_size(File.size? f) || 'empty',
             '_updated_at_' => l(File.mtime f),
@@ -91,6 +92,7 @@ module ProjectsHelper
         elsif ! tmp.key? r
           tmp[r] = {
             '_path_' => resolved_path.join('/'),
+            '_basepath_' => path.to_s.gsub(Rails.root.to_s, '').gsub(/^\//, ''),
             '_type_' => 'dir',
             '_size_' => number_to_human_size(File.size? f ) || 'empty',
             '_updated_at_' => l(File.mtime f),
@@ -109,20 +111,31 @@ module ProjectsHelper
   private
 
   def _create_path
+    return Rails.root.join('files') if params[:id].blank?
+
     project = Project.find params[:id]
 
     # @todo upload_server で読み込むパスを操作する処理を追加する。
-    # project.upload_server
-
-    # @todo root_dir(ssh_htdocs, contents) で読み込むパスを操作する処理を追加する。
-    # params[:root_dir]
-
-    path = Rails.root
-    path = path.join(Rails.env.development? ? 'sample_dir' : format("%07d", project.id))
-    # @todo 任意のディレクトリ構造を見られないようにバリデーションを書く
-    path = path.join(params[:branch_code].presence || project.branches.last.code)
-
+    # upload_server = project.upload_server
+    env = _sanitize_env params[:env]
+    root_dir = _sanitize_root_dir params[:root_dir]
+    project_code = _sanitize_project_code project, params[:branch_code]
+    path = Rails.root.join('files').join(env).join(root_dir).join(project_code)
     return path.exist? ? path : false
+  end
+
+  def _sanitize_env(env)
+    return ['test', 'production'].include?(env) ? env : 'production'
+  end
+
+  def _sanitize_root_dir(dir)
+    return Benesse::Application.config.root_dir.include?(dir)? dir : 'ssl_htdocs'
+  end
+
+  def _sanitize_project_code(project, branch)
+    branch_code = branch.presence || project.branches.last.code
+    project_code = Rails.env.development? ? 'sample_project' : format("%07d", project.id)
+    return project_code + '/' + format("%02d", branch_code.to_i)
   end
 
   def status_slug(code)
