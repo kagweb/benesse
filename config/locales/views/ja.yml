@@ -36,6 +36,9 @@ ja:
         production: 本登録
       required: 必須
       comment: コメント
+    env:
+      test: テスト環境
+      production: 本番環境
     confirm:
       update_branch: 枝番を上げてもよろしいですか？
       delete: 削除してもよろしいですか？

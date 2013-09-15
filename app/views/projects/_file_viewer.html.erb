@@ -23,6 +23,16 @@
         <li class="well">
           <form method="get" class="form-horizontal">
             <div class="control-group">
+              <label class="control-label">環境</label>
+              <div class="controls">
+                <select name="env" class="span2">
+                  <% ['test','production'].each do |e| %>
+                    <option value="<%= e %>"><%= t 'view.env.' + e %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
               <label class="control-label">ディレクトリ</label>
               <div class="controls">
                 <select name="root_dir" class="span2">
