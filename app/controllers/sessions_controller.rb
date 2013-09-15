@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
 
   def create
     if @user = login(params[:username], params[:password], true)
-      redirect_back_or_to root_url, notice: "ようこそ#{@user.username}さん。"
+      redirect_back_or_to root_url, notice: "ようこそ#{@user.name}さん。"
     else
       flash.now[:alert] = 'ユーザーIDかパスワードが違います。'
       render :new
