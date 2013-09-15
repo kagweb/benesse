@@ -1,19 +1,20 @@
-<p id="notice"><%= notice %></p>
-
 <div class="row">
   <div class="span5">
-    <h2>
-      <%= @project.name %>
-      <small><%= project_number @project %></small>
+    <h2> <%= @project.name %> <small><%= project_number @project %></small></h2>
+
+    <p>
+      <% if @project.confirmed %>
+        <span class="label label-success"><%= t 'view.utility.confirm.ok' %></span>
+      <% else%>
+        <span class="label label-warning"><%= t 'view.utility.confirm.ng' %></span>
+      <% end %>
 
       <% if @project.registration_status %>
         <span class="label label-success"><%= t 'view.utility.registration.production' %></span>
       <% else %>
         <span class="label label-warning"><%= t 'view.utility.registration.temporary' %></span>
       <% end %>
-    </h2>
 
-    <p>
       <% if @project.year_migrate %>
         <span class="label label-info"><%= t 'view.project.transition' %></span>
       <% end %>
@@ -21,17 +22,15 @@
       <% if @project.server_update %>
         <span class="label label-info"><%= t 'view.project.server_update' %></span>
       <% end %>
+
+      <% if @project.exists_test_server %>
+        <span class="label label-info"><%= t 'view.project.exists_test_server' %></span>
+      <% end %>
     </p>
 
     <p>
       <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
       <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %>
-
-      <% if @project.confirmed %>
-        <span class="label label-success"><%= t 'view.utility.confirm.ok' %></span>
-      <% else%>
-        <span class="label label-warning"><%= t 'view.utility.confirm.ng' %></span>
-      <% end %>
     </p>
 
     <p>
@@ -49,45 +48,43 @@
       <%= link_to url_for(controller: 'upload', action: 'index', project_id: @project.id, only_path: false), {controller: 'upload', action: 'index', project_id: @project.id} %>
     </p>
 
-    <% unless @project.production_upload_url.blank? %>
-    <p>
-      <b><%= t 'activerecord.attributes.project.production_upload_url' %>:</b>
-      <%= @project.production_upload_url %>
-    </p>
-    <% end %>
-
     <p>
       <b><%= t 'activerecord.attributes.project.test_upload_at' %>:</b>
-      <%= @project.test_upload_at ? @project.test_uplaod_at : t('view.utility.undefined') %>
+      <%= @project.test_upload_at.blank? ? '未登録': l(@project.test_upload_at, format: :date) %>
     </p>
 
     <p>
       <b><%= t 'activerecord.attributes.project.production_upload_at' %>:</b>
-      <%= @project.production_upload_at ? @project.production_upload_at : t('view.utility.undefined') %>
-    </p>
-    
-    <p class="well">
-      <%= @project.memo.empty? ? 'メモは登録されていません。' : @project.memo %>
+      <%= @project.production_upload_at.blank? ? '未登録' : l(@project.production_upload_at, format: @project.register_datetime ? :short : :long ) %>
     </p>
 
-    <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'), edit_project_path(@project), { class: 'btn' } %>
-    <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'), { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
-    <%= link_to raw('<i class=" icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'), { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
+    <p class="well">
+      <%= @project.memo.blank? ? 'メモは登録されていません。' : @project.memo %>
+    </p>
+
+    <% if current_user.id == @project.authorizer.id and ! @project.confirmed %>
+      <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'),
+        { controller: 'projects', action: 'confirm' }, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
+    <% end %>
+
+    <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'),
+      edit_project_path(@project), { class: 'btn' } %>
+
+    <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'),
+      { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
+
+    <%= link_to raw('<i class=" icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'),
+      { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
   </div>
 
   <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>
     <div class="row">
       <% for i in ['html', 'test', 'production'] %>
       <div class="span2">
-        <%= link_to t('view.project.'  + i), { controller: 'projects', action: 'check', status: i }, { class: "btn btn-large btn-block #{disabled i}" } %>
-        <p class="text-center"><%= t 'view.project.status.'  + (now_status i) %></p>
+        <%= link_to t('view.project.'  + i), { controller: 'projects', action: 'check', status: i, id: @project.id }, { class: "btn btn-large btn-block #{disabled i}" } %>
+        <p class="text-center"><%= t 'view.project.status.'  + (now_status @project, i) %></p>
       </div>
       <% end %>
-    </div>
-
-    <div class="clearfix">
-      <textarea rows="10" class="input-block-level" name="mail_text"></textarea>
-      <input type="submit" class="btn btn-primary pull-right" value="<%= t 'view.project.mail_send' %>">
     </div>
 
     <table class="table table-striped">
@@ -105,7 +102,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @project.parties.each do |party| %>
+      <% @project.parties.each do |party| %>
         <tr>
           <td class="center"><input type="checkbox" name="to[<%= party.user.id %>]"></td>
           <td class="center"><input type="checkbox" name="cc[<%= party.user.id %>]"></td>
@@ -115,13 +112,24 @@
           <td class="center"><%= response(party.user, 0).upcase %></td>
           <td class="center"><%= response(party.user, 1).upcase %></td>
           <td class="center"><%= response(party.user, 2).upcase %></td>
-          <td class="center"><%= link_to t('view.project.delete_party'), { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id}, { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
+          <td class="center"><%= link_to t('view.project.delete_party'), 
+                              { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id},
+                              { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
         </tr>
-        <% end %>
+      <% end %>
       </tbody>
     </table>
 
+    <% if @project.parties.blank? %>
+      <p class="text-error">関係者が登録されていません。</p>
+    <% end %>
+
     <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right' } %>
+
+    <div class="clearfix">
+      <textarea rows="10" class="input-block-level" name="mail_text"></textarea>
+      <input type="submit" class="btn btn-primary pull-right" value="<%= t 'view.project.mail_send' %>">
+    </div>
   <% end %>
 </div>
 

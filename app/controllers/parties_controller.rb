@@ -22,9 +22,11 @@ class PartiesController < ApplicationController
     @party = Party.new required: params[:party][:required]
     @party.project = Project.find params[:party][:project_id]
     @party.user = User.find params[:party][:user]
-    
+
+    # Party.where('project_id' => params[:party][:project_id], 'user_id' => params[:party][:user])
+
     if @party.save
-      redirect_to @party, notice: 'Party was successfully created.'
+      redirect_to @party.project, notice: 'Party was successfully created.'
     else
       render :new
     end
@@ -41,8 +43,8 @@ class PartiesController < ApplicationController
 
   def destroy
     @party = Party.find params[:id]
+    project = @party.project
     @party.destroy
-    project = Project.find params[:project_id]
     redirect_to project
   end
 end

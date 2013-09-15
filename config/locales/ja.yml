@@ -31,7 +31,7 @@ ja:
     - 金曜日
     - 土曜日
     formats:
-      default: ! '%Y/%m/%d'
+      default: ! '%Y/%m/%d(%a) %H:%M'
       long: ! '%Y年%m月%d日(%a)'
       short: ! '%m/%d'
     month_names:
@@ -168,11 +168,11 @@ ja:
       storage_units:
         format: ! '%n%u'
         units:
-          byte: バイト
-          gb: ギガバイト
-          kb: キロバイト
-          mb: メガバイト
-          tb: テラバイト
+          byte: byte
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
     percentage:
       format:
         delimiter: ''
@@ -189,8 +189,9 @@ ja:
     am: 午前
     formats:
       default: ! '%Y/%m/%d %H:%M:%S'
-      long: ! '%Y年%m月%d日(%a) %H時%M分%S秒 %z'
-      short: ! '%y/%m/%d %H:%M'
+      long: ! '%Y年%m月%d日(%a) %H時%M分'
+      short: ! '%Y年%m月'
+      date: ! '%Y年%m月%d日(%a)'
     pm: 午後
   # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
   activemodel:

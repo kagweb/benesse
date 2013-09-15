@@ -11,3 +11,32 @@ table td.center {
   text-align: center;
 }
 
+h1 {
+  margin-bottom: 30px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-bottom: 10px;
+}
+
+.row {
+  margin-bottom: 20px;
+}
+
+.form-actions {
+  background: none;
+  border: none;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+select:disabled {
+  background: #ccc;
+  color: #aaa;
+}

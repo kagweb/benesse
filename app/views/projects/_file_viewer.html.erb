@@ -1,28 +1,95 @@
 <div class="row clearfix">
   <div class="span12 file_viewer">
     <h2>アップロード済みファイル</h2>
-  
-    <%= form_tag '', { class: "form-inline" } do %>
-      <select name="root_dir" class="span2">
-        <option>ssl_htdocs</option>
-        <option>contents</option>
-      </select>
-      <input type="text" value="" name="path" disabled>
-      <button class="btn" type="button"><i class="icon-th-list"></i> List</button>
-      <button class="btn" type="button"><i class="icon-folder-open"></i> Folder</button>
-      <input type="submit" value="download" class="btn btn-primary">
-    <% end %>
-  
-    <% if dir = get_dir_structure %>
-    <ul class="files unstyled clearfix">
-      <% dir.each do |name, info| %>
-        <%= raw break_dir(name, info) %>
-      <% end %>
-    </ul>
+
+    <form method="post" class="form-inline">
+      <%= link_to raw('<i class="icon-th-list"></i> List'), project_path(@project, view: 'list') , class: 'btn list' %>
+      <%= link_to raw('<i class="icon-folder-open"></i> Folder'), project_path(@project, view: 'folder') , class: 'btn' %>
+      <input type="submit" value="Download" class="btn btn-primary" name="download">
+      Dwonload URL:<span class="download_path">http://<%= @project.upload_server %>.benesse.ne.jp/<input type="text" value="<%= params[:path] %>" name="path" class="span6" disabled></span>
+    </form>
+
+    <% if params[:view].blank? or params[:view] != 'list' %>
+      <ul class="files unstyled clearfix">
+        <% dir = get_dir_structure() %>
+        <% if dir.blank? %>
+          <li class="text-error">指定されたディレクトリにファイルがアップロードされていません。</li>
+        <% else %>
+          <% dir.each do |name, info| %>
+            <%= raw folder(name, info) %>
+          <% end %>
+        <% end %>
+
+        <li class="well">
+          <form method="get" class="form-horizontal">
+            <div class="control-group">
+              <label class="control-label">環境</label>
+              <div class="controls">
+                <select name="env" class="span2">
+                  <% ['test','production'].each do |e| %>
+                    <option value="<%= e %>"><%= t 'view.env.' + e %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">ディレクトリ</label>
+              <div class="controls">
+                <select name="root_dir" class="span2">
+                  <% Benesse::Application.config.root_dir.each do |d| %>
+                    <option><%= d %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">枝番</label>
+              <div class="controls">
+                <select name="branch_code" class="span1">
+                  <% @project.branches.each do |b| %>
+                    <option <%= params[:branch_code].present? ? (params[:branch_code] == b.code ? 'selected' : '') : (@project.branches.last.code == b.code ? 'selected' : '') %>><%= b.code %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <input type="submit" value="Change" class="btn btn-primary">
+              </div>
+            </div>
+          </form>
+        </li>
+      </ul>
     <% else %>
-    <p>
-      <strong class="text-error">現在アップロードされているファイルはありません。</strong>
-    </p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>パス</th>
+            <th>ファイル名</th>
+            <th>種類</th>
+            <th>サイズ</th>
+            <th class="span3">更新日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if list_path %>
+              <% dir = get_dir_structure(list_path, 3) %>
+              <% pp '===============================' %>
+              <% pp dir %>
+            <% dir.each do |name, info| %>
+              <tr>
+                <td><%= info['_path_'] %></td>
+                <td><%= name %></td>
+                <td><%= info['_type_'].upcase %></td>
+                <td><%= info['_size_'] %></td>
+                <td><%= info['_updated_at_'] %></td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr><td><span class="text-error">ファイルが選択されていません。フォルダーに戻ってファイルを選択してください。</td><td></td><td></td><td></td><td></td></tr>
+          <% end %>
+        </tbody>
+      </table>
     <% end %>
   </div>
 </div>

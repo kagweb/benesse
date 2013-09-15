@@ -3,8 +3,21 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .file_viewer {
-  form input[type="text"][name="path"] {
-    background: #fff;
+  form {
+    input[type="text"][name="path"] {
+      background: #fff;
+      border: none;
+      box-shadow: none;
+      padding: 0 0 2px;
+      color: #000;
+      font-weight: bold;
+      cursor: default;
+    }
+
+    .download_path {
+      padding: 10px;
+      font-weight: bold;
+    }
   }
 
   ul.files {
@@ -13,20 +26,45 @@
     padding: 10px 30px;
 
     ul {
-      margin-left: 30px;
+      margin-left: 10px;
+      display: none;
     }
 
     li {
-      padding: 3px 10px;
-      width: 100%;
+      padding: 3px 0 3px 10px ;
 
       a {
         color: #555;
       }
 
+      &.file {
+        margin-left: 15px;
+
+        &:hover {
+          background: #eef;
+        }
+      }
+
       &.selected {
-        background: #ddd;
+        background: #ddd !important;
         border-radius: 3px;
+      }
+
+    }
+
+    .well {
+      padding-top: 30px;
+      margin-top: 30px;
+    }
+
+    .folder-control {
+      font-size: 80%;
+      padding: 2px;
+      color: #888;
+      cursor: pointer;
+
+      &:hover {
+        color: #aaa;
       }
     }
   }

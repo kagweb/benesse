@@ -8,15 +8,18 @@ ja:
         working: 仕掛中
         compleated: 完了
         preparing: ''
+      progress: 進捗
       html: HTML稿
       test: テスト環境
       production: 本番環境
       transition: 年度以降対象
       server_update: 43, 44, 45 サーバ更新
+      exists_test_server: テスト環境有り
       mail_send: リマインドメール送信
       update_project: 更新
       update_authors: 付替え
       update_branch: 枝番更新
+      authenticate: 承認
       add_party: 関係者を追加
       delete_party: 削除
       authors: 付け替え
@@ -33,6 +36,10 @@ ja:
         production: 本登録
       required: 必須
       comment: コメント
+    env:
+      test: テスト環境
+      production: 本番環境
     confirm:
       update_branch: 枝番を上げてもよろしいですか？
       delete: 削除してもよろしいですか？
+      confirm_project: "この案件を承認してもよろしいですか？\n承認は取り消すことができません。"
