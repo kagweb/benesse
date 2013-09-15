@@ -8,7 +8,10 @@ class Project < ActiveRecord::Base
   belongs_to :promoter, class_name: 'User'
   belongs_to :operator, class_name: 'User'
 
-  attr_accessible :code, :confirmed, :name, :production_upload_at, :exists_test_server, :status, :test_upload_at, :upload_server, :registration_status, :year_migrate, :server_update, :memo, :register_datetime
+  attr_accessible :code, :confirmed, :name, :production_upload_at,
+                  :exists_test_server, :status, :test_upload_at,
+                  :upload_server, :registration_status, :year_migrate,
+                  :server_update, :memo, :register_datetime, :miss
 
   after_create :create_branch
 
