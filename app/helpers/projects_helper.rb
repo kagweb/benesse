@@ -1,19 +1,19 @@
 module ProjectsHelper
 
-  def now_status ( place )
+  def now_status ( project, place )
     case place
     when 'html'
-      return @project.status == 0 ? 'working' : 'compleated'
+      return project.status == 0 ? 'working' : 'compleated'
     when 'test'
-      if @project.status == 1
+      if project.status == 1
         return 'working'
-      elsif @project.status >= 2
+      elsif project.status >= 2
         return 'compleated'
       end
     when 'production' 
-      if @project.status == 2
+      if project.status == 2
         return 'working'
-      elsif @project.status == 3
+      elsif project.status == 3
         return 'compleated'
       end
     end
@@ -123,5 +123,17 @@ module ProjectsHelper
     path = path.join(params[:branch_code].presence || project.branches.last.code)
 
     return path.exist? ? path : false
+  end
+
+  def status_slug(code)
+    return code if ['html', 'test', 'production'].include? code
+    status = { 0 => 'html', 1 => 'test', 2 => 'production' }
+    return status[code.to_i]
+  end
+
+  def status_code(slug)
+    return slug if [0..2].include? slug
+    status = { 'html' => 0, 'test' => 1, 'production' => 2 }
+    return status[slug]
   end
 end

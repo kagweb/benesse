@@ -11,7 +11,8 @@
   <%= f.input :operator, collection: User.all, label_method: :name, value_method: :id, include_blank: false, selected: @project.operator.id %>
   <%= f.input :upload_server, { as: :select, collection: Benesse::Application.config.servers, include_blank: false } %>
   <%= f.input :test_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
-  <%= f.input :production_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
+  <%= f.input :production_upload_at, { input_html: { class: 'input-small' }, datetime_separator: raw('<span class="separator">- </span>'), time_separator: raw('<span class="separator">: </span>') } %>
+  <%= f.input :register_datetime, { inline_label: '本番環境移送日の日と時間を未定にする', checked: @project.register_datetime.present? } %>
   <%= f.input :memo %>
   <%= f.button :wrapped, class: 'btn btn-primary' %>
 

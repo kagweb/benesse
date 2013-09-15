@@ -29,3 +29,16 @@ $ ->
       $(this).addClass 'folder-open'
       $(this).html "&#9660;"
       $(this).parent('li').children('ul').slideDown 200
+    return
+
+  $('#project_register_datetime').on 'change', ->
+    if $(this).is ':checked'
+      $('#project_production_upload_at_3i, #project_production_upload_at_4i, #project_production_upload_at_5i, .separator').hide()
+    else
+      $('#project_production_upload_at_3i, #project_production_upload_at_4i, #project_production_upload_at_5i, .separator').show()
+    return
+
+  if $('#project_register_datetime').size() > 0 and $('#project_register_datetime').is ':checked'
+    $('#project_production_upload_at_3i, #project_production_upload_at_4i, #project_production_upload_at_5i, .separator').hide()
+
+

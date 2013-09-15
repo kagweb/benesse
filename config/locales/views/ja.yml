@@ -8,6 +8,7 @@ ja:
         working: 仕掛中
         compleated: 完了
         preparing: ''
+      progress: 進捗
       html: HTML稿
       test: テスト環境
       production: 本番環境

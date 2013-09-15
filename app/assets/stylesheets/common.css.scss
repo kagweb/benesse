@@ -31,3 +31,12 @@ h3 {
   background: none;
   border: none;
 }
+
+.table td {
+  vertical-align: middle;
+}
+
+select:disabled {
+  background: #ccc;
+  color: #aaa;
+}
