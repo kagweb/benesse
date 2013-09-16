@@ -65,7 +65,7 @@
       </td>
       <td class="center">
         <%= t 'view.project.' + status_slug(project.status) %><br>
-        <%= t 'view.project.status.'  + (now_status project, 'html') %>
+        <%= t 'view.project.status.'  + (now_status project, status_slug(project.status)) %>
       </td>
       <td class="center"><%= project.promoter.name %></td>
       <td class="center"><%= l(project.test_upload_at, format: :date) %></td>

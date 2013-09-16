@@ -7,9 +7,10 @@ ja:
       status:
         working: 仕掛中
         compleated: 完了
-        preparing: ''
+        preparing: 未承認
+        blank: ''
       progress: 進捗
-      html: HTML稿
+      html: AWS納品
       test: テスト環境
       production: 本番環境
       transition: 年度以降対象

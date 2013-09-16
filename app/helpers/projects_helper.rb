@@ -3,22 +3,20 @@ module ProjectsHelper
   def now_status ( project, place )
     case place
     when 'html'
-      return project.status == 0 ? 'working' : 'compleated'
+      return 'preparing'  if project.status == 0
+      return 'working'    if project.status == 1
+      return 'compleated' if project.status >= 2
     when 'test'
-      if project.status == 1
-        return 'working'
-      elsif project.status >= 2
-        return 'compleated'
-      end
+      return 'preparing'  if project.status == 2
+      return 'working'    if project.status == 3
+      return 'compleated' if project.status >= 4
     when 'production' 
-      if project.status == 2
-        return 'working'
-      elsif project.status == 3
-        return 'compleated'
-      end
+      return 'preparing'  if project.status == 4
+      return 'working'    if project.status == 5
+      return 'compleated' if project.status >= 6
     end
 
-    return 'preparing'
+    return 'blank'
   end
 
   def disabled ( place )
@@ -26,9 +24,9 @@ module ProjectsHelper
     when 'html'
       return ''
     when 'test'
-      return 'disabled' if @project.status < 1
-    when 'production'
       return 'disabled' if @project.status < 2
+    when 'production'
+      return 'disabled' if @project.status < 4
     end
 
     return ''
@@ -108,6 +106,18 @@ module ProjectsHelper
     return dir
   end
 
+  def status_slug(code)
+    return code if ['html', 'test', 'production'].include? code
+    status = { 0 => 'html', 1 => 'html', 2 => 'test', 3 => 'test', 4 => 'production', 5 => 'production', 6 => 'closed' }
+    return status[code.to_i]
+  end
+
+  def status_code(slug)
+    return slug if [0..2].include? slug
+    status = { 'html' => 0, 'test' => 1, 'production' => 2 }
+    return status[slug]
+  end
+
   private
 
   def _create_path
@@ -136,17 +146,5 @@ module ProjectsHelper
     branch_code = branch.presence || project.branches.last.code
     project_code = Rails.env.development? ? 'sample_project' : format("%07d", project.id)
     return project_code + '/' + format("%02d", branch_code.to_i)
-  end
-
-  def status_slug(code)
-    return code if ['html', 'test', 'production'].include? code
-    status = { 0 => 'html', 1 => 'test', 2 => 'production' }
-    return status[code.to_i]
-  end
-
-  def status_code(slug)
-    return slug if [0..2].include? slug
-    status = { 'html' => 0, 'test' => 1, 'production' => 2 }
-    return status[slug]
   end
 end
