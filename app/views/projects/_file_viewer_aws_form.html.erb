@@ -1,8 +1,8 @@
 <form method="post" class="form-inline">
-  <%= link_to raw('<i class="icon-th-list"></i> List'), { controller: 'upload', action: 'aws' } , class: 'btn list' %>
-  <%= link_to raw('<i class="icon-folder-open"></i> Folder'), { controller: 'upload', action: 'aws' } , class: 'btn' %>
-  <%= link_to raw('<i class="icon-download"></i> Download'), { controller: 'upload', action: 'aws' } , class: 'btn' %>
-  <%= link_to raw('<i class="icon-upload"></i> Upload'), { controller: 'upload', action: 'aws' } , class: 'btn' %>
-  <%= link_to raw('<i class="icon-trash"></i> Delete'), { controller: 'upload', action: 'aws' } , class: 'btn' %>
+  <%= link_to raw('<i class="icon-th-list"></i> ' + t('view.file_viewer.buttons.list')), { controller: 'upload', action: 'aws' } , class: 'btn list' %>
+  <%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), { controller: 'upload', action: 'aws' } , class: 'btn' %>
+  <%= link_to raw('<i class="icon-download"></i> ' + t('view.file_viewer.buttons.download')), { controller: 'upload', action: 'aws' } , class: 'btn' %>
+  <%= link_to raw('<i class="icon-upload"></i> ' + t('view.file_viewer.buttons.upload')), { controller: 'upload', action: 'aws' } , class: 'btn' %>
+  <%= link_to raw('<i class="icon-trash"></i> ' + t('view.file_viewer.buttons.delete')), { controller: 'upload', action: 'aws' } , class: 'btn' %>
   <p class="well well-small">URL: <a href="#">http://<span class="domain"></span>benesse.ne.jp/<span class="download_path"></span></a></p>
 </form>

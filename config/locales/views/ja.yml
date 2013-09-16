@@ -27,6 +27,16 @@ ja:
       check: 案件状況確認画面
       name: 企画名
       miss: ミスあり
+    file_viewer:
+      buttons:
+        list: リスト表示
+        folder: フォルダ表示
+        download: ダウンロード
+        upload: アップロード
+        delete: 削除
+        confirm: 承認
+        cancel: 取消
+        mail: AWS確認依頼メール
     utility:
       undefined: 登録されていません。
       confirmed: 承認
