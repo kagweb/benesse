@@ -24,8 +24,8 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>パス</th>
             <th>ファイル名</th>
+            <th>パス</th>
             <th>種類</th>
             <th>サイズ</th>
             <th class="span3">更新日</th>
@@ -36,8 +36,8 @@
             <% dir = dir_to_a 3 %>
             <% dir.each do |name, info| %>
               <tr>
-                <td><%= info['_path_'] %></td>
                 <td><%= name %></td>
+                <td>http://benesse.ne.jp/<%= info['_basepath_'] + '/' + info['_path_'] %></td>
                 <td><%= info['_type_'].upcase %></td>
                 <td><%= info['_size_'] %></td>
                 <td><%= info['_updated_at_'] %></td>
