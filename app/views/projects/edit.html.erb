@@ -7,7 +7,7 @@
   <%= f.input :name %>
   <%= f.input :year_migrate, inline_label: '年度移行対象', label: false %>
   <% unless @project.miss %>
-    <%= f.input :miss, inline_label: 'ミスあり(枝番が 90 番台になります。登録後は元に戻すことはできません。)', label: false %>
+    <%= f.input :miss, inline_label: 'ミスあり', label: false %>
   <% end %>
   <%= f.input :exists_test_server, { inline_label: 'テスト環境あり', label: false } %>
   <%= f.input :registration_status, { collection: {'仮登録' => 0, '本登録' => 1}, as: :radio_buttons, inline_label: '本登録', checked: @project.registration_status.blank? ? 0 : 1 } %>
