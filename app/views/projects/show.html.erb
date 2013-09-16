@@ -26,6 +26,10 @@
       <% if @project.exists_test_server %>
         <span class="label label-info"><%= t 'view.project.exists_test_server' %></span>
       <% end %>
+
+      <% if @project.miss %>
+        <span class="label label-important"><%= t 'view.project.miss' %></span>
+      <% end %>
     </p>
 
     <p>

@@ -25,6 +25,7 @@ ja:
       authors: 付け替え
       check: 案件状況確認画面
       name: 企画名
+      miss: ミスあり
     utility:
       undefined: 登録されていません。
       confirmed: 承認
