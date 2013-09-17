@@ -85,7 +85,9 @@
     <div class="row">
       <% for i in ['html', 'test', 'production'] %>
       <div class="span2">
-        <%= link_to t('view.project.'  + i), { controller: 'projects', action: 'check', status: i, id: @project.id }, { class: "btn btn-large btn-block #{disabled i}" } %>
+        <%= link_to t('view.project.'  + i),
+          { controller: 'projects', action: 'check', status: i, id: @project.id },
+          { class: "btn btn-large btn-block #{disabled i}", onclick: "if ('disabled' === '#{disabled i}') return false;" } %>
         <p class="text-center"><%= t 'view.project.status.'  + (now_status @project, i) %></p>
       </div>
       <% end %>
