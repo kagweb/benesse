@@ -15,6 +15,7 @@ gem 'active_attr'
 gem 'sorcery'
 gem 'simple_form'
 gem 'ransack'
+gem 'zipruby'
 
 group :development do
   gem 'thin'
