@@ -116,9 +116,11 @@
           <td class="center"><%= response(party.user, 0).upcase %></td>
           <td class="center"><%= response(party.user, 1).upcase %></td>
           <td class="center"><%= response(party.user, 2).upcase %></td>
-          <td class="center"><%= link_to t('view.project.delete_party'), 
-                              { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id},
-                              { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
+          <td class="center">
+            <%= link_to t('view.project.delete_party'),
+              { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id},
+              { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %>
+          </td>
         </tr>
       <% end %>
       </tbody>
@@ -132,7 +134,7 @@
 
     <div class="clearfix">
       <textarea rows="10" class="input-block-level" name="mail_text"></textarea>
-      <input type="submit" class="btn btn-primary pull-right" value="<%= t 'view.project.mail_send' %>">
+      <button class="btn btn-primary pull-right" type="submit"><i class="icon-envelope"></i> <%= t 'view.project.remind_mail' %></button>
     </div>
   <% end %>
 </div>

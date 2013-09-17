@@ -2,7 +2,6 @@
   <%= link_to raw('<i class="icon-th-list"></i> ' + t('view.file_viewer.buttons.list')), project_path(@project, view: 'list') , class: 'btn list' %>
   <%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), project_path(@project, view: 'folder') , class: 'btn' %>
   <%= link_to raw('<i class="icon-download"></i> ' + t('view.file_viewer.buttons.download')), project_path(@project) , class: 'btn' %>
-  <%= link_to raw('<i class="icon-envelope"></i> ' + t('view.file_viewer.buttons.mail')), project_path(@project) , class: 'btn' %>
   <%= link_to raw('<i class="icon-ok"></i> ' + t('view.file_viewer.buttons.confirm')), project_path(@project) , class: 'btn' %>
   <%= link_to raw('<i class="icon-remove"></i> ' + t('view.file_viewer.buttons.cancel')), project_path(@project) , class: 'btn' %>
   <p class="well well-small">URL: <a href="#">http://<%= @project.upload_server %>.benesse.ne.jp/<span class="download_path"></span></a></p>
