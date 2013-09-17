@@ -22,30 +22,33 @@ class UploadController < ApplicationController
 
     file = params['upload']['files']
     filename = Time.now.strftime("%Y%m%d%H%M%S%L") + '_' + file.original_filename
-    path = Rails.root.join 'tmp/upload'
-    FileUtils.mkdir_p path
+    tmp_path = Rails.root.join 'tmp/upload'
+    FileUtils.mkdir_p tmp_path
 
-    fs = File.open path.join(filename), 'w'
-    fs.write file.read.force_encoding("UTF-8")
+    fs = File.open tmp_path.join(filename), 'w'
+    fs.write file.read.force_encoding('UTF-8')
     fs.close
 
-    pp '=============================='
-    Zip::Archive.open(path.join(filename).to_s) do |ar|
-      ar.num_files.times do |i|
-        entry_name = ar.get_name(i)
-        ar.fopen(entry_name) do |f|
-          name = f.name           # name of the file
-          size = f.size           # size of file (uncompressed)
-          comp_size = f.comp_size # size of file (compressed)
+    target_path = Rails.root.join('files/upload_test').join(format "%07d", @project.id).join(format "%02d", @project.branches.last.code.to_i)
+    FileUtils.rm_rf target_path if target_path.exist?
+    FileUtils.mkdir_p target_path
 
-          content = f.read # read entry content
-          pp f.name
+    Zip::Archive.open(tmp_path.join(filename).to_s) do |archive|
+      archive.each do |f|
+        ## __MACOSX の削除
+        next if f.name =~ /^__MACOSX/
+
+        if f.directory?
+          FileUtils.mkdir_p(target_path.join f.name)
+        else
+          # 許可されていない拡張子ファイルの削除
+          next if Benesse::Application.config.accept_extnames.include? File.extname(f.name)
+          dirname = File.dirname(target_path.join f.name)
+          FileUtils.mkdir_p dirname unless File.exist? dirname
+          open(target_path.join(f.name), 'wb') do |t|
+            t << f.read
+          end
         end
-      end
-
-      # Zip::Archive includes Enumerable
-      entry_names = ar.map do |f|
-        f.name
       end
     end
 

@@ -77,5 +77,20 @@ module Benesse
       'ssl_htdocs',
       'htdocs',
     ]
+
+    # アップロードを許可する拡張子
+    config.accept_extnames = [
+      'jpg',
+      'JPG',
+      'jpeg',
+      'JPEG',
+      'png',
+      'PNG',
+      'gif',
+      'GIF',
+      'html',
+      'css',
+      'js',
+    ]
   end
 end
