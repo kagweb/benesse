@@ -75,7 +75,7 @@ module Benesse
     # ダウンロード用ディレクトリ
     config.root_dir = [
       'ssl_htdocs',
-      'contents'
+      'htdocs',
     ]
   end
 end
