@@ -8,6 +8,7 @@ ja:
         working: 仕掛中
         compleated: 完了
         preparing: 未承認
+        no_upload: 未移送
         blank: ''
       progress: 進捗
       html: AWS納品

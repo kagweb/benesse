@@ -4,16 +4,17 @@ module ProjectsHelper
     case place
     when 'html'
       return 'preparing'  if project.status == 0
-      return 'working'    if project.status == 1
-      return 'compleated' if project.status >= 2
+      return 'no_upload'  if project.status == 1
+      return 'working'    if project.status == 2
+      return 'compleated' if project.status >= 3
     when 'test'
-      return 'preparing'  if project.status == 2
-      return 'working'    if project.status == 3
-      return 'compleated' if project.status >= 4
+      return 'no_upload'  if project.status == 3
+      return 'working'    if project.status == 4
+      return 'compleated' if project.status >= 5
     when 'production' 
-      return 'preparing'  if project.status == 4
-      return 'working'    if project.status == 5
-      return 'compleated' if project.status >= 6
+      return 'no_upload'  if project.status == 5
+      return 'working'    if project.status == 6
+      return 'compleated' if project.status >= 7
     end
 
     return 'blank'
@@ -22,14 +23,26 @@ module ProjectsHelper
   def disabled ( place )
     case place
     when 'html'
-      return ''
+      return 'disabled' if @project.status == 0
     when 'test'
-      return 'disabled' if @project.status < 2
+      return 'disabled' if @project.status <= 3
     when 'production'
-      return 'disabled' if @project.status < 4
+      return 'disabled' if @project.status <= 5
     end
 
     return ''
+  end
+
+  def status_slug(code)
+    return code if ['html', 'test', 'production'].include? code
+    status = { 0 => 'html', 1 => 'html', 2 => 'html', 3 => 'test', 4 => 'test', 5 => 'production', 6 => 'production', 7 => 'closed' }
+    return status[code.to_i]
+  end
+
+  def status_code(slug)
+    return slug if [0..2].include? slug
+    status = { 'html' => 0, 'test' => 1, 'production' => 2 }
+    return status[slug]
   end
 
   def response ( user, status = @status )
@@ -104,18 +117,6 @@ module ProjectsHelper
     end
 
     return dir
-  end
-
-  def status_slug(code)
-    return code if ['html', 'test', 'production'].include? code
-    status = { 0 => 'html', 1 => 'html', 2 => 'test', 3 => 'test', 4 => 'production', 5 => 'production', 6 => 'closed' }
-    return status[code.to_i]
-  end
-
-  def status_code(slug)
-    return slug if [0..2].include? slug
-    status = { 'html' => 0, 'test' => 1, 'production' => 2 }
-    return status[slug]
   end
 
   private
