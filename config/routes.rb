@@ -17,14 +17,14 @@ Benesse::Application.routes.draw do
     resources :parties
     resources :branches
     resources :confirmations
-    resources :upload, only: [:index, :aws], controller: 'upload'
+    resources :upload, only: [:index, :create]
   end
   resources :departments
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+  get 'upload/aws' => 'upload#aws'
   match 'login' => 'sessions#new', as: :login
   match 'logout' => 'sessions#destroy', as: :logout
-  match 'upload/aws' => 'upload#aws'
 
   match 'projects/:id/check/:status' => 'projects#check', via: :get
   match 'projects/:id/check/:status' => 'projects#check_confirmation', via: :put
