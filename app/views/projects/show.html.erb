@@ -82,6 +82,9 @@
   </div>
 
   <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>
+    <% if @project.status == 0 %>
+      <div class="alert alert-warning"><%= t 'view.alert.no_confirm' %></div>
+    <% end %>
     <div class="row">
       <% for i in ['html', 'test', 'production'] %>
       <div class="span2">

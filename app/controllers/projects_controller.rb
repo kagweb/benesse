@@ -132,6 +132,7 @@ class ProjectsController < ApplicationController
     end
 
     project.confirmed = true
+    project.status = 1
     project.save
     redirect_to project, notice: 'Confirm this project.'
   end
