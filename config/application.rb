@@ -102,17 +102,14 @@ module Benesse
       config.accept_extnames << e.upcase
     end
 
-    # アップロードディレクトリのルートパス
-    config.upload_root_path = Rails.root.join 'files'
-
-    # アップロード・ダウンロードに利用する、tmp ディレクトリのパス
-    config.upload_tmp_path = Rails.root.join 'tmp/upload'
-
-    # 業者がアップロードする各案件用のアップロードディレクトリ
+    # アップロードディレクトリ関連で利用するパス
+    config.upload_tmp_path      = Rails.root.join 'tmp/upload'
+    config.upload_root_path     = Rails.root.join 'files'
+    config.upload_aws_path      = config.upload_root_path.join 'aws'
+    config.upload_projects_path = config.upload_root_path.join 'projects'
     config.upload_dir = {
-      'production' => config.upload_root_path.join('projects/production'),
-      'test'       => config.upload_root_path.join('projects/test'),
+      'production' => config.upload_projects_path.join('production'),
+      'test'       => config.upload_projects_path.join('test'),
     }
-
   end
 end

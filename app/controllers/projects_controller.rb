@@ -199,7 +199,7 @@ class ProjectsController < ApplicationController
     tmp_filename  = resolved_path.pop + '_' + Time.now.strftime("%Y%m%d%H%M%S%L") + '.zip'
     reduce_path   = resolved_path.join('/')
 
-    Zip::Archive.open(Benesse::Application.config.upload_tmp_path.join(tmp_filename).to_s, Zip::CREATE) do |archive|
+    Zip::Archive.open Benesse::Application.config.upload_tmp_path.join(tmp_filename).to_s, Zip::CREATE do |archive|
       Dir.glob(path.join('**/*').to_s).each do |path|
         filename = path.to_s.gsub(reduce_path, '').gsub(/^\//, '')
         File.directory?(path) ? archive.add_dir(filename) : archive.add_file(filename, path)

@@ -21,7 +21,7 @@ class UploadController < ApplicationController
 
     # /tmp/upload に POST された zip ファイルを一時的に保存
     filename = Time.now.strftime("%Y%m%d%H%M%S%L") + '_' + params['upload']['files'].original_filename
-    tmp_path = Rails.root.join 'tmp/upload'
+    tmp_path = Benesse::Application.config.upload_tmp_path
     FileUtils.mkdir_p tmp_path
     fs = File.open tmp_path.join(filename), 'w'
     fs.write params['upload']['files'].read.force_encoding('UTF-8')
@@ -35,7 +35,7 @@ class UploadController < ApplicationController
     FileUtils.mkdir_p target_path
 
     # zip を作成
-    Zip::Archive.open(tmp_path.join(filename).to_s) do |archive|
+    Zip::Archive.open tmp_path.join(filename).to_s do |archive|
       archive.each do |f|
         ## __MACOSX の削除
         next if f.name =~ /^__MACOSX/

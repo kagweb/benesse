@@ -125,12 +125,12 @@ module ProjectsHelper
   private
 
   def _create_path
-    return Rails.root.join('files/aws') if params[:id].blank?
+    return Benesse::Application.config.upload_aws_path if params[:id].blank?
 
     project = Project.find params[:id]
     env = _sanitize_env params[:env]
     project_code = _sanitize_project_code project, params[:branch_code]
-    path = Rails.root.join('files/projects').join(env).join(project_code)
+    path = Benesse::Application.config.upload_projects_path.join(env).join(project_code)
     return path.exist? ? path : false
   end
 
