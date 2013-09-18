@@ -8,4 +8,5 @@ $ ->
     msg['download'] = false
     msg['upload']   = false
     msg['delete']   = "変更は取り消すことができません。\n削除してもよろしいですか？"
-    return confirm msg[$(this).attr('data-alert')] if msg[$(this).attr('data-alert')]
+    return Boolean alert('ファイルが選択されていません') unless $('input[type="hidden"][name="path"]').val()
+    return confirm msg[$(this).attr('data-action')] if msg[$(this).attr('data-action')]

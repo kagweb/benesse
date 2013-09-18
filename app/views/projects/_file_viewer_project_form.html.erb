@@ -1,9 +1,9 @@
-<form method="post" class="form-inline" target="_blank">
+<%= form_tag download_project_path, method: 'post', class: 'form-inline', target: '_blank' do %>
   <input type="hidden" value="" name="path">
   <%= link_to raw('<i class="icon-th-list"></i> ' + t('view.file_viewer.buttons.list')), project_path(@project, view: 'list') , class: 'btn list' %>
   <%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), project_path(@project, view: 'folder') , class: 'btn' %>
-  <button type="submit" class="btn"><i class="icon-download"></i> <%= t 'view.file_viewer.buttons.download' %></button>
+  <button type="submit" class="btn file_action" data-action="download"><i class="icon-download"></i> <%= t 'view.file_viewer.buttons.download' %></button>
   <%= link_to raw('<i class="icon-ok"></i> ' + t('view.file_viewer.buttons.confirm')), project_path(@project) , class: 'btn' %>
   <%= link_to raw('<i class="icon-remove"></i> ' + t('view.file_viewer.buttons.cancel')), project_path(@project) , class: 'btn' %>
   <p class="well well-small">URL: <a href="#">http://<%= @project.upload_server %>.benesse.ne.jp/<span class="download_path"></span></a></p>
-</form>
+<% end %>

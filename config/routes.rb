@@ -12,6 +12,7 @@ Benesse::Application.routes.draw do
       get :confirm
       post :remind_mail
       post :comment
+      post :download
     end
 
     resources :parties

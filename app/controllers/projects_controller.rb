@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ProjectsController < ApplicationController
   before_filter :require_login, except: :index
 
@@ -143,6 +144,26 @@ class ProjectsController < ApplicationController
     redirect_to project
   end
 
+  def download
+    path = Rails.root.join params[:path]
+
+    if FileTest.file? path
+      send_file path
+      return false
+    end
+
+    if FileTest.directory? path
+      zip = _create_zip path
+      File.file? zip.to_s ? send_file(zip.to_s) : redirect_to(projects_path, notice: '')
+      return false
+    end
+
+    notice = 'エラーが発生しました。'
+    notice = 'ファイルが存在しません。' unless FileTest.exist? path
+    redirect_to projects_path, notice: notice
+    return false
+  end
+
   private
 
   def _status_slug(code)
@@ -171,5 +192,20 @@ class ProjectsController < ApplicationController
     end
 
     return updated
+  end
+
+  def _create_zip(path)
+    resolved_path = path.to_s.split /\//
+    tmp_filename  = resolved_path.pop + '_' + Time.now.strftime("%Y%m%d%H%M%S%L") + '.zip'
+    reduce_path   = resolved_path.join('/')
+
+    Zip::Archive.open(Benesse::Application.config.upload_tmp_path.join(tmp_filename).to_s, Zip::CREATE) do |archive|
+      Dir.glob(path.join('**/*').to_s).each do |path|
+        filename = path.to_s.gsub(reduce_path, '').gsub(/^\//, '')
+        File.directory?(path) ? archive.add_dir(filename) : archive.add_file(filename, path)
+      end
+    end
+
+    return Benesse::Application.config.upload_tmp_path.join tmp_filename
   end
 end
