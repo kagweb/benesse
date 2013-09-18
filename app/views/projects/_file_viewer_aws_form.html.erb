@@ -1,8 +1,11 @@
-<form method="post" class="form-inline">
-  <%= link_to raw('<i class="icon-th-list"></i> ' + t('view.file_viewer.buttons.list')), { controller: 'upload', action: 'aws', view: 'list' } , class: 'btn list' %>
-  <%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), { controller: 'upload', action: 'aws' } , class: 'btn' %>
-  <%= link_to raw('<i class="icon-download"></i> ' + t('view.file_viewer.buttons.download')), { controller: 'upload', action: 'aws' } , class: 'btn' %>
-  <%= link_to raw('<i class="icon-upload"></i> ' + t('view.file_viewer.buttons.upload')), { controller: 'upload', action: 'aws' } , class: 'btn' %>
-  <%= link_to raw('<i class="icon-trash"></i> ' + t('view.file_viewer.buttons.delete')), { controller: 'upload', action: 'aws' } , class: 'btn' %>
+<form method="post" class="form-inline" target="_blank">
   <p class="well well-small">URL: <a href="#">http://<span class="domain"></span>benesse.ne.jp/<span class="download_path"></span></a></p>
+  <input type="hidden" value="" name="path">
+  <input type="file" name="upload_path"><br>
+  <button type="submit" class="btn file_action" date-alert="download"><i class="icon-download"></i> <%= t 'view.file_viewer.buttons.download' %></button>
+  <button type="submit" class="btn file_action" data-alert="upload"><i class="icon-upload"></i> <%= t 'view.file_viewer.buttons.upload' %></button>
+  <button type="submit" class="btn file_action" data-alert="delete"><i class="icon-trach"></i> <%= t 'view.file_viewer.buttons.delete' %></button>
 </form>
+
+<%= link_to raw('<i class="icon-th-list"></i> ' + t('view.file_viewer.buttons.list')), { controller: 'upload', action: 'aws', view: 'list' } , class: 'btn list' %>
+<%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), { controller: 'upload', action: 'aws' } , class: 'btn' %>
