@@ -1,3 +1,5 @@
 class Branch < ActiveRecord::Base
-  attr_accessible :code, :project_id
+  belongs_to :project
+
+  attr_accessible :code
 end

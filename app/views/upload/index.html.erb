@@ -1,0 +1,33 @@
+<h1><%= @project.name %> <small><%= project_number @project %></small></h1>
+
+<p>
+  <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
+  <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %>
+</p>
+
+<p>
+  <b><%= t 'activerecord.attributes.project.promoter' %>:</b>
+  <%= @project.promoter ? @project.promoter.name : t('view.utility.undefined') %>
+</p>
+
+<p>
+  <b><%= t 'activerecord.attributes.project.operator' %>:</b>
+  <%= @project.operator ? @project.operator.name : t('view.utility.undefined') %>
+</p>
+
+<%= form_tag "/projects/#{@project.id}/upload", class: 'form-horizontal well', multipart: true do %>
+
+  <div class="control-group">
+    <%= label :upload, :files, '圧縮ファイル添付', class: 'control-label'  %>
+    <div class="controls">
+      <%= file_field :upload, :files %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <div class="controls">
+      <input type="submit" class="btn btn-primary" value="upload">
+    </div>
+  </div>
+
+<% end %>

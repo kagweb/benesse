@@ -1,3 +1,60 @@
 // Place all the styles related to the projects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+ul.comments {
+  li {
+    margin-bottom: 10px;
+  }
+}
+
+.file_viewer {
+  ul.files {
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    padding: 10px 30px;
+
+    ul {
+      margin-left: 10px;
+      display: none;
+    }
+
+    li {
+      padding: 3px 0 3px 10px ;
+
+      a {
+        color: #555;
+      }
+
+      &.file {
+        margin-left: 15px;
+
+        &:hover {
+          background: #eef;
+        }
+      }
+
+      &.selected {
+        background: #ddd !important;
+        border-radius: 3px;
+      }
+
+    }
+
+    .well {
+      padding-top: 30px;
+      margin-top: 30px;
+    }
+
+    .folder-control {
+      font-size: 80%;
+      padding: 2px;
+      color: #888;
+      cursor: pointer;
+
+      &:hover {
+        color: #aaa;
+      }
+    }
+  }
+}

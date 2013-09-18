@@ -1,0 +1,12 @@
+<%= form_tag sessions_path, class: 'login_form', method: :post do %>
+<h2 class="heading">ログイン</h2>
+<div class="field">
+  <%= text_field_tag :username, params[:username], class: 'input-block-level email', placeholder: 'ユーザーID' %>
+</div>
+<div class="field">
+  <%= password_field_tag :password, params[:password], class: 'input-block-level', placeholder: 'パスワード'  %>
+</div>
+<div class="actions">
+  <%= submit_tag 'ログイン' , class: 'btn btn-large btn-primary' %>
+</div>
+<% end %>
