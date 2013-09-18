@@ -101,5 +101,11 @@ module Benesse
       config.accept_extnames << e
       config.accept_extnames << e.upcase
     end
+
+    # 業者がアップロードする各案件用のアップロードディレクトリ
+    config.upload_dir = {
+      'production' => Rails.root.join('files/projects/production'),
+      'test'       => Rails.root.join('files/projects/test'),
+    }
   end
 end
