@@ -75,7 +75,37 @@ module Benesse
     # ダウンロード用ディレクトリ
     config.root_dir = [
       'ssl_htdocs',
-      'contents'
+      'htdocs',
     ]
+
+    # アップロードを許可する拡張子
+    accept_extnames = [
+      'css',
+      'htm',
+      'html',
+      'jpg',
+      'jpeg',
+      'js',
+      'mht',
+      'pdf',
+      'png',
+      'ppt',
+      'pptx',
+      'txt',
+      'xls',
+      'xlsx',
+      'xml',
+    ]
+    config.accept_extnames = []
+    accept_extnames.each do |e|
+      config.accept_extnames << e
+      config.accept_extnames << e.upcase
+    end
+
+    # 業者がアップロードする各案件用のアップロードディレクトリ
+    config.upload_dir = {
+      'production' => Rails.root.join('files/projects/production'),
+      'test'       => Rails.root.join('files/projects/test'),
+    }
   end
 end

@@ -49,6 +49,7 @@ class ProjectsController < ApplicationController
     @project = Project.find params[:id]
     @project.attributes = params[:project]
     @project.operator = operator
+    @project.branches.where(code: '90').first_or_create if @project.miss
 
     if @project.save
       redirect_to @project, notice: 'Project was successfully updated.'

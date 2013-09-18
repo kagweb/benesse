@@ -7,15 +7,18 @@ ja:
       status:
         working: 仕掛中
         compleated: 完了
-        preparing: ''
+        preparing: 未承認
+        no_upload: 未移送
+        blank: ''
       progress: 進捗
-      html: HTML稿
+      html: AWS納品
       test: テスト環境
       production: 本番環境
       transition: 年度以降対象
       server_update: 43, 44, 45 サーバ更新
       exists_test_server: テスト環境有り
-      mail_send: リマインドメール送信
+      remind_mail: リマインドメール送信
+      aws_mail: AWS確認依頼メール
       update_project: 更新
       update_authors: 付替え
       update_branch: 枝番更新
@@ -25,6 +28,17 @@ ja:
       authors: 付け替え
       check: 案件状況確認画面
       name: 企画名
+      miss: ミスあり
+    file_viewer:
+      buttons:
+        list: リスト表示
+        folder: フォルダ表示
+        download: ダウンロード
+        upload: アップロード
+        delete: 削除
+        confirm: 承認
+        cancel: 取消
+        mail: AWS確認依頼メール
     utility:
       undefined: 登録されていません。
       confirmed: 承認

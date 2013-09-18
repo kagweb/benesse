@@ -15,7 +15,7 @@
   <%= @project.operator ? @project.operator.name : t('view.utility.undefined') %>
 </p>
 
-<%= form_tag '/upload', { class: 'form-horizontal well' } do %>
+<%= form_tag "/projects/#{@project.id}/upload", class: 'form-horizontal well', multipart: true do %>
 
   <div class="control-group">
     <%= label :upload, :files, '圧縮ファイル添付', class: 'control-label'  %>

@@ -1,6 +1,6 @@
 <h1>関係者の追加</h1>
 
-<%= simple_form_for @party, url: { action: 'index' } do |f| %>
+<%= simple_form_for [@party.project, @party] do |f| %>
   <%= f.error_notification %>
   <%= f.input :project_id, as: 'hidden'%>
   <%= f.input :required, label: false, inline_label: '必須'%>

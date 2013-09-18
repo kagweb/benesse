@@ -2,24 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.file_viewer {
-  form {
-    input[type="text"][name="path"] {
-      background: #fff;
-      border: none;
-      box-shadow: none;
-      padding: 0 0 2px;
-      color: #000;
-      font-weight: bold;
-      cursor: default;
-    }
-
-    .download_path {
-      padding: 10px;
-      font-weight: bold;
-    }
+ul.comments {
+  li {
+    margin-bottom: 10px;
   }
+}
 
+.file_viewer {
   ul.files {
     border: 1px solid #ccc;
     margin-top: 10px;

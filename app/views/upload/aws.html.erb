@@ -1,25 +1,3 @@
 <h1>AWSアップロード</h1>
 
-<%= form_tag '/upload/aws', { class: 'form-horizontal well' } do %>
-
-  <div class="control-group">
-    <%= label :upload, :server, '移送先サーバ', class: 'control-label'  %>
-    <div class="controls">
-      <%= select :upload, :server, [ 'kzemi.com' ] %>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <%= label :upload, :files, '圧縮ファイル添付', class: 'control-label'  %>
-    <div class="controls">
-      <%= file_field :upload, :files %>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <div class="controls">
-      <input type="submit" class="btn btn-primary" value="upload">
-    </div>
-  </div>
-
-<% end %>
+<%= render 'projects/file_viewer', for_project: false %>

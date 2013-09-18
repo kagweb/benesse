@@ -26,6 +26,10 @@
       <% if @project.exists_test_server %>
         <span class="label label-info"><%= t 'view.project.exists_test_server' %></span>
       <% end %>
+
+      <% if @project.miss %>
+        <span class="label label-important"><%= t 'view.project.miss' %></span>
+      <% end %>
     </p>
 
     <p>
@@ -81,7 +85,9 @@
     <div class="row">
       <% for i in ['html', 'test', 'production'] %>
       <div class="span2">
-        <%= link_to t('view.project.'  + i), { controller: 'projects', action: 'check', status: i, id: @project.id }, { class: "btn btn-large btn-block #{disabled i}" } %>
+        <%= link_to t('view.project.'  + i),
+          { controller: 'projects', action: 'check', status: i, id: @project.id },
+          { class: "btn btn-large btn-block #{disabled i}", onclick: "if ('disabled' === '#{disabled i}') return false;" } %>
         <p class="text-center"><%= t 'view.project.status.'  + (now_status @project, i) %></p>
       </div>
       <% end %>
@@ -112,9 +118,11 @@
           <td class="center"><%= response(party.user, 0).upcase %></td>
           <td class="center"><%= response(party.user, 1).upcase %></td>
           <td class="center"><%= response(party.user, 2).upcase %></td>
-          <td class="center"><%= link_to t('view.project.delete_party'), 
-                              { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id},
-                              { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %></td>
+          <td class="center">
+            <%= link_to t('view.project.delete_party'),
+              { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id},
+              { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %>
+          </td>
         </tr>
       <% end %>
       </tbody>
@@ -128,11 +136,11 @@
 
     <div class="clearfix">
       <textarea rows="10" class="input-block-level" name="mail_text"></textarea>
-      <input type="submit" class="btn btn-primary pull-right" value="<%= t 'view.project.mail_send' %>">
+      <button class="btn btn-primary pull-right" type="submit"><i class="icon-envelope"></i> <%= t 'view.project.remind_mail' %></button>
     </div>
   <% end %>
 </div>
 
-<%= render 'file_viewer' %>
+<%= render 'projects/file_viewer', for_project: true %>
 
 <%= link_to 'Back', projects_path %>

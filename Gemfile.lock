@@ -191,6 +191,7 @@ GEM
       raindrops (~> 0.7)
     yajl-ruby (1.1.0)
     yard (0.8.7)
+    zipruby (0.3.6)
 
 PLATFORMS
   ruby
@@ -220,3 +221,4 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   unicorn
   yajl-ruby
+  zipruby
