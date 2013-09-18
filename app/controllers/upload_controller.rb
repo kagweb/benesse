@@ -13,20 +13,17 @@ class UploadController < ApplicationController
   def create
     @project = Project.find params[:project_id]
 
-    if params['upload'].blank? or params['upload']['files'].blank?
-      redirect_to project_upload_index_path @project
+    if params['upload'].blank? or params['upload']['files'].blank? or ! ['zip', 'ZIP'].include? params['upload']['files'].original_filename.split('.').last
+      redirect_to project_upload_index_path @project, notice: 'ZIP 形式のファイルをアップロードしてください。'
       return
     end
 
-    # file が zip形式かチェック
-
-    file = params['upload']['files']
-    filename = Time.now.strftime("%Y%m%d%H%M%S%L") + '_' + file.original_filename
+    filename = Time.now.strftime("%Y%m%d%H%M%S%L") + '_' + params['upload']['files'].original_filename
     tmp_path = Rails.root.join 'tmp/upload'
     FileUtils.mkdir_p tmp_path
 
     fs = File.open tmp_path.join(filename), 'w'
-    fs.write file.read.force_encoding('UTF-8')
+    fs.write params['upload']['files'].read.force_encoding('UTF-8')
     fs.close
 
     target_path = Rails.root.join('files/upload_test').join(format "%07d", @project.id).join(format "%02d", @project.branches.last.code.to_i)
@@ -42,7 +39,7 @@ class UploadController < ApplicationController
           FileUtils.mkdir_p(target_path.join f.name)
         else
           # 許可されていない拡張子ファイルの削除
-          next if Benesse::Application.config.accept_extnames.include? File.extname(f.name)
+          next unless Benesse::Application.config.accept_extnames.include? f.name.split('.').last.split('.').last
           dirname = File.dirname(target_path.join f.name)
           FileUtils.mkdir_p dirname unless File.exist? dirname
           open(target_path.join(f.name), 'wb') do |t|

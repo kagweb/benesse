@@ -79,18 +79,27 @@ module Benesse
     ]
 
     # アップロードを許可する拡張子
-    config.accept_extnames = [
-      'jpg',
-      'JPG',
-      'jpeg',
-      'JPEG',
-      'png',
-      'PNG',
-      'gif',
-      'GIF',
-      'html',
+    accept_extnames = [
       'css',
+      'htm',
+      'html',
+      'jpg',
+      'jpeg',
       'js',
+      'mht',
+      'pdf',
+      'png',
+      'ppt',
+      'pptx',
+      'txt',
+      'xls',
+      'xlsx',
+      'xml',
     ]
+    config.accept_extnames = []
+    accept_extnames.each do |e|
+      config.accept_extnames << e
+      config.accept_extnames << e.upcase
+    end
   end
 end
