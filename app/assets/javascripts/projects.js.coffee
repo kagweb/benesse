@@ -17,7 +17,7 @@ $ ->
     new_params += 'path=' + encodeURIComponent($(this).attr 'href')
     $('a.list').attr 'href',  href[0] + '?' + new_params
     return false
-  
+
   $('.file_viewer ul.files li .folder-control').on 'click', ->
     if $(this).hasClass 'folder-open'
       $(this).removeClass 'folder-open'
