@@ -5,23 +5,13 @@
       <label class="control-label">環境</label>
       <div class="controls">
         <select name="env" class="span2">
-          <% ['test','production'].each do |e| %>
+          <% ['production', 'test'].each do |e| %>
             <option value="<%= e %>"><%= t 'view.env.' + e %></option>
           <% end %>
         </select>
       </div>
     </div>
   <% end %>
-    <div class="control-group">
-      <label class="control-label">ディレクトリ</label>
-      <div class="controls">
-        <select name="root_dir" class="span2">
-          <% Benesse::Application.config.root_dir.each do |d| %>
-            <option><%= d %></option>
-          <% end %>
-        </select>
-      </div>
-    </div>
     <div class="control-group">
       <label class="control-label">枝番</label>
       <div class="controls">
@@ -34,7 +24,7 @@
     </div>
     <div class="control-group">
       <div class="controls">
-        <input type="submit" value="Change" class="btn btn-primary">
+        <input type="submit" value="変更" class="btn btn-primary">
       </div>
     </div>
   </form>

@@ -57,10 +57,10 @@ module ProjectsHelper
     tmp += "<div class=\"pull-right span1\">#{info['_type_'].upcase}</div>"
 
     # ディレクトリでない場合は li 要素を返す
-    return "<li class=\"file\"><a href=\"#{info['_basepath_']}/#{info['_path_']}\"><i class=\"icon-file\"></i> #{name} #{tmp} </a></li>" unless info['_type_'] == 'dir'
+    return "<li class=\"file\"><a href=\"#{info['_basepath_']}/#{info['_path_']}\" data-root=\"#{info['_root_']}\"><i class=\"icon-file\"></i> #{name} #{tmp} </a></li>" unless info['_type_'] == 'dir'
 
     # ディレクトリの場合はディレクトリの中身を再帰的に解析
-    element = "<li><span class=\"folder-control folder-close\">&#9658;</span><a href=\"#{info['_basepath_']}/#{info['_path_']}\"><i class=\"icon-folder-close\"></i> #{name}</a><ul class=\"unstyled\">"
+    element = "<li><span class=\"folder-control folder-close\">&#9658;</span><a href=\"#{info['_basepath_']}/#{info['_path_']}\" data-root=\"#{info['_root_']}\"><i class=\"icon-folder-close\"></i> #{name}</a><ul class=\"unstyled\">"
     info['_files_'].each {|n, i| element += folder n, i }
 
     return element + "</ul></li>"
@@ -94,6 +94,7 @@ module ProjectsHelper
 
         if FileTest.file? f and count == resolved_path.length
           tmp[r] = {
+            '_root_' => resolved_path.first,
             '_path_' => resolved_path.join('/'),
             '_basepath_' => path.to_s.gsub(Rails.root.to_s, '').gsub(/^\//, ''),
             '_type_' => r.split('.').last.upcase,
@@ -103,6 +104,7 @@ module ProjectsHelper
           break
         elsif ! tmp.key? r
           tmp[r] = {
+            '_root_' => resolved_path.first,
             '_path_' => resolved_path.join('/'),
             '_basepath_' => path.to_s.gsub(Rails.root.to_s, '').gsub(/^\//, ''),
             '_type_' => 'dir',

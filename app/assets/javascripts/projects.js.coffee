@@ -7,6 +7,8 @@ $ ->
     $('.selected').removeClass 'selected'
     $(this).parent('li').addClass 'selected'
     $('.download_path').html $(this).attr('href')
+    $('input[type="hidden"][name="path"]').val $(this).attr('href')
+    $('span.domain').html $(this).attr('data-root') + '.' if $('span.domain').size() > 0
 
     # List 表示画面へのリンクのパラメータを書き換え
     href = $('a.list').attr('href').split '?'
@@ -17,7 +19,7 @@ $ ->
     new_params += 'path=' + encodeURIComponent($(this).attr 'href')
     $('a.list').attr 'href',  href[0] + '?' + new_params
     return false
-  
+
   $('.file_viewer ul.files li .folder-control').on 'click', ->
     if $(this).hasClass 'folder-open'
       $(this).removeClass 'folder-open'
@@ -40,5 +42,4 @@ $ ->
 
   if $('#project_register_datetime').size() > 0 and $('#project_register_datetime').is ':checked'
     $('#project_production_upload_at_3i, #project_production_upload_at_4i, #project_production_upload_at_5i, .separator').hide()
-
 
