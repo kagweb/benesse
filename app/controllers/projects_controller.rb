@@ -93,11 +93,7 @@ class ProjectsController < ApplicationController
     @confirmation.user = current_user
 
     if @confirmation.save
-      if _check_status_update @project
-        redirect_to @project, notice: 'Updated confirmations status.'
-      else
-        redirect_to @project, url: { action: :check, status: params[:status] }, notice: "Updated confirmation."
-      end
+      redirect_to @project, notice: 'Updated confirmations status.'
     else
       redirect_to @project, url: { action: :check, status: params[:status] }
     end
@@ -135,6 +131,19 @@ class ProjectsController < ApplicationController
     project.status = 1
     project.save
     redirect_to project, notice: 'Confirm this project.'
+  end
+
+  def confirm_html
+    project = Project.find params[:id]
+
+    unless current_user.id == project.authorizer_id
+      redirect_to project
+      return
+    end
+
+    project.status = 2
+    project.save
+    redirect_to project, notice: 'Confirm this HTML.'
   end
 
   def remind_mail
@@ -177,22 +186,6 @@ class ProjectsController < ApplicationController
     return slug if [0..2].include? slug
     status = { 'html' => 0, 'test' => 1, 'production' => 2 }
     return status[slug]
-  end
-
-  def _check_status_update(project)
-    updated = true
-
-    project.parties.each do |party|
-      next unless party.required
-      updated = false unless 'ok' == party.user.confirmations.where(project_id: project.id, status: project.status).first.try(:response)
-    end
-
-    if updated
-      project.status += 1
-      project.save
-    end
-
-    return updated
   end
 
   def _create_zip(path)

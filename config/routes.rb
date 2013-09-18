@@ -10,6 +10,7 @@ Benesse::Application.routes.draw do
 #       get :check, constraints: { status: /^html|^test|^production/ }
       get :update_branch
       get :confirm
+      get :confirm_html
       post :remind_mail
       post :comment
       post :download
