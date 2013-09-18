@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    models:
+      parties: 関係者
+    attributes:
+      party:
+        name: ユーザ名
+        user: ユーザ
+        required: 必須

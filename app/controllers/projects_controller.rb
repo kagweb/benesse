@@ -1,83 +1,175 @@
 class ProjectsController < ApplicationController
-  # GET /projects
-  # GET /projects.json
+  before_filter :require_login, except: :index
+
   def index
-    @projects = Project.all
+    redirect_to login_url unless current_user
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @projects }
+    @date = params[:date] ? Date.strptime(params[:date]) : Date.new(Time.now.year, Time.now.month, 1)
+
+    if params[:server] and ! params[:server].empty?
+      @projects = Project.where(['production_upload_at >= ? and production_upload_at < ? and upload_server = ?', @date, @date >> 1, params[:server]]).order('production_upload_at')
+    else
+      @projects = Project.where(['production_upload_at >= ? and production_upload_at < ?', @date, @date >> 1]).order('production_upload_at')
     end
   end
 
-  # GET /projects/1
-  # GET /projects/1.json
   def show
-    @project = Project.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @project }
-    end
+    @project = Project.find params[:id]
   end
 
-  # GET /projects/new
-  # GET /projects/new.json
   def new
     @project = Project.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @project }
-    end
   end
 
-  # GET /projects/1/edit
   def edit
-    @project = Project.find(params[:id])
+    @project = Project.find params[:id]
   end
 
-  # POST /projects
-  # POST /projects.json
   def create
-    @project = Project.new(params[:project])
+    users = [ params[:project][:authorizer], params[:project][:promoter], params[:project][:operator] ]
+    ['authorizer', 'promoter', 'operator'].each {|u| params[:project].delete u }
 
-    respond_to do |format|
-      if @project.save
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
-        format.json { render json: @project, status: :created, location: @project }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
-      end
+    @project = Project.new params[:project]
+    User.where(['id IN (?)',users]).each do |user|
+      @project.authorizer = user if user.id == users[0].to_i
+      @project.promoter   = user if user.id == users[1].to_i
+      @project.operator   = user if user.id == users[2].to_i
+    end
+
+    if @project.save
+      redirect_to @project, notice: 'Project was successfully created.'
+    else
+      render :new
     end
   end
 
-  # PUT /projects/1
-  # PUT /projects/1.json
   def update
-    @project = Project.find(params[:id])
+    operator = User.find params[:project][:operator]
+    params[:project].delete 'operator'
+    @project = Project.find params[:id]
+    @project.attributes = params[:project]
+    @project.operator = operator
+    @project.branches.where(code: '90').first_or_create if @project.miss
 
-    respond_to do |format|
-      if @project.update_attributes(params[:project])
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
-      end
+    if @project.save
+      redirect_to @project, notice: 'Project was successfully updated.'
+    else
+      render :edit
     end
   end
 
-  # DELETE /projects/1
-  # DELETE /projects/1.json
   def destroy
-    @project = Project.find(params[:id])
+    @project = Project.find params[:id]
     @project.destroy
+    redirect_to projects_url
+  end
 
-    respond_to do |format|
-      format.html { redirect_to projects_url }
-      format.json { head :no_content }
+  def authors
+    @project = Project.find params[:id]
+  end
+
+  def author_update
+    @project = Project.find params[:id]
+    @project.authorizer = User.find params[:project][:authorizer]
+    @project.promoter   = User.find params[:project][:promoter]
+    @project.save ? redirect_to(@project, notice: 'Updated authors') : render(:authors)
+  end
+
+  def check
+    @project = Project.find params[:id]
+    @status = _status_code params[:status]
+    @comment = Comment.new status: @status
+    @comment.project = @project
+    @comment.user = current_user
+    @comments = @project.comments.where status: @status
+  end
+
+  def check_confirmation
+    @project = Project.find params[:id]
+    @status = _status_code params[:status]
+    Confirmation.delete_all project_id: @project.id, user_id: current_user.id, status: @status 
+    @confirmation = @project.confirmations.new response: params[:confirmation][:response], status: @status
+    @confirmation.user = current_user
+
+    if @confirmation.save
+      if _check_status_update @project
+        redirect_to @project, notice: 'Updated confirmations status.'
+      else
+        redirect_to @project, url: { action: :check, status: params[:status] }, notice: "Updated confirmation."
+      end
+    else
+      redirect_to @project, url: { action: :check, status: params[:status] }
     end
+  end
+
+  def comment
+    @comment = Comment.new status: params[:comment][:status], comment: params[:comment][:comment]
+    @comment.project = Project.find params[:id]
+    @comment.user = current_user
+
+    status = _status_slug params[:comment][:status].to_i
+
+    if @comment.save
+      redirect_to "/projects/#{params[:id]}/check/#{status}", notice: 'Comment was successfully created.'
+    else
+      redirect_to "/projects/#{params[:id]}/check/#{status}"
+    end
+  end
+
+  def update_branch
+    project = Project.find params[:id]
+    project.update_branch
+    redirect_to project
+  end
+
+  def confirm
+    project = Project.find params[:id]
+
+    unless current_user.id == project.authorizer_id
+      redirect_to project
+      return
+    end
+
+    project.confirmed = true
+    project.save
+    redirect_to project, notice: 'Confirm this project.'
+  end
+
+  def remind_mail
+    project = Project.find params[:id]
+    pp params[:to] # TOに付けるユーザの ID 一覧
+    pp params[:cc] # CCに付けるユーザの ID 一覧
+    pp params[:mail_text] # メール本文
+    redirect_to project
+  end
+
+  private
+
+  def _status_slug(code)
+    return code if ['html', 'test', 'production'].include? code
+    status = { 0 => 'html', 1 => 'test', 2 => 'production' }
+    return status[code.to_i]
+  end
+
+  def _status_code(slug)
+    return slug if [0..2].include? slug
+    status = { 'html' => 0, 'test' => 1, 'production' => 2 }
+    return status[slug]
+  end
+
+  def _check_status_update(project)
+    updated = true
+
+    project.parties.each do |party|
+      next unless party.required
+      updated = false unless 'ok' == party.user.confirmations.where(project_id: project.id, status: project.status).first.try(:response)
+    end
+
+    if updated
+      project.status += 1
+      project.save
+    end
+
+    return updated
   end
 end

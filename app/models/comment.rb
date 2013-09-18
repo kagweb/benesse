@@ -1,3 +1,6 @@
 class Comment < ActiveRecord::Base
-  attr_accessible :comment, :project_id, :status, :user_id
+  belongs_to :project
+  belongs_to :user
+
+  attr_accessible :comment, :status
 end

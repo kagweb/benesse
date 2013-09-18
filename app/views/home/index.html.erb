@@ -1,0 +1,50 @@
+<h1>Home</h1>
+
+<ul class="unstyled">
+  <li><%= link_to 'Create User (デジタル推進課のみ表示) ', new_user_path %></li>
+  <li><%= link_to 'Upload to AWS ' , '#' %></li>
+  <li><%= link_to 'Create new project', new_project_path %></li>
+</ul>
+
+<h2>Projects <small>2013/8/1 ~ 2013/8/31</small></h2>
+
+<form class="form-inline">
+  <select class="input-medium">
+    <option>kzemi</option>
+  </select>
+  <select class="input-medium">
+    <option>本番環境</option>
+    <option>テスト環境</option>
+  </select>
+  <button type="submit" class="btn">Search</button>
+</form>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Project name</th>
+      <th>Promoter</th>
+      <th>Test Upload at</th>
+      <th>Production Upload at</th>
+      <th>Comment</th>
+      <th></th>
+    <tr>
+  </thead>
+  <tbody>
+
+  <% @project.each do |project| %>
+    <tr>
+      <td>project.name</td>
+      <td>project.promoter.name</td>
+      <td>project.test_upload_at.presence || '未定'</td>
+      <td>project.production_upload_at.presence || '未定'</td>
+      <td>project.comments.last.presence || ''</td>
+      <td><%= link_to '個票', project %></td>
+    </tr>
+  <% end %>
+
+  </tbody>
+<table>
+
+<%= link_to '< Prev month', '#' %>
+<%= link_to 'Next month >', '#', { class: 'pull-right' } %>

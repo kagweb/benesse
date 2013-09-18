@@ -1,0 +1,51 @@
+<div class="row clearfix">
+  <div class="span12 file_viewer">
+    <% if for_project %>
+      <%= render 'projects/file_viewer_project_form' %>
+    <% else %>
+      <%= render 'projects/file_viewer_aws_form' %>
+    <% end %>
+
+    <% if params[:view].blank? or params[:view] != 'list' %>
+      <ul class="files unstyled clearfix">
+        <% dir = dir_to_a() %>
+        <% if dir.blank? %>
+          <li class="text-error">指定されたディレクトリにファイルがアップロードされていません。</li>
+        <% else %>
+          <% dir.each do |name, info| %>
+            <%= raw folder(name, info) %>
+          <% end %>
+        <% end %>
+        <%= render 'projects/file_viewer_path_form' if for_project %>
+      </ul>
+    <% else %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ファイル名</th>
+            <th>パス</th>
+            <th>種類</th>
+            <th>サイズ</th>
+            <th class="span3">更新日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if list_path %>
+            <% dir = dir_to_a 3 %>
+            <% dir.each do |name, info| %>
+              <tr>
+                <td><%= name %></td>
+                <td>http://benesse.ne.jp/<%= info['_basepath_'] + '/' + info['_path_'] %></td>
+                <td><%= info['_type_'].upcase %></td>
+                <td><%= info['_size_'] %></td>
+                <td><%= info['_updated_at_'] %></td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr><td><span class="text-error">ファイルが選択されていません。フォルダーに戻ってファイルを選択してください。</td><td></td><td></td><td></td><td></td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>

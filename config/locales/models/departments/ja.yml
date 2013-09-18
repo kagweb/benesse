@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    models:
+      departments: 部署
+    attributes:
+      department:
+        name: 部署名
