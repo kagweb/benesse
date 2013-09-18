@@ -82,6 +82,7 @@ module ProjectsHelper
     dir = {}
 
     Find.find path do |f|
+      next if FileTest.file? f and ['.DS_Store', '.gitkeep'].include? f.split('/').last
       resolved_path = f.to_s.gsub(path.to_s, '').gsub(/^\//, '').split /\//
       next if resolved_path.empty?
 
@@ -122,16 +123,12 @@ module ProjectsHelper
   private
 
   def _create_path
-    return Rails.root.join('files') if params[:id].blank?
+    return Rails.root.join('files/aws') if params[:id].blank?
 
     project = Project.find params[:id]
-
-    # @todo upload_server で読み込むパスを操作する処理を追加する。
-    # upload_server = project.upload_server
     env = _sanitize_env params[:env]
-    root_dir = _sanitize_root_dir params[:root_dir]
     project_code = _sanitize_project_code project, params[:branch_code]
-    path = Rails.root.join('files').join(env).join(root_dir).join(project_code)
+    path = Rails.root.join('files/projects').join(env).join(project_code)
     return path.exist? ? path : false
   end
 
@@ -139,13 +136,9 @@ module ProjectsHelper
     return ['test', 'production'].include?(env) ? env : 'production'
   end
 
-  def _sanitize_root_dir(dir)
-    return Benesse::Application.config.root_dir.include?(dir)? dir : 'ssl_htdocs'
-  end
-
   def _sanitize_project_code(project, branch)
     branch_code = branch.presence || project.branches.last.code
-    project_code = Rails.env.development? ? 'sample_project' : format("%07d", project.id)
+    project_code = format("%07d", project.id)
     return project_code + '/' + format("%02d", branch_code.to_i)
   end
 end
