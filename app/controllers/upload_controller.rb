@@ -6,10 +6,6 @@ class UploadController < ApplicationController
     @project = Project.find params[:project_id]
   end
 
-  def aws
-    supplier_department_except
-  end
-
   def create
     @project = Project.find params[:project_id]
 

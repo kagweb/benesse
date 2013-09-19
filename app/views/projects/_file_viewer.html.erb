@@ -36,7 +36,7 @@
           <% else %>
             <% dir.each do |name, info| %>
               <tr class="action_select" data-path="<%= "#{info['_basepath_']}/#{info['_path_']}" %>">
-                <td><%= info['_type_'] == 'dir' ? link_to(name, { controller: 'upload', action: 'aws', view: 'list', path: "#{info['_basepath_']}/#{info['_path_']}" }) : name %></td>
+                <td><%= info['_type_'] == 'dir' ? link_to(name, { view: 'list', path: "#{info['_basepath_']}/#{info['_path_']}" }) : name %></td>
                 <td><%= "#{Benesse::Application.config.aws_root_url}#{info['_basepath_']}/#{info['_path_']}" %></td>
                 <td><%= info['_type_'].upcase %></td>
                 <td><%= info['_size_'] %></td>

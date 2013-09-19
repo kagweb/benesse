@@ -12,5 +12,5 @@
   <% end %>
 </form>
 
-<%= link_to raw('<i class="icon-th-list"></i> ' + t('view.file_viewer.buttons.list')), { controller: 'upload', action: 'aws', view: 'list' } , class: 'btn list' %>
-<%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), { controller: 'upload', action: 'aws' } , class: 'btn' %>
+<%= link_to raw('<i class="icon-th-list"></i> ' + t('view.file_viewer.buttons.list')), { controller: 'aws', action: 'index', view: 'list' } , class: 'btn list' %>
+<%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), { controller: 'aws', action: 'index' } , class: 'btn' %>
