@@ -1,3 +1,4 @@
+<% if @project.status == 7 %><div class="alert alert-error">全ての工程が完了した案件です。</div><% end %>
 <div class="row">
   <div class="span5">
     <h2> <%= @project.name %> <small><%= project_number @project %></small></h2>
@@ -71,20 +72,42 @@
         { controller: 'projects', action: 'confirm' }, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
     <% end %>
 
+    <% if [3, 5].include? @project.status %>
+      <%= link_to raw('<i class="icon-share-alt"></i> ' + t('view.project.アップロード完了') + '</a>'),
+        { controller: 'projects', action: 'upload_compleat' }, { class: 'btn btn-danger' } %>
+    <% end %>
+
     <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'),
       edit_project_path(@project), { class: 'btn' } %>
 
     <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'),
       { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
 
-    <%= link_to raw('<i class=" icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'),
+    <%= link_to raw('<i class="icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'),
       { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
   </div>
 
   <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>
-    <% if @project.status == 0 %>
-      <div class="alert alert-warning"><%= t 'view.alert.no_confirm' %></div>
+    <% if (0..6).include? @project.status %>
+      <div class="alert alert-warinig">
+      <% if @project.status == 0 %>
+        <%=raw t 'view.alert.confirm' %>
+      <% elsif @project.status == 1 %>
+        <%=raw t 'view.alert.confirm_html' %>
+      <% elsif @project.status == 2 %>
+        <%=raw t 'view.alert.check_html' %>
+      <% elsif @project.status == 3 %>
+        <%=raw t 'view.alert.upload_for_test' %>
+      <% elsif @project.status == 4 %>
+        <%=raw t 'view.alert.check_test' %>
+      <% elsif @project.status == 5 %>
+        <%=raw t 'view.alert.upload_for_production' %>
+      <% elsif @project.status == 6 %>
+        <%=raw t 'view.alert.check_production' %>
+      <% end %>
+      </div>
     <% end %>
+
     <div class="row">
       <% for i in ['html', 'test', 'production'] %>
       <div class="span2">

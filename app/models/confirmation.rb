@@ -10,11 +10,9 @@ class Confirmation < ActiveRecord::Base
 
   def check_status
     updated = true
-    slugs = ['html', 'test', 'production']
-
     project.parties.each do |party|
       next unless party.required
-      updated = false unless 'ok' == party.user.confirmations.find_by_status(slugs[project.status.to_i]).try(:response)
+      updated = false unless 'ok' == party.user.confirmations.find_by_status(project.status_code).try(:response)
     end
 
     if updated

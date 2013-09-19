@@ -146,6 +146,15 @@ class ProjectsController < ApplicationController
     redirect_to project, notice: 'Confirm this HTML.'
   end
 
+  def upload_compleat
+    project = Project.find params[:id]
+    project.status = 4 if project.status == 3
+    project.status = 6 if project.status == 5
+    project.save
+
+    redirect_to project
+  end
+
   def remind_mail
     project = Project.find params[:id]
     pp params[:to] # TOに付けるユーザの ID 一覧

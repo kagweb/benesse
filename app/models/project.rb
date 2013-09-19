@@ -16,7 +16,8 @@ class Project < ActiveRecord::Base
   after_create :create_branch
 
   def status_slug
-    tmp = { 0 => 'html', 1 => 'test', 2 => 'production', 3 => 'closed'}
+    tmp = []
+    tmp.fill('html', 0, 3).fill('test', 3, 2).fill('production', 5, 2).fill('closed', 7, 1)
     return tmp[self.status]
   end
 

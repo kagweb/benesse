@@ -11,6 +11,7 @@ Benesse::Application.routes.draw do
       get :update_branch
       get :confirm
       get :confirm_html
+      get :upload_compleat
       post :remind_mail
       post :comment
       post :download

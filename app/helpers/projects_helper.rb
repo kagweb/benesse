@@ -23,7 +23,7 @@ module ProjectsHelper
   def disabled ( place )
     case place
     when 'html'
-      return 'disabled' if @project.status == 0
+      return 'disabled' if @project.status <= 1
     when 'test'
       return 'disabled' if @project.status <= 3
     when 'production'
