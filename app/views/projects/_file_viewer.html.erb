@@ -35,7 +35,7 @@
             <% dir.each do |name, info| %>
               <tr>
                 <td><%= name %></td>
-                <td>http://benesse.ne.jp/<%= info['_basepath_'] + '/' + info['_path_'] %></td>
+                <td><%= Benesse::Application.config.aws_root_url %><%= info['_basepath_'] + '/' + info['_path_'] %></td>
                 <td><%= info['_type_'].upcase %></td>
                 <td><%= info['_size_'] %></td>
                 <td><%= info['_updated_at_'] %></td>

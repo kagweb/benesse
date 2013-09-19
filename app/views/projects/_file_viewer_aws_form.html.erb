@@ -1,5 +1,6 @@
 <form method="post" class="form-inline" target="_blank">
-  <p class="well well-small">URL: <a href="#">http://<span class="domain"></span>benesse.ne.jp/<span class="download_path"></span></a></p>
+<% #  <p class="well well-small">URL: <a href="#">http://<span class="domain"></span>benesse.ne.jp/<span class="download_path"></span></a></p> %>
+  <p class="well well-small">URL: <a href="#"><%= Benesse::Application.config.aws_root_url %><span class="download_path"></span></a></p>
   <input type="hidden" value="" name="path">
   <% if current_user.is_promotion_department? %>
     <input type="file" name="upload_path"><br>
