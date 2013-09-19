@@ -44,16 +44,16 @@
             <td><%= party.user.department.name %></td>
             <td><%= party.user.name %></td>
 
-            <% if current_user == party.user%>
-            <td class="center">
-              <%= radio_button :confirmation, :response, 'feedback' , { checked: response(current_user) == 'feedback' } %>
-            </td>
-            <td class="center">
-              <%= radio_button :confirmation, :response, 'ok' , { checked: response(current_user) == 'ok' } %>
-            </td>
-            <td class="center">
-              <%= radio_button :confirmation, :response, 'ng' , { checked: response(current_user) == 'ng' } %>
-            </td>
+            <% if current_user == party.user and confirmation_enabled?(@project) %>
+              <td class="center">
+                <%= radio_button :confirmation, :response, 'feedback' , { checked: response(current_user) == 'feedback' } %>
+              </td>
+              <td class="center">
+                <%= radio_button :confirmation, :response, 'ok' , { checked: response(current_user) == 'ok' } %>
+              </td>
+              <td class="center">
+                <%= radio_button :confirmation, :response, 'ng' , { checked: response(current_user) == 'ng' } %>
+              </td>
             <% else %>
             <td class="center">
               <%= raw response(party.user) == 'feedback' ? '<i class="icon-ok"></i>' : '' %>
@@ -73,7 +73,10 @@
       <% if @project.parties.blank? %>
         <p class="text-error">関係者が登録されていません。</p>
       <% end %>
-      <input type="submit" class="btn btn-primary btn-large pull-right" value="登録">
+
+      <% if confirmation_enabled? @project %>
+        <input type="submit" class="btn btn-primary btn-large pull-right" value="登録">
+      <% end%>
     <% end %>
   </div>
 </div>

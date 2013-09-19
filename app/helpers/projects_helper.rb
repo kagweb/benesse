@@ -33,6 +33,12 @@ module ProjectsHelper
     return ''
   end
 
+  def confirmation_enabled?(project)
+    (params[:status] == 'html' and project.status == 2) or
+    (params[:status] == 'test' and project.status == 4) or
+    (params[:status] == 'production' and project.status == 6)
+  end
+
   def status_slug(code)
     return code if ['html', 'test', 'production'].include? code
     status = { 0 => 'html', 1 => 'html', 2 => 'html', 3 => 'test', 4 => 'test', 5 => 'production', 6 => 'production', 7 => 'closed' }
