@@ -88,4 +88,33 @@ ul.comments {
       }
     }
   }
+
+  table.files {
+    margin-top: 20px;
+
+    tbody {
+      tr.action_select {
+        cursor: pointer;
+
+        td {
+          a {
+            color: #555;
+            text-decoration: underline;
+
+            &:hover {
+              color: #558;
+            }
+          }
+        }
+
+        &.selected {
+          background: #eef;
+
+          td {
+            background: #eef;
+          }
+        }
+      }
+    }
+  }
 }

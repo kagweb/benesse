@@ -1,7 +1,7 @@
 <%= form_tag download_project_path, method: 'post', class: 'form-inline', target: '_blank' do %>
   <input type="hidden" value="" name="path">
   <%= link_to raw('<i class="icon-th-list"></i> ' + t('view.file_viewer.buttons.list')), project_path(@project, view: 'list') , class: 'btn list' %>
-  <%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), project_path(@project, view: 'folder') , class: 'btn' %>
+  <%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), project_path(@project) , class: 'btn' %>
   <button type="submit" class="btn file_action" data-action="download"><i class="icon-download"></i> <%= t 'view.file_viewer.buttons.download' %></button>
   <% if allow? 'promoter' and @project.status == 1 %>
     <%= link_to raw('<i class="icon-ok"></i> ' + t('view.file_viewer.buttons.confirm')), { controller: 'projects', action: 'confirm_html' }, class: 'btn btn-primary', confirm: t('view.confirm.confirm_html') %>
