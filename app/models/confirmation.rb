@@ -18,7 +18,6 @@ class Confirmation < ActiveRecord::Base
       updated = false unless 'ok' == party.user.confirmations.find_by_status(status).try(:response)
     end
 
-    pp project.status
     if updated
       case project.status
         when 2
@@ -30,7 +29,5 @@ class Confirmation < ActiveRecord::Base
       end
       project.save
     end
-
-    pp project.status
   end
 end

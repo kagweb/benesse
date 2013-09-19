@@ -37,11 +37,7 @@ class ProjectsController < ApplicationController
       @project.operator   = user if user.id == users[2].to_i
     end
 
-    if @project.save
-      redirect_to @project, notice: 'Project was successfully created.'
-    else
-      render :new
-    end
+    @project.save ? redirect_to(@project, notice: "移送案件[ #{@project.name} ]の新規登録しました。") : render(:new)
   end
 
   def update
@@ -53,7 +49,7 @@ class ProjectsController < ApplicationController
     @project.branches.where(code: '90').first_or_create if @project.miss
 
     if @project.save
-      redirect_to @project, notice: 'Project was successfully updated.'
+      redirect_to @project, notice: "#{@project.name} を編集しました。"
     else
       render :edit
     end
@@ -93,9 +89,9 @@ class ProjectsController < ApplicationController
     @confirmation.user = current_user
 
     if @confirmation.save
-      redirect_to @project, notice: 'Updated confirmations status.'
+      redirect_to @project, notice: "#{t('view.project.' + params[:status])} の進捗状況を更新しました。"
     else
-      redirect_to @project, url: { action: :check, status: params[:status] }
+      redirect_to @project, url: { action: :check, status: params[:status] }, notice: "#{t('view.project.' + params[:status])} の進捗状況を更新に失敗しました。"
     end
   end
 
@@ -107,7 +103,7 @@ class ProjectsController < ApplicationController
     status = _status_slug params[:comment][:status].to_i
 
     if @comment.save
-      redirect_to "/projects/#{params[:id]}/check/#{status}", notice: 'Comment was successfully created.'
+      redirect_to "/projects/#{params[:id]}/check/#{status}", notice: 'コメントを追加しました。'
     else
       redirect_to "/projects/#{params[:id]}/check/#{status}"
     end
@@ -130,7 +126,7 @@ class ProjectsController < ApplicationController
     project.confirmed = true
     project.status = 1
     project.save
-    redirect_to project, notice: 'Confirm this project.'
+    redirect_to project, notice: "#{project.name} が承認されました。"
   end
 
   def confirm_html
@@ -143,7 +139,7 @@ class ProjectsController < ApplicationController
 
     project.status = 2
     project.save
-    redirect_to project, notice: 'Confirm this HTML.'
+    redirect_to project, notice: '納品データが承認されました。'
   end
 
   def upload_compleat
@@ -173,7 +169,7 @@ class ProjectsController < ApplicationController
 
     if FileTest.directory? path
       zip = _create_zip path
-      File.file? zip.to_s ? send_file(zip.to_s) : redirect_to(projects_path, notice: '')
+      File.file? zip.to_s ? send_file(zip.to_s) : redirect_to(projects_path, notice: "データのダウンロードに失敗しました。")
       return false
     end
 
