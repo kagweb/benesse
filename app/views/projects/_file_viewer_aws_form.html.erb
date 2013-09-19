@@ -1,10 +1,14 @@
 <form method="post" class="form-inline" target="_blank">
   <p class="well well-small">URL: <a href="#">http://<span class="domain"></span>benesse.ne.jp/<span class="download_path"></span></a></p>
   <input type="hidden" value="" name="path">
-  <input type="file" name="upload_path"><br>
+  <% if current_user.is_promotion_department? %>
+    <input type="file" name="upload_path"><br>
+  <% end %>
   <button type="submit" class="btn file_action" date-action="download"><i class="icon-download"></i> <%= t 'view.file_viewer.buttons.download' %></button>
-  <button type="submit" class="btn file_action" data-action="upload"><i class="icon-upload"></i> <%= t 'view.file_viewer.buttons.upload' %></button>
-  <button type="submit" class="btn file_action" data-action="delete"><i class="icon-trach"></i> <%= t 'view.file_viewer.buttons.delete' %></button>
+  <% if current_user.is_promotion_department? %>
+    <button type="submit" class="btn file_action" data-action="upload"><i class="icon-upload"></i> <%= t 'view.file_viewer.buttons.upload' %></button>
+    <button type="submit" class="btn file_action" data-action="delete"><i class="icon-trach"></i> <%= t 'view.file_viewer.buttons.delete' %></button>
+  <% end %>
 </form>
 
 <%= link_to raw('<i class="icon-th-list"></i> ' + t('view.file_viewer.buttons.list')), { controller: 'upload', action: 'aws', view: 'list' } , class: 'btn list' %>

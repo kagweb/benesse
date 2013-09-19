@@ -50,6 +50,8 @@ ja:
         production: 本登録
       required: 必須
       comment: コメント
+      edit: 編集
+      delete: 削除
     env:
       test: テスト環境
       production: 本番環境

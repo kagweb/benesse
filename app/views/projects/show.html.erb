@@ -67,7 +67,7 @@
       <%= @project.memo.blank? ? 'メモは登録されていません。' : @project.memo %>
     </p>
 
-    <% if current_user.id == @project.authorizer.id and ! @project.confirmed %>
+    <% if allow? 'authorizer' and ! @project.confirmed %>
       <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'),
         { controller: 'projects', action: 'confirm' }, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
     <% end %>
@@ -77,11 +77,15 @@
         { controller: 'projects', action: 'upload_compleat' }, { class: 'btn btn-danger' } %>
     <% end %>
 
-    <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'),
-      edit_project_path(@project), { class: 'btn' } %>
+    <% if deny? 'authorizer' %>
+      <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'),
+        edit_project_path(@project), { class: 'btn' } %>
+    <% end %>
 
-    <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'),
-      { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
+    <% if deny? 'operator' %>
+      <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'),
+        { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
+    <% end %>
 
     <%= link_to raw('<i class="icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'),
       { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
@@ -119,7 +123,7 @@
       <% end %>
     </ul>
 
-    <table class="table table-striped">
+    <table class="parties table table-striped table-condensed">
       <thead>
         <tr>
           <th class="center">TO</th>
@@ -145,9 +149,14 @@
           <td class="center"><%= response(party.user, 1).upcase %></td>
           <td class="center"><%= response(party.user, 2).upcase %></td>
           <td class="center">
-            <%= link_to t('view.project.delete_party'),
-              { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id},
-              { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %>
+            <% if allow? 'promoter' %>
+              <%= link_to t('view.utility.edit'),
+                { controller: 'parties', action: 'edit', project_id: @project.id, id: party.id},
+                { class: 'btn btn-mini'} %>
+              <%= link_to t('view.utility.delete'),
+                { controller: 'parties', action: 'destroy', project_id: @project.id, id: party.id},
+                { method: :delete, confirm: t('view.confirm.delete'), class: 'btn btn-danger btn-mini'} %>
+            <% end %>
           </td>
         </tr>
       <% end %>

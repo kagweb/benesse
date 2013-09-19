@@ -119,10 +119,10 @@ class ProjectsController < ApplicationController
   def confirm
     project = Project.find params[:id]
 
-    unless current_user.id == project.authorizer_id
-      redirect_to project
-      return
-    end
+#     unless current_user.id == project.authorizer_id
+#       redirect_to project
+#       return
+#     end
 
     project.confirmed = true
     project.status = 1
@@ -133,10 +133,10 @@ class ProjectsController < ApplicationController
   def confirm_html
     project = Project.find params[:id]
 
-    unless current_user.id == project.authorizer_id
-      redirect_to project
-      return
-    end
+#     unless current_user.id == project.authorizer_id
+#       redirect_to project
+#       return
+#     end
 
     project.status = 2
     project.save

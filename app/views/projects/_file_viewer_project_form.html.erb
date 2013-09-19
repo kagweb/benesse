@@ -3,9 +3,9 @@
   <%= link_to raw('<i class="icon-th-list"></i> ' + t('view.file_viewer.buttons.list')), project_path(@project, view: 'list') , class: 'btn list' %>
   <%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), project_path(@project, view: 'folder') , class: 'btn' %>
   <button type="submit" class="btn file_action" data-action="download"><i class="icon-download"></i> <%= t 'view.file_viewer.buttons.download' %></button>
-  <% if @project.status == 1 %>
-    <%= link_to raw('<i class="icon-ok"></i> ' + t('view.file_viewer.buttons.confirm')), { controller: 'projects', action: 'confirm_html' }, class: 'btn', confirm: t('view.confirm.confirm_html') %>
-    <%= link_to raw('<i class="icon-remove"></i> ' + t('view.file_viewer.buttons.cancel')), { controller: 'projects', action: 'update_branch' } , class: 'btn', confirm: t('view.confirm.cancel_html') %>
+  <% if allow? 'promoter' and @project.status == 1 %>
+    <%= link_to raw('<i class="icon-ok"></i> ' + t('view.file_viewer.buttons.confirm')), { controller: 'projects', action: 'confirm_html' }, class: 'btn btn-primary', confirm: t('view.confirm.confirm_html') %>
+    <%= link_to raw('<i class="icon-remove"></i> ' + t('view.file_viewer.buttons.cancel')), { controller: 'projects', action: 'update_branch' } , class: 'btn btn-danger', confirm: t('view.confirm.cancel_html') %>
   <% end %>
   <p class="well well-small">URL: <a href="#">http://<%= @project.upload_server %>.benesse.ne.jp/<span class="download_path"></span></a></p>
 <% end %>

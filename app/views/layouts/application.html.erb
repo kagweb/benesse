@@ -32,8 +32,8 @@
             <ul class="nav">
               <li><%= link_to 'AWSアップロード', { controller: 'upload', action: 'aws' } %></li>
               <li><%= link_to '案件登録', new_project_path %></li>
-              <li><%= link_to '部署登録', new_department_path %></li>
-              <li><%= link_to 'ユーザー登録', new_user_path if current_user && current_user.is_promotion_department? %></li>
+              <li><%= link_to '部署登録', new_department_path if current_user && current_user.is_promotion_department? %></li>
+              <li><%= link_to 'ユーザー登録', new_user_path   if current_user && current_user.is_promotion_department? %></li>
               <li><%= link_to 'ログアウト', logout_path if current_user %></li>
             </ul>
           <% end %>
