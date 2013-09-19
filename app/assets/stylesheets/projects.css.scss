@@ -2,6 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.projects {
+  .status_buttons {
+    margin-left: -3.33%;
+
+    li {
+      width: 30%;
+      margin-left: 3.33%;
+    }
+  }
+}
+
 ul.comments {
   li {
     margin-bottom: 10px;
