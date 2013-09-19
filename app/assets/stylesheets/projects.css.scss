@@ -21,7 +21,21 @@
 
 ul.comments {
   li {
-    margin-bottom: 10px;
+    b.username {
+      color: #558;
+      font-size: 110%;
+    }
+
+    .time {
+      color: #888;
+      padding-left: 10px;
+    }
+
+    p {
+      line-height: 180%;
+      margin-top: 5px;
+      margin-bottom: 30px;
+    }
   }
 }
 

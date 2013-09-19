@@ -83,11 +83,11 @@
 
 <h2><%= t 'view.utility.comment' %></h2>
 <ul class="well unstyled comments">
-  <% @comments.reverse_order.each do |c| %>
+  <% @comments.each do |c| %>
   <li>
-    <%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %>
-    <b><%= c.user.name %>: </b>
-    <%= raw c.comment.gsub(/\r\n|\r|\n/, "<br />") %>
+    <b class="username"><i class="icon-user"></i> <%= c.user.name %></b>
+    <span class="time"><%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %></span>
+    <p><%= raw c.comment.gsub(/\r\n|\r|\n/, "<br />") %></p>
   </li>
   <% end %>
   <% if @comments.blank? %>
