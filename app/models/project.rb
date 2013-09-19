@@ -14,6 +14,7 @@ class Project < ActiveRecord::Base
                   :server_update, :memo, :register_datetime, :miss
 
   after_create :create_branch
+  after_create :add_parties
 
   def status_slug
     tmp = []
@@ -29,5 +30,14 @@ class Project < ActiveRecord::Base
 
   def create_branch
     branches.create code: '01'
+  end
+
+  def add_parties
+    [authorizer, promoter, operator].each do |user|
+      party = parties.new
+      party.required = true
+      party.user = user
+      party.save
+    end
   end
 end
