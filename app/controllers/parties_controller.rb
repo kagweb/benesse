@@ -25,8 +25,6 @@ class PartiesController < ApplicationController
     @party.project = Project.find params[:party][:project_id]
     @party.user = User.find params[:party][:user]
 
-    # Party.where('project_id' => params[:party][:project_id], 'user_id' => params[:party][:user])
-
     if @party.save
       redirect_to @party.project, notice: '関係者の追加が完了しました。'
     else
