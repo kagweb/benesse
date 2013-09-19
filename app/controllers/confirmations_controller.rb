@@ -1,5 +1,6 @@
 class ConfirmationsController < ApplicationController
   before_filter :require_login
+  before_filter :supplier_department_except
 
   def index
     @confirmations = Confirmation.all

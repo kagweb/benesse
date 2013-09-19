@@ -21,28 +21,35 @@
     <div class="navbar navbar-inverse">
       <div class="navbar-inner">
         <div class="container">
-          <%= link_to 'Benesse', root_path, class: 'brand' %>
+        <% if current_user %>
+          <% if current_user and ! current_user.is_supplier_department? %>
+            <%= link_to 'Benesse', root_path, class: 'brand' %>
+          <% else %>
+            <span class="brand">Benesse</span>
+          <% end %>
           <div class="nav-collapse collapse">
+          <% if current_user and ! current_user.is_supplier_department? %>
             <ul class="nav">
               <li><%= link_to 'AWSアップロード', { controller: 'upload', action: 'aws' } %></li>
               <li><%= link_to '案件登録', new_project_path %></li>
               <li><%= link_to '部署登録', new_department_path %></li>
               <li><%= link_to 'ユーザー登録', new_user_path if current_user && current_user.is_promotion_department? %></li>
-              <li><%= link_to 'ログイン', login_path unless current_user %></li>
               <li><%= link_to 'ログアウト', logout_path if current_user %></li>
             </ul>
+          <% end %>
           </div>
+        <% end %>
         </div>
       </div>
     </div>
 
     <div class="container">
-        <div class="row">
-          <div class="span12">
-            <%= bootstrap_flash %>
-            <%= yield %>
-          </div>
-        </div><!--/row-->
+      <div class="row">
+        <div class="span12">
+          <%= bootstrap_flash %>
+          <%= yield %>
+        </div>
+      </div><!--/row-->
 
       <footer>
         <p>&copy; Company 2013</p>

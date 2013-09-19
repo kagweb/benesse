@@ -1,6 +1,7 @@
 # encoding: utf-8
 class ProjectsController < ApplicationController
   before_filter :require_login, except: :index
+  before_filter :supplier_department_except
 
   def index
     redirect_to login_url unless current_user

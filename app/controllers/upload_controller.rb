@@ -7,7 +7,7 @@ class UploadController < ApplicationController
   end
 
   def aws
-
+    supplier_department_except
   end
 
   def create
@@ -53,6 +53,6 @@ class UploadController < ApplicationController
       end
     end
 
-    redirect_to project_upload_index_path @project
+    redirect_to project_upload_index_url(@project), notice: "#{params['upload']['files'].original_filename} のアップロードに成功しました。"
   end
 end

@@ -1,5 +1,6 @@
 class PartiesController < ApplicationController
   before_filter :require_login
+  before_filter :supplier_department_except
 
   def index
     @parties = Party.all
