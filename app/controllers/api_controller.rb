@@ -4,6 +4,10 @@ class ApiController < ApplicationController
     render json: params[:department].blank? ? User.where(['department_id != ?', _department_id]) : User.where(department_id: _department_id)
   end
 
+  def projects
+    render json: Project.limit(3)
+  end
+
   private
 
   def _department_id

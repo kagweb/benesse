@@ -1,5 +1,6 @@
 Benesse::Application.routes.draw do
   get "api/user_list" => 'api#user_list'
+  get "api/projects" => 'api#projects'
 
   root to: 'projects#index'
 
