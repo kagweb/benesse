@@ -23,7 +23,7 @@ module ProjectsHelper
   def disabled ( place )
     case place
     when 'html'
-      return 'disabled' if @project.status == 0
+      return 'disabled' if @project.status <= 1
     when 'test'
       return 'disabled' if @project.status <= 3
     when 'production'
@@ -31,6 +31,12 @@ module ProjectsHelper
     end
 
     return ''
+  end
+
+  def confirmation_enabled?(project)
+    (params[:status] == 'html' and project.status == 2) or
+    (params[:status] == 'test' and project.status == 4) or
+    (params[:status] == 'production' and project.status == 6)
   end
 
   def status_slug(code)
@@ -66,23 +72,16 @@ module ProjectsHelper
     return element + "</ul></li>"
   end
 
-  def list_path
-    return false if params[:path].blank?
-    path = Rails.root.join URI.unescape params[:path]
-    return false unless path.exist?
-    return path
-  end
-
   def dir_to_a(depth = nil)
     require "find"
 
     path = _create_path
-    return [] unless path
+    return [] unless path and File.exist? path
 
     dir = {}
 
     Find.find path do |f|
-      next if FileTest.file? f and ['.DS_Store', '.gitkeep'].include? f.split('/').last
+      next if FileTest.file? f and ['.DS_Store', '.gitkeep'].include? f.to_s.split('/').last
       resolved_path = f.to_s.gsub(path.to_s, '').gsub(/^\//, '').split /\//
       next if resolved_path.empty?
 
@@ -96,7 +95,7 @@ module ProjectsHelper
           tmp[r] = {
             '_root_' => resolved_path.first,
             '_path_' => resolved_path.join('/'),
-            '_basepath_' => path.to_s.gsub(Rails.root.to_s, '').gsub(/^\//, ''),
+            '_basepath_' => path.to_s.gsub(Benesse::Application.config.upload_root_path.to_s, '').gsub(/^\//, ''),
             '_type_' => r.split('.').last.upcase,
             '_size_' => number_to_human_size(File.size? f) || 'empty',
             '_updated_at_' => l(File.mtime f),
@@ -106,7 +105,7 @@ module ProjectsHelper
           tmp[r] = {
             '_root_' => resolved_path.first,
             '_path_' => resolved_path.join('/'),
-            '_basepath_' => path.to_s.gsub(Rails.root.to_s, '').gsub(/^\//, ''),
+            '_basepath_' => path.to_s.gsub(Benesse::Application.config.upload_root_path.to_s, '').gsub(/^\//, ''),
             '_type_' => 'dir',
             '_size_' => number_to_human_size(File.size? f ) || 'empty',
             '_updated_at_' => l(File.mtime f),
@@ -125,12 +124,17 @@ module ProjectsHelper
   private
 
   def _create_path
-    return Rails.root.join('files/aws') if params[:id].blank?
+    if params[:path].present?
+      path = Benesse::Application.config.upload_root_path.join params[:path]
+      path = Pathname.new path.to_s.gsub(/#{path.to_s.split('/').last}$/, '').gsub(/\/$/, '') if FileTest.file? path
+      return path
+    end
+    return Benesse::Application.config.upload_aws_path if params[:id].blank?
 
     project = Project.find params[:id]
     env = _sanitize_env params[:env]
     project_code = _sanitize_project_code project, params[:branch_code]
-    path = Rails.root.join('files/projects').join(env).join(project_code)
+    path = Benesse::Application.config.upload_projects_path.join(env).join(project_code)
     return path.exist? ? path : false
   end
 

@@ -102,10 +102,17 @@ module Benesse
       config.accept_extnames << e.upcase
     end
 
-    # 業者がアップロードする各案件用のアップロードディレクトリ
+    # AWS のルート URL
+    config.aws_root_url = 'http://benesse.ne.jp/'
+
+    # アップロードディレクトリ関連で利用するパス
+    config.upload_tmp_path      = Rails.root.join 'tmp/upload'
+    config.upload_root_path     = Rails.root.join 'files'
+    config.upload_aws_path      = config.upload_root_path.join 'aws'
+    config.upload_projects_path = config.upload_root_path.join 'projects'
     config.upload_dir = {
-      'production' => Rails.root.join('files/projects/production'),
-      'test'       => Rails.root.join('files/projects/test'),
+      'production' => config.upload_projects_path.join('production'),
+      'test'       => config.upload_projects_path.join('test'),
     }
   end
 end

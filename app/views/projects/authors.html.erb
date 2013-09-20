@@ -1,8 +1,8 @@
 <h1><%= t 'view.project.authors' %></h1>
 
 <%= simple_form_for @project, { url: {action: 'authors'}, class: 'form-horizontal' } do |f| %>
-  <%= f.input :authorizer, collection: User.all, label_method: :name, value_method: :id, include_blank: false, selected: @project.authorizer.id %>
-  <%= f.input :promoter, collection: User.all, label_method: :name, value_method: :id, include_blank: false, selected: @project.promoter.id %>
+  <%= f.input :authorizer, collection: User.where(['department_id != ?', Department.find_by_name('業者').try(:id)]), label_method: :name, value_method: :id, include_blank: false, selected: @project.authorizer.id %>
+  <%= f.input :promoter, collection: User.where(['department_id != ?', Department.find_by_name('業者').try(:id)]), label_method: :name, value_method: :id, include_blank: false, selected: @project.promoter.id %>
   <%= f.button :wrapped, class: 'btn btn-primary' %>
 <% end %>
 

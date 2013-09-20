@@ -21,4 +21,8 @@ class User < ActiveRecord::Base
   def is_promotion_department?
     department == Department.find_by_name('デジタル推進課')
   end
+
+  def is_supplier_department?
+    department == Department.find_by_name('業者')
+  end
 end

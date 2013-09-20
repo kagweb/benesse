@@ -1,5 +1,6 @@
 Benesse::Application.routes.draw do
   get "api/user_list" => 'api#user_list'
+  get "api/projects" => 'api#projects'
 
   root to: 'projects#index'
 
@@ -10,8 +11,11 @@ Benesse::Application.routes.draw do
 #       get :check, constraints: { status: /^html|^test|^production/ }
       get :update_branch
       get :confirm
+      get :confirm_html
+      get :upload_compleat
       post :remind_mail
       post :comment
+      post :download
     end
 
     resources :parties
@@ -22,7 +26,12 @@ Benesse::Application.routes.draw do
   resources :departments
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
-  get 'upload/aws' => 'upload#aws'
+  resources :aws, only: [:index, :actions] do
+    collection do
+      get :index
+      post :actions
+    end
+  end
   match 'login' => 'sessions#new', as: :login
   match 'logout' => 'sessions#destroy', as: :logout
 
