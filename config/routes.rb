@@ -16,6 +16,13 @@ Benesse::Application.routes.draw do
       get :downloads, controller: :downloads, action: :index
       post :remind_mail
       post :comment
+
+      resources :close_outs, only: [:test, :production] do
+        collection do
+          get :test
+          get :production
+        end
+      end
     end
 
     resources :parties
