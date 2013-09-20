@@ -68,9 +68,24 @@ class ProjectsController < ApplicationController
 
   def author_update
     @project = Project.find params[:id]
-    @project.authorizer = User.find params[:project][:authorizer]
-    @project.promoter   = User.find params[:project][:promoter]
-    @project.save ? redirect_to(@project, notice: 'Updated authors') : render(:authors)
+
+    if params[:project][:authorizer]
+      user = User.find params[:project][:authorizer]
+      unless @project.authorizer == user
+        @project.old_authorizer = @project.authorizer
+        @project.authorizer = user
+      end
+    end
+
+    if params[:project][:promoter]
+      user = User.find params[:project][:promoter]
+      unless @project.promoter == user
+        @project.old_promoter = @project.promoter
+        @project.promoter = user
+      end
+    end
+
+    @project.save ? redirect_to(@project, notice: '付け替えが完了しました。') : render(:authors)
   end
 
   def check
@@ -118,12 +133,6 @@ class ProjectsController < ApplicationController
 
   def confirm
     project = Project.find params[:id]
-
-#     unless current_user.id == project.authorizer_id
-#       redirect_to project
-#       return
-#     end
-
     project.confirmed = true
     project.status = 1
     project.save
@@ -132,12 +141,6 @@ class ProjectsController < ApplicationController
 
   def confirm_html
     project = Project.find params[:id]
-
-#     unless current_user.id == project.authorizer_id
-#       redirect_to project
-#       return
-#     end
-
     project.status = 2
     project.save
     redirect_to project, notice: '納品データが承認されました。'

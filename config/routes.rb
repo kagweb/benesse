@@ -23,6 +23,12 @@ Benesse::Application.routes.draw do
           get :production
         end
       end
+
+      resources :confirms, only: [:authors] do
+        collection do
+          get :authority
+        end
+      end
     end
 
     resources :parties
