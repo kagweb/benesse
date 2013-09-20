@@ -160,26 +160,6 @@ class ProjectsController < ApplicationController
     redirect_to project
   end
 
-  def download
-    path = Benesse::Application.config.upload_root_path.join params[:path]
-
-    if FileTest.file? path
-      send_file path
-      return false
-    end
-
-    if FileTest.directory? path
-      zip = _create_zip path
-      File.file? zip.to_s ? send_file(zip.to_s) : redirect_to(projects_path, notice: "データのダウンロードに失敗しました。")
-      return false
-    end
-
-    notice = 'エラーが発生しました。'
-    notice = 'ファイルが存在しません。' unless FileTest.exist? path
-    redirect_to projects_path, notice: notice
-    return false
-  end
-
   private
 
   def _status_slug(code)

@@ -13,9 +13,9 @@ Benesse::Application.routes.draw do
       get :confirm
       get :confirm_html
       get :upload_compleat
+      get :downloads, controller: :downloads, action: :index
       post :remind_mail
       post :comment
-      post :download
     end
 
     resources :parties
@@ -32,6 +32,7 @@ Benesse::Application.routes.draw do
       post :actions
     end
   end
+
   match 'login' => 'sessions#new', as: :login
   match 'logout' => 'sessions#destroy', as: :logout
 
