@@ -161,7 +161,7 @@ class ProjectsController < ApplicationController
   end
 
   def download
-    path = Rails.root.join params[:path]
+    path = Benesse::Application.config.upload_root_path.join params[:path]
 
     if FileTest.file? path
       send_file path
@@ -192,20 +192,5 @@ class ProjectsController < ApplicationController
     return slug if [0..2].include? slug
     status = { 'html' => 0, 'test' => 1, 'production' => 2 }
     return status[slug]
-  end
-
-  def _create_zip(path)
-    resolved_path = path.to_s.split /\//
-    tmp_filename  = resolved_path.pop + '_' + Time.now.strftime("%Y%m%d%H%M%S%L") + '.zip'
-    reduce_path   = resolved_path.join('/')
-
-    Zip::Archive.open Benesse::Application.config.upload_tmp_path.join(tmp_filename).to_s, Zip::CREATE do |archive|
-      Dir.glob(path.join('**/*').to_s).each do |path|
-        filename = path.to_s.gsub(reduce_path, '').gsub(/^\//, '')
-        File.directory?(path) ? archive.add_dir(filename) : archive.add_file(filename, path)
-      end
-    end
-
-    return Benesse::Application.config.upload_tmp_path.join tmp_filename
   end
 end
