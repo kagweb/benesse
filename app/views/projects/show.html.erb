@@ -72,11 +72,6 @@
         { controller: 'projects', action: 'confirm' }, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
     <% end %>
 
-    <% if [3, 5].include? @project.status %>
-      <%= link_to raw('<i class="icon-share-alt"></i> ' + t('view.project.アップロード完了') + '</a>'),
-        { controller: 'projects', action: 'upload_compleat' }, { class: 'btn btn-danger' } %>
-    <% end %>
-
     <% if deny? 'authorizer' %>
       <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'),
         edit_project_path(@project), { class: 'btn' } %>
@@ -89,6 +84,10 @@
 
     <%= link_to raw('<i class="icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'),
       { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
+
+    <% if current_user.is_promotion_department? %>
+      <%= link_to t('view.utility.delete'), @project, method: :delete, class: 'btn btn-danger pull-right', data: { confirm: t('view.confirm.project_delete')} %>
+    <% end %>
   </div>
 
   <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>
