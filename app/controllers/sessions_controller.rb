@@ -1,6 +1,7 @@
 # coding: utf-8
 class SessionsController < ApplicationController
   before_filter :require_login, only: :destroy
+  skip_after_filter :set_return_to_url
 
   def new
     redirect_to root_url if current_user
