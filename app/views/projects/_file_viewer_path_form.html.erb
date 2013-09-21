@@ -6,7 +6,7 @@
       <div class="controls">
         <select name="env" class="span2">
           <% ['production', 'test'].each do |e| %>
-            <option value="<%= e %>"><%= t 'view.env.' + e %></option>
+            <option value="<%= e %>" <%= 'selected' if params[:env].presence == e %>><%= t 'view.env.' + e %></option>
           <% end %>
         </select>
       </div>
@@ -17,14 +17,14 @@
       <div class="controls">
         <select name="branch_code" class="span1">
           <% @project.branches.each do |b| %>
-            <option <%= params[:branch_code].present? ? (params[:branch_code] == b.code ? 'selected' : '') : (@project.branches.last.code == b.code ? 'selected' : '') %>><%= b.code %></option>
+            <option <%= 'selected' if params[:branch_code].presence == b.code or (params[:branch_code].blank? and @project.branches.last.code == b.code) %> ><%= b.code %></option>
           <% end %>
         </select>
       </div>
     </div>
     <div class="control-group">
       <div class="controls">
-        <input type="submit" value="変更" class="btn btn-primary">
+        <input type="submit" value="表示内容を変更" class="btn btn-primary">
       </div>
     </div>
   </form>

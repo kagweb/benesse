@@ -43,9 +43,7 @@ class ApplicationController < ActionController::Base
     return Benesse::Application.config.upload_tmp_path.join tmp_filename
   end
 
-  def unzip(file, path)
-    tmp_file  = Benesse::Application.config.upload_tmp_path.join create_tmp_file(file)
-
+  def unzip(tmp_file, path)
     Zip::Archive.open tmp_file.to_s do |archive|
       archive.each do |f|
         ## __MACOSX の削除
@@ -63,18 +61,17 @@ class ApplicationController < ActionController::Base
         open(path.join(f.name), 'wb') {|t| t << f.read }
       end
     end
-
-    remove_tmp_file tmp_file
   end
 
   def create_tmp_file(file)
     filename = Time.now.strftime("%Y%m%d%H%M%S%L") + '_' + file.original_filename
+    filepath = Benesse::Application.config.upload_tmp_path.join filename
     FileUtils.mkdir_p Benesse::Application.config.upload_tmp_path
-    fs = File.open Benesse::Application.config.upload_tmp_path.join(filename), 'w'
+    fs = File.open filepath, 'w'
     fs.write file.read.force_encoding('UTF-8')
     fs.close
 
-    return filename
+    return filepath
   end
 
   def remove_tmp_file(path)
