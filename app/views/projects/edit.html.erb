@@ -4,21 +4,21 @@
 
   <%= f.error_notification %>
 
-  <%= f.input :name %>
-  <%= f.input :year_migrate, inline_label: '年度移行対象', label: false %>
-  <% unless @project.miss %>
-    <%= f.input :miss, inline_label: 'ミスあり', label: false %>
+  <% if allow? 'promoter' %>
+    <%= f.input :name %>
+    <%= f.input :year_migrate, inline_label: '年度移行対象', label: false %>
+    <% unless @project.miss %>
+      <%= f.input :miss, inline_label: 'ミスあり', label: false %>
+    <% end %>
+    <%= f.input :registration_status, { collection: {'仮登録' => 0, '本登録' => 1}, as: :radio_buttons, inline_label: '本登録', checked: @project.registration_status.blank? ? 0 : 1 } %>
+    <%= f.input :operator, collection: User.where(['department_id != ?', Department.find_by_name('業者').try(:id)]), label_method: :name, value_method: :id, include_blank: false, selected: @project.operator.id %>
+    <%= f.input :upload_server, { as: :select, collection: Benesse::Application.config.servers, include_blank: false } %>
   <% end %>
-  <%= f.input :exists_test_server, { inline_label: 'テスト環境あり', label: false } %>
-  <%= f.input :registration_status, { collection: {'仮登録' => 0, '本登録' => 1}, as: :radio_buttons, inline_label: '本登録', checked: @project.registration_status.blank? ? 0 : 1 } %>
-  <%= f.input :operator, collection: User.all, label_method: :name, value_method: :id, include_blank: false, selected: @project.operator.id %>
-  <%= f.input :upload_server, { as: :select, collection: Benesse::Application.config.servers, include_blank: false } %>
   <%= f.input :test_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
   <%= f.input :production_upload_at, { input_html: { class: 'input-small' }, datetime_separator: raw('<span class="separator">- </span>'), time_separator: raw('<span class="separator">: </span>') } %>
   <%= f.input :register_datetime, { inline_label: '本番環境移送日の日と時間を未定にする', label: false,  } %>
   <%= f.input :memo %>
   <%= f.button :wrapped, class: 'btn btn-primary' %>
-
 <% end %>
 
 <%= link_to 'Show', @project %> |

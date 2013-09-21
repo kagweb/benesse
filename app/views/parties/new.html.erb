@@ -7,10 +7,13 @@
   <div class="control-group">
     <%= label :departments, :name, t('activerecord.attributes.department.name'), class: 'control-label' %>
     <div class="controls">
-      <%= select :departments, :name, Department.all.map{|u| [ u.name, u.id ] }, { include_blank: true }, { onchange: 'user_list($(this).val())' } %>
+      <%= select :departments, :name, 
+          Department.where(['name != ?', '業者']).map{|u| [ u.name, u.id ] },
+          { include_blank: true },
+          { onchange: 'user_list($(this).val())' } %>
     </div>
   </div>
-  <%= f.input :user, collection: User.all, label_method: :name, value_method: :id, include_blank: false %>
+  <%= f.input :user, collection: User.where(['department_id != ?', Department.find_by_name('業者').try(:id)]), label_method: :name, value_method: :id, include_blank: false %>
   <%= f.button :wrapped, class: 'btn btn-primary' %>
 <% end %>
 

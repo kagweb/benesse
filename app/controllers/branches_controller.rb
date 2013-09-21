@@ -1,5 +1,6 @@
 class BranchesController < ApplicationController
   before_filter :require_login
+  before_filter :supplier_department_except
 
   def index
     @branches = Branch.all

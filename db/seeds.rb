@@ -16,26 +16,24 @@ if Rails.env.development?
 
   ['部署1', '部署2', '部署3'].each do |name|
     tmp = Department.create name: name
-
-    # 各プロジェクトの関係者として利用するテストユーザ
-    10.times do |i|
-      users << tmp.users.create(username: "user#{tmp.id}_#{i}", name: "テストユーザ#{i}", email: "user#{tmp.id}_#{i}@mail.benesse.co.jp", password: 'secret', password_confirmation: 'secret')
-    end
+    users << tmp.users.create(username: "user#{users.length + 1}", name: "一般 ユーザ#{users.length + 1}", email: "user#{users.length + 1}@mail.benesse.co.jp", password: 'secret', password_confirmation: 'secret')
+    users << tmp.users.create(username: "user#{users.length + 1}", name: "一般 ユーザ#{users.length + 1}", email: "user#{users.length + 1}@mail.benesse.co.jp", password: 'secret', password_confirmation: 'secret')
   end
 
-  # 開発用ログインユーザ
+  # 業者テストユーザ
   creator = supplier.users.create(username: 'clustium', name: 'clustium Inc.', email: 'info@clustium.com', password: 'secret', password_confirmation: 'secret')
 
   projects = []
 
   100.times do |i|
-    project = Project.new name: "プロジェクト#{i}", memo: "プロジェクト#{i}のメモ。 " * 10
+    project = Project.new name: "ライブ講義アーカイブページ[#{i}]", memo: "プロジェクト#{i}のメモ。 " * 10
     project.test_upload_at = Date.new 2013, rand(9..10), rand(1..30)
     project.production_upload_at = project.test_upload_at + (rand 10..30).day
     project.upload_server = Benesse::Application.config.servers[rand(Benesse::Application.config.servers.length)]
-    project.authorizer = admin
-    project.promoter   = admin
-    project.operator   = admin
+    project.authorizer = users[rand(users.length)]
+    project.promoter   = users[rand(users.length)]
+    project.operator   = users[rand(users.length)]
+    project.register_datetime = true
     project.save
     projects << project
   end
@@ -56,15 +54,6 @@ if Rails.env.development?
       party.user = users[rand(users.length)]
       party.save
       parties << party.user
-    end
-
-    # コメントを登録
-    (rand 5..10).times do |i|
-      0..3.times do |status|
-        comment = project.comments.new status: status, comment: 'コメントのテストです。' * 10
-        comment.user = parties[rand(parties.length)]
-        comment.save
-      end
     end
   end
 

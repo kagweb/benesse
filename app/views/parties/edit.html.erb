@@ -1,6 +1,14 @@
-<h1>Editing party</h1>
+<h1>関係者の登録情報編集</h1>
 
-<%= render 'form' %>
+<%= simple_form_for [@party.project, @party] do |f| %>
+  <%= f.error_notification %>
+  <div class="control-group">
+    <div class="controls">
+      <label><%= @party.user.name %></label>
+    </div>
+  </div>
+  <%= f.input :required, label: false, inline_label: '必須'%>
+  <%= f.button :wrapped, class: 'btn btn-primary' %>
+<% end %>
 
-<%= link_to 'Show', @party %> |
-<%= link_to 'Back', parties_path %>
+<%= link_to 'Back', @party.project %>

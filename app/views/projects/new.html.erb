@@ -5,9 +5,9 @@
   <%= f.error_notification %>
 
   <%= f.input :name %>
-  <%= f.input :authorizer, collection: User.all, label_method: :name, value_method: :id, include_blank: false %>
-  <%= f.input :promoter, collection: User.all, label_method: :name, value_method: :id, include_blank: false %>
-  <%= f.input :operator, collection: User.all, label_method: :name, value_method: :id, include_blank: false %>
+  <%= f.input :authorizer, collection: User.where(['department_id != ?', Department.find_by_name('業者').try(:id)]), label_method: :name, value_method: :id, include_blank: false %>
+  <%= f.input :promoter, collection: User.where(['department_id != ?', Department.find_by_name('業者').try(:id)]), label_method: :name, value_method: :id, include_blank: false %>
+  <%= f.input :operator, collection: User.where(['department_id != ?', Department.find_by_name('業者').try(:id)]), label_method: :name, value_method: :id, include_blank: false %>
   <%= f.input :upload_server, { as: :select, collection: Benesse::Application.config.servers, include_blank: false } %>
   <%= f.input :test_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
   <%= f.input :production_upload_at, { input_html: { class: 'input-small' }, datetime_separator: raw('<span class="separator">- </span>'), time_separator: raw('<span class="separator">: </span>')} %>

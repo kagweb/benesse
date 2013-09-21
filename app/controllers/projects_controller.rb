@@ -1,5 +1,7 @@
+# encoding: utf-8
 class ProjectsController < ApplicationController
   before_filter :require_login, except: :index
+  before_filter :supplier_department_except
 
   def index
     redirect_to login_url unless current_user
@@ -36,11 +38,7 @@ class ProjectsController < ApplicationController
       @project.operator   = user if user.id == users[2].to_i
     end
 
-    if @project.save
-      redirect_to @project, notice: 'Project was successfully created.'
-    else
-      render :new
-    end
+    @project.save ? redirect_to(@project, notice: "移送案件[ #{@project.name} ]の新規登録しました。") : render(:new)
   end
 
   def update
@@ -52,7 +50,7 @@ class ProjectsController < ApplicationController
     @project.branches.where(code: '90').first_or_create if @project.miss
 
     if @project.save
-      redirect_to @project, notice: 'Project was successfully updated.'
+      redirect_to @project, notice: "#{@project.name} を編集しました。"
     else
       render :edit
     end
@@ -70,9 +68,24 @@ class ProjectsController < ApplicationController
 
   def author_update
     @project = Project.find params[:id]
-    @project.authorizer = User.find params[:project][:authorizer]
-    @project.promoter   = User.find params[:project][:promoter]
-    @project.save ? redirect_to(@project, notice: 'Updated authors') : render(:authors)
+
+    if params[:project][:authorizer]
+      user = User.find params[:project][:authorizer]
+      unless @project.authorizer == user
+        @project.old_authorizer = @project.authorizer
+        @project.authorizer = user
+      end
+    end
+
+    if params[:project][:promoter]
+      user = User.find params[:project][:promoter]
+      unless @project.promoter == user
+        @project.old_promoter = @project.promoter
+        @project.promoter = user
+      end
+    end
+
+    @project.save ? redirect_to(@project, notice: '付替えが完了しました。') : render(:authors)
   end
 
   def check
@@ -87,18 +100,14 @@ class ProjectsController < ApplicationController
   def check_confirmation
     @project = Project.find params[:id]
     @status = _status_code params[:status]
-    Confirmation.delete_all project_id: @project.id, user_id: current_user.id, status: @status 
+    Confirmation.delete_all project_id: @project.id, user_id: current_user.id, status: @status
     @confirmation = @project.confirmations.new response: params[:confirmation][:response], status: @status
     @confirmation.user = current_user
 
     if @confirmation.save
-      if _check_status_update @project
-        redirect_to @project, notice: 'Updated confirmations status.'
-      else
-        redirect_to @project, url: { action: :check, status: params[:status] }, notice: "Updated confirmation."
-      end
+      redirect_to @project, notice: "#{t('view.project.' + params[:status])} の進捗状況を更新しました。"
     else
-      redirect_to @project, url: { action: :check, status: params[:status] }
+      redirect_to @project, url: { action: :check, status: params[:status] }, notice: "#{t('view.project.' + params[:status])} の進捗状況を更新に失敗しました。"
     end
   end
 
@@ -110,7 +119,7 @@ class ProjectsController < ApplicationController
     status = _status_slug params[:comment][:status].to_i
 
     if @comment.save
-      redirect_to "/projects/#{params[:id]}/check/#{status}", notice: 'Comment was successfully created.'
+      redirect_to "/projects/#{params[:id]}/check/#{status}", notice: 'コメントを追加しました。'
     else
       redirect_to "/projects/#{params[:id]}/check/#{status}"
     end
@@ -124,15 +133,17 @@ class ProjectsController < ApplicationController
 
   def confirm
     project = Project.find params[:id]
-
-    unless current_user.id == project.authorizer_id
-      redirect_to project
-      return
-    end
-
     project.confirmed = true
+    project.status = 1
     project.save
-    redirect_to project, notice: 'Confirm this project.'
+    redirect_to project, notice: "#{project.name} が承認されました。"
+  end
+
+  def confirm_html
+    project = Project.find params[:id]
+    project.status = 2
+    project.save
+    redirect_to project, notice: '納品データが承認されました。'
   end
 
   def remind_mail
@@ -155,21 +166,5 @@ class ProjectsController < ApplicationController
     return slug if [0..2].include? slug
     status = { 'html' => 0, 'test' => 1, 'production' => 2 }
     return status[slug]
-  end
-
-  def _check_status_update(project)
-    updated = true
-
-    project.parties.each do |party|
-      next unless party.required
-      updated = false unless 'ok' == party.user.confirmations.where(project_id: project.id, status: project.status).first.try(:response)
-    end
-
-    if updated
-      project.status += 1
-      project.save
-    end
-
-    return updated
   end
 end
