@@ -2,9 +2,40 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.projects {
+  .status_buttons {
+    margin-left: -3.33%;
+
+    li {
+      width: 30%;
+      margin-left: 3.33%;
+    }
+  }
+
+  table.parties {
+    th, td {
+      font-size: 90%;
+    }
+  }
+}
+
 ul.comments {
   li {
-    margin-bottom: 10px;
+    b.username {
+      color: #558;
+      font-size: 110%;
+    }
+
+    .time {
+      color: #888;
+      padding-left: 10px;
+    }
+
+    p {
+      line-height: 180%;
+      margin-top: 5px;
+      margin-bottom: 30px;
+    }
   }
 }
 
@@ -54,6 +85,35 @@ ul.comments {
 
       &:hover {
         color: #aaa;
+      }
+    }
+  }
+
+  table.files {
+    margin-top: 20px;
+
+    tbody {
+      tr.action_select {
+        cursor: pointer;
+
+        td {
+          a {
+            color: #555;
+            text-decoration: underline;
+
+            &:hover {
+              color: #558;
+            }
+          }
+        }
+
+        &.selected {
+          background: #eef;
+
+          td {
+            background: #eef;
+          }
+        }
       }
     }
   }

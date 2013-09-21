@@ -44,16 +44,16 @@
             <td><%= party.user.department.name %></td>
             <td><%= party.user.name %></td>
 
-            <% if current_user == party.user%>
-            <td class="center">
-              <%= radio_button :confirmation, :response, 'feedback' , { checked: response(current_user) == 'feedback' } %>
-            </td>
-            <td class="center">
-              <%= radio_button :confirmation, :response, 'ok' , { checked: response(current_user) == 'ok' } %>
-            </td>
-            <td class="center">
-              <%= radio_button :confirmation, :response, 'ng' , { checked: response(current_user) == 'ng' } %>
-            </td>
+            <% if current_user == party.user and confirmation_enabled?(@project) %>
+              <td class="center">
+                <%= radio_button :confirmation, :response, 'feedback' , { checked: response(current_user) == 'feedback' } %>
+              </td>
+              <td class="center">
+                <%= radio_button :confirmation, :response, 'ok' , { checked: response(current_user) == 'ok' } %>
+              </td>
+              <td class="center">
+                <%= radio_button :confirmation, :response, 'ng' , { checked: response(current_user) == 'ng' } %>
+              </td>
             <% else %>
             <td class="center">
               <%= raw response(party.user) == 'feedback' ? '<i class="icon-ok"></i>' : '' %>
@@ -73,18 +73,21 @@
       <% if @project.parties.blank? %>
         <p class="text-error">関係者が登録されていません。</p>
       <% end %>
-      <input type="submit" class="btn btn-primary btn-large pull-right" value="登録">
+
+      <% if confirmation_enabled? @project %>
+        <input type="submit" class="btn btn-primary btn-large pull-right" value="登録">
+      <% end%>
     <% end %>
   </div>
 </div>
 
 <h2><%= t 'view.utility.comment' %></h2>
 <ul class="well unstyled comments">
-  <% @comments.reverse_order.each do |c| %>
+  <% @comments.each do |c| %>
   <li>
-    <%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %>
-    <b><%= c.user.name %>: </b>
-    <%= raw c.comment.gsub(/\r\n|\r|\n/, "<br />") %>
+    <b class="username"><i class="icon-user"></i> <%= c.user.name %></b>
+    <span class="time"><%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %></span>
+    <p><%= raw c.comment.gsub(/\r\n|\r|\n/, "<br />") %></p>
   </li>
   <% end %>
   <% if @comments.blank? %>

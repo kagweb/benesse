@@ -1,9 +1,6 @@
-.navbar .container {
-  width: 1170px !important;
-}
-
-.navbar .navbar-inner {
-  border-radius: 0;
+.navbar-fixed-top {
+  position: static;
+  margin-bottom: 30px;
 }
 
 table th.center,
