@@ -3,14 +3,6 @@ class PartiesController < ApplicationController
   before_filter :require_login
   before_filter :supplier_department_except
 
-  def index
-    @parties = Party.all
-  end
-
-  def show
-    @party = Party.find params[:id]
-  end
-
   def new
     @party = Party.new
     @party.project = Project.find params[:project_id]

@@ -12,7 +12,6 @@ Benesse::Application.routes.draw do
       get :update_branch
       get :confirm
       get :confirm_html
-      get :upload_compleat
       get :downloads, controller: :downloads, action: :index
       post :remind_mail
       post :comment
@@ -31,9 +30,10 @@ Benesse::Application.routes.draw do
       end
     end
 
-    resources :parties
+    resources :parties, except: [:index, :show]
     resources :upload, only: [:index, :create]
   end
+
   resources :departments, except: [:show]
   resources :users, except: [:show]
   resources :sessions, only: [:new, :create, :destroy]
