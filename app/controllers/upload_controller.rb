@@ -11,7 +11,7 @@ class UploadController < ApplicationController
 
     # ファイルが指定されていない時と、指定されたファイルの拡張子が zip でない時
     if params['upload'].blank? or params['upload']['files'].blank? or ! ['zip', 'ZIP'].include? params['upload']['files'].original_filename.split('.').last
-      redirect_to project_upload_index_path @project, notice: 'ZIP 形式のファイルをアップロードしてください。'
+      redirect_to project_upload_index_path(@project), alert: 'ZIP 形式のファイルをアップロードしてください。'
       return
     end
 
