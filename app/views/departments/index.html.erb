@@ -1,23 +1,29 @@
-<h1>Listing departments</h1>
+<h1>部署一覧</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<div class="clearfix">
+  <table class="table table-hover span5">
+    <thead>
+      <tr>
+        <th>部署名</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @departments.each do |department| %>
+      <tr>
+        <td><%= department.name %></td>
+        <% if ['デジタル推進課', '業者'].include? department.name %>
+        <td class="text-error">編集不可</td>
+        <td></td>
+        <% else %>
+        <td><%= link_to '編集', edit_department_path(department) %></td>
+        <td><%= link_to '削除', department, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
 
-<% @departments.each do |department| %>
-  <tr>
-    <td><%= department.name %></td>
-    <td><%= link_to 'Show', department %></td>
-    <td><%= link_to 'Edit', edit_department_path(department) %></td>
-    <td><%= link_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Department', new_department_path %>
+<%= link_to '部署登録', new_department_path %>

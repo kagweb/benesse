@@ -34,7 +34,7 @@ Benesse::Application.routes.draw do
     resources :parties
     resources :upload, only: [:index, :create]
   end
-  resources :departments
+  resources :departments, except: [:show]
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :aws, only: [:index, :actions] do
