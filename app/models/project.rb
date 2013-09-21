@@ -10,13 +10,20 @@ class Project < ActiveRecord::Base
   belongs_to :old_authorizer, class_name: 'User'
   belongs_to :old_promoter, class_name: 'User'
 
-  attr_accessible :code, :confirmed, :name, :production_upload_at,
+  attr_accessible :confirmed, :name, :production_upload_at,
                   :exists_test_server, :status, :test_upload_at,
                   :upload_server, :registration_status, :year_migrate,
                   :server_update, :memo, :register_datetime, :miss, :deletion
 
   after_create :create_branch
   after_create :add_parties
+
+  validates :name, presence: true
+  validates :authorizer, presence: true
+  validates :promoter, presence: true
+  validates :operator, presence: true
+  validates :test_upload_at, presence: true
+  validates :production_upload_at, presence: true
 
   def status_slug
     tmp = []

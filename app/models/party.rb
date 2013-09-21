@@ -6,6 +6,8 @@ class Party < ActiveRecord::Base
 
   before_create :check_deplicated_user
 
+  validates :user, presence: true
+
   private
 
   def check_deplicated_user
