@@ -81,6 +81,9 @@
 
   </tbody>
 <table>
+<% if @projects.blank? %>
+  <div class="alert alert-error">移送案件が見つかりません。</div>
+<% end %>
 
 <div class="row">
   <div class="span12">
