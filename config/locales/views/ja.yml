@@ -29,6 +29,7 @@ ja:
       check: 案件状況確認画面
       name: 企画名
       miss: ミスあり
+      delete: この案件を削除
     file_viewer:
       buttons:
         list: リスト表示

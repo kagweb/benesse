@@ -82,5 +82,9 @@
   </tbody>
 <table>
 
-<%= link_to '< Prev month', { date: @date << 1 } %>
-<%= link_to 'Next month >', { date: @date >> 1 }, { class: 'pull-right' } %>
+<div class="row">
+  <div class="span12">
+    <%= link_to '< Prev month', { date: @date << 1 } %>
+    <%= link_to 'Next month >', { date: @date >> 1 }, { class: 'pull-right' } %>
+  </div>
+</div>

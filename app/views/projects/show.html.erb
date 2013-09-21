@@ -86,10 +86,6 @@
 
     <%= link_to raw('<i class="icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'),
       { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
-
-    <% if current_user.is_promotion_department? %>
-      <%= link_to t('view.utility.delete'), @project, method: :delete, class: 'btn btn-danger pull-right', data: { confirm: t('view.confirm.project_delete')} %>
-    <% end %>
   </div>
 
   <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>
@@ -168,7 +164,9 @@
       <p class="text-error">関係者が登録されていません。</p>
     <% end %>
 
-    <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right' } %>
+    <div class="clearfix">
+      <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right clearfix' } %>
+    </div>
 
     <div class="clearfix">
       <textarea rows="10" class="input-block-level" name="mail_text"></textarea>
@@ -179,4 +177,10 @@
 
 <%= render 'projects/file_viewer', for_project: true %>
 
-<%= link_to 'Back', projects_path %>
+
+<div class="clearfix">
+  <%= link_to 'Back', projects_path %>
+  <% if current_user.is_promotion_department? %>
+    <%= link_to t('view.project.delete'), @project, method: :delete, class: 'btn btn-danger pull-right', data: { confirm: t('view.confirm.project_delete')} %>
+  <% end %>
+</div>

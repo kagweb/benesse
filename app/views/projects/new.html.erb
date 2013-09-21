@@ -12,7 +12,7 @@
   <%= f.input :test_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
   <%= f.input :production_upload_at, { input_html: { class: 'input-small' }, datetime_separator: raw('<span class="separator">- </span>'), time_separator: raw('<span class="separator">: </span>')} %>
   <%= f.input :register_datetime, { inline_label: '本番環境移送日の日と時間を未定にする', label: false } %>
-  <%= f.input :memo %>
+  <%= f.input :memo, input_html: { class: 'span6' } %>
   <%= f.button :wrapped, class: 'btn btn-primary' %>
 
 <% end %>

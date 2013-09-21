@@ -58,9 +58,9 @@ module ProjectsHelper
 
   def folder ( name, info )
     # ファイルの情報
-    tmp  = "<div class=\"pull-right span2\">#{info['_updated_at_']} </div>"
-    tmp += "<div class=\"pull-right span1\">#{info['_size_']}</div>"
-    tmp += "<div class=\"pull-right span1\">#{info['_type_'].upcase}</div>"
+    tmp  = "<div class=\"pull-right span2 file_info\">#{info['_updated_at_']} </div>"
+    tmp += "<div class=\"pull-right span1 file_info\">#{info['_size_']}</div>"
+    tmp += "<div class=\"pull-right span1 file_info\">#{info['_type_'].upcase}</div>"
 
     # ディレクトリでない場合は li 要素を返す
     return "<li class=\"file\"><a href=\"#{info['_basepath_']}/#{info['_path_']}\" data-root=\"#{info['_root_']}\"><i class=\"icon-file\"></i> #{name} #{tmp} </a></li>" unless info['_type_'] == 'dir'
