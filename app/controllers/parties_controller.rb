@@ -35,8 +35,7 @@ class PartiesController < ApplicationController
 
   def destroy
     @party = Party.find params[:id]
-    project = @party.project
     @party.destroy
-    redirect_to project
+    redirect_to @party.project
   end
 end

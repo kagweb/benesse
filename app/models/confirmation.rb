@@ -6,16 +6,15 @@ class Confirmation < ActiveRecord::Base
 
   after_save :check_status
 
-  private
-
   def check_status
-    return false unless [2,4,6].include? project.status
+    return false if ! [2,4,6].include? project.status or project.parties.find_all_by_required(true).blank?
 
     updated = true
 
+    confirmation_status = { 2 => 0, 4 => 1, 6=> 2 }
     project.parties.each do |party|
       next unless party.required
-      updated = false unless 'ok' == party.user.confirmations.find_by_status(status).try(:response)
+      updated = false unless 'ok' == project.confirmations.where(user_id: party.user.id, status: confirmation_status[project.status]).first.try(:response)
     end
 
     if updated
