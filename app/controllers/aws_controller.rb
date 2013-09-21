@@ -20,7 +20,13 @@ class AwsController < ApplicationController
     end
 
     if params[:download] == 'on'
-      send_file(FileTest.directory?(@path) ? create_zip(@path) : @path)
+      if FileTest.directory?(@path)
+        @path = create_zip(@path)
+        send_file @path
+        # remove_tmp_file @path
+      else
+        send_file @path
+      end
     elsif params[:upload] == 'on'
       @path = Pathname.new(File.dirname @path) if File.file? @path
       upload

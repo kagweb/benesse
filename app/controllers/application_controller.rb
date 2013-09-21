@@ -44,8 +44,9 @@ class ApplicationController < ActionController::Base
   end
 
   def unzip(file, path)
-    filename  = create_tmp_file(file)
-    Zip::Archive.open Benesse::Application.config.upload_tmp_path.join(filename).to_s do |archive|
+    tmp_file  = Benesse::Application.config.upload_tmp_path.join create_tmp_file(file)
+
+    Zip::Archive.open tmp_file.to_s do |archive|
       archive.each do |f|
         ## __MACOSX の削除
         next if f.name =~ /^__MACOSX/
@@ -62,6 +63,8 @@ class ApplicationController < ActionController::Base
         open(path.join(f.name), 'wb') {|t| t << f.read }
       end
     end
+
+    remove_tmp_file tmp_file
   end
 
   def create_tmp_file(file)
@@ -72,5 +75,9 @@ class ApplicationController < ActionController::Base
     fs.close
 
     return filename
+  end
+
+  def remove_tmp_file(path)
+    File.delete path if File.exist? path and path.to_s =~ /^#{Benesse::Application.config.upload_tmp_path}/
   end
 end
