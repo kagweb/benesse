@@ -32,7 +32,6 @@ Benesse::Application.routes.draw do
     end
 
     resources :parties
-    resources :confirmations
     resources :upload, only: [:index, :create]
   end
   resources :departments
