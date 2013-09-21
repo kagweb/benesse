@@ -7,6 +7,8 @@ class Project < ActiveRecord::Base
   belongs_to :authorizer, class_name: 'User'
   belongs_to :promoter, class_name: 'User'
   belongs_to :operator, class_name: 'User'
+  belongs_to :old_authorizer, class_name: 'User'
+  belongs_to :old_promoter, class_name: 'User'
 
   attr_accessible :code, :confirmed, :name, :production_upload_at,
                   :exists_test_server, :status, :test_upload_at,

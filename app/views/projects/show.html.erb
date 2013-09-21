@@ -35,12 +35,14 @@
 
     <p>
       <b><%= t 'activerecord.attributes.project.authorizer' %>:</b>
-      <%= @project.authorizer ? @project.authorizer.name : t('view.utility.undefined') %>
+      <%= @project.authorizer.name %>&nbsp;
+      <%= link_to 'OK', authority_confirms_path(auth: 'authorizer'), class: 'btn btn-mini btn-success' if @project.old_authorizer and current_user == @project.authorizer %>
     </p>
 
     <p>
       <b><%= t 'activerecord.attributes.project.promoter' %>:</b>
-      <%= @project.promoter ? @project.promoter.name : t('view.utility.undefined') %>
+      <%= @project.promoter.name %>&nbsp;
+      <%= link_to 'OK', authority_confirms_path(auth: 'promoter'), class: 'btn btn-mini btn-success' if @project.old_promoter and current_user == @project.promoter %>
     </p>
 
     <p>
@@ -72,12 +74,12 @@
         { controller: 'projects', action: 'confirm' }, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
     <% end %>
 
-    <% if deny? 'authorizer' %>
+    <% if allow? 'promoter', 'operator' %>
       <%= link_to raw('<i class="icon-edit"></i> ' + t('view.project.update_project') + '</a>'),
         edit_project_path(@project), { class: 'btn' } %>
     <% end %>
 
-    <% if deny? 'operator' %>
+    <% if allow? 'authorizer', 'promoter' %>
       <%= link_to raw('<i class="icon-user"></i> ' + t('view.project.update_authors') + '</a>'),
         { controller: 'projects' , action: 'authors', id: @project.id }, { class: 'btn' } %>
     <% end %>

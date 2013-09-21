@@ -68,9 +68,24 @@ class ProjectsController < ApplicationController
 
   def author_update
     @project = Project.find params[:id]
-    @project.authorizer = User.find params[:project][:authorizer]
-    @project.promoter   = User.find params[:project][:promoter]
-    @project.save ? redirect_to(@project, notice: 'Updated authors') : render(:authors)
+
+    if params[:project][:authorizer]
+      user = User.find params[:project][:authorizer]
+      unless @project.authorizer == user
+        @project.old_authorizer = @project.authorizer
+        @project.authorizer = user
+      end
+    end
+
+    if params[:project][:promoter]
+      user = User.find params[:project][:promoter]
+      unless @project.promoter == user
+        @project.old_promoter = @project.promoter
+        @project.promoter = user
+      end
+    end
+
+    @project.save ? redirect_to(@project, notice: '付け替えが完了しました。') : render(:authors)
   end
 
   def check
@@ -118,12 +133,6 @@ class ProjectsController < ApplicationController
 
   def confirm
     project = Project.find params[:id]
-
-#     unless current_user.id == project.authorizer_id
-#       redirect_to project
-#       return
-#     end
-
     project.confirmed = true
     project.status = 1
     project.save
@@ -132,24 +141,9 @@ class ProjectsController < ApplicationController
 
   def confirm_html
     project = Project.find params[:id]
-
-#     unless current_user.id == project.authorizer_id
-#       redirect_to project
-#       return
-#     end
-
     project.status = 2
     project.save
     redirect_to project, notice: '納品データが承認されました。'
-  end
-
-  def upload_compleat
-    project = Project.find params[:id]
-    project.status = 4 if project.status == 3
-    project.status = 6 if project.status == 5
-    project.save
-
-    redirect_to project
   end
 
   def remind_mail
@@ -158,26 +152,6 @@ class ProjectsController < ApplicationController
     pp params[:cc] # CCに付けるユーザの ID 一覧
     pp params[:mail_text] # メール本文
     redirect_to project
-  end
-
-  def download
-    path = Benesse::Application.config.upload_root_path.join params[:path]
-
-    if FileTest.file? path
-      send_file path
-      return false
-    end
-
-    if FileTest.directory? path
-      zip = _create_zip path
-      File.file? zip.to_s ? send_file(zip.to_s) : redirect_to(projects_path, notice: "データのダウンロードに失敗しました。")
-      return false
-    end
-
-    notice = 'エラーが発生しました。'
-    notice = 'ファイルが存在しません。' unless FileTest.exist? path
-    redirect_to projects_path, notice: notice
-    return false
   end
 
   private

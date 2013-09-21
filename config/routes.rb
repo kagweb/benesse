@@ -13,9 +13,22 @@ Benesse::Application.routes.draw do
       get :confirm
       get :confirm_html
       get :upload_compleat
+      get :downloads, controller: :downloads, action: :index
       post :remind_mail
       post :comment
-      post :download
+
+      resources :close_outs, only: [:test, :production] do
+        collection do
+          get :test
+          get :production
+        end
+      end
+
+      resources :confirms, only: [:authors] do
+        collection do
+          get :authority
+        end
+      end
     end
 
     resources :parties
@@ -32,6 +45,7 @@ Benesse::Application.routes.draw do
       post :actions
     end
   end
+
   match 'login' => 'sessions#new', as: :login
   match 'logout' => 'sessions#destroy', as: :logout
 

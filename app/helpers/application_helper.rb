@@ -9,13 +9,15 @@ module ApplicationHelper
     authorities.each do |a|
       case a
       when 'authorizer'
-        return @project.authorizer == current_user
+        return true if @project.authorizer == current_user
       when 'promoter'
-        return @project.promoter == current_user
+        return true if @project.promoter == current_user
       when 'operator'
-        return @project.operator == current_user
+        return true if @project.operator == current_user
       end
     end
+
+    return false
   end
 
   def deny?(*authorities)
@@ -31,5 +33,7 @@ module ApplicationHelper
         return false if @project.operator == current_user
       end
     end
+
+    return false
   end
 end

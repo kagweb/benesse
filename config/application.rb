@@ -114,5 +114,8 @@ module Benesse
       'production' => config.upload_projects_path.join('production'),
       'test'       => config.upload_projects_path.join('test'),
     }
+
+    # 最新のプロジェクトのブランチをダウンロードするためのトークン
+    config.authentication_token = 'vN4ZVag5ti7Gpwis'
   end
 end

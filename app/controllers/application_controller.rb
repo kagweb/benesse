@@ -2,7 +2,13 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  after_filter :set_return_to_url
+
   protected
+
+  def set_return_to_url
+    session[:return_to_url] = request.url
+  end
 
   def is_promotion_department?
     current_user && current_user.is_promotion_department?
