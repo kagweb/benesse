@@ -13,7 +13,7 @@ class Project < ActiveRecord::Base
   attr_accessible :code, :confirmed, :name, :production_upload_at,
                   :exists_test_server, :status, :test_upload_at,
                   :upload_server, :registration_status, :year_migrate,
-                  :server_update, :memo, :register_datetime, :miss
+                  :server_update, :memo, :register_datetime, :miss, :deletion
 
   after_create :create_branch
   after_create :add_parties
@@ -26,6 +26,23 @@ class Project < ActiveRecord::Base
 
   def update_branch
     branches.create code: format("%02d", branches.last.code.to_i + 1)
+  end
+
+  def to_api
+    response = Hash.new
+    # case status
+    # when 3
+      response[:status] = 'test'
+    # when 5
+    #   response[:status] = 'production'
+    # else
+    #   return false
+    # end
+    response[:id] = id
+    response[:upload_server] = upload_server
+    response[:deletion] = false # deletion
+    response[:year_migrate] = year_migrate
+    return response
   end
 
   private
