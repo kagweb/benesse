@@ -85,7 +85,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-    @project.save ? redirect_to(@project, notice: '付け替えが完了しました。') : render(:authors)
+    @project.save ? redirect_to(@project, notice: '付替えが完了しました。') : render(:authors)
   end
 
   def check
@@ -100,7 +100,7 @@ class ProjectsController < ApplicationController
   def check_confirmation
     @project = Project.find params[:id]
     @status = _status_code params[:status]
-    Confirmation.delete_all project_id: @project.id, user_id: current_user.id, status: @status 
+    Confirmation.delete_all project_id: @project.id, user_id: current_user.id, status: @status
     @confirmation = @project.confirmations.new response: params[:confirmation][:response], status: @status
     @confirmation.user = current_user
 
