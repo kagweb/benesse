@@ -8,7 +8,8 @@ Benesse::Application.routes.draw do
     member do
       get :authors
       put :authors, action: :author_update
-#       get :check, constraints: { status: /^html|^test|^production/ }
+      get :check, constraints: { status: /^html|^test|^production/ }
+      put :check, action: :check_confirmation
       get :update_branch
       get :confirm
       get :confirm_html
@@ -46,9 +47,6 @@ Benesse::Application.routes.draw do
 
   match 'login' => 'sessions#new', as: :login
   match 'logout' => 'sessions#destroy', as: :logout
-
-  match 'projects/:id/check/:status' => 'projects#check', via: :get
-  match 'projects/:id/check/:status' => 'projects#check_confirmation', via: :put
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

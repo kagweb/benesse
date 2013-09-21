@@ -112,8 +112,7 @@
     <ul class="row status_buttons unstyled">
       <% for i in ['html', 'test', 'production'] %>
       <li class="span2">
-        <%= link_to t('view.project.'  + i),
-          { controller: 'projects', action: 'check', status: i, id: @project.id },
+        <%= link_to t('view.project.'  + i), check_project_path(status: i),
           { class: "btn btn-large btn-block #{disabled i}", onclick: "if ('disabled' === '#{disabled i}') return false;" } %>
         <p class="text-center"><%= t 'view.project.status.'  + (now_status @project, i) %></p>
       </li>
