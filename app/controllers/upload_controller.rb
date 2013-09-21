@@ -23,7 +23,7 @@ class UploadController < ApplicationController
     FileUtils.mkdir_p target_path
 
     # zip を展開
-    _unzip(params['upload']['files'], target_path)
+    unzip(params['upload']['files'], target_path)
 
     redirect_to project_upload_index_url(@project), notice: "#{params['upload']['files'].original_filename} のアップロードに成功しました。"
   end

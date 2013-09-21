@@ -20,7 +20,7 @@ class AwsController < ApplicationController
     end
 
     if params[:download] == 'on'
-      send_file(FileTest.directory?(@path) ? _create_zip(@path) : @path)
+      send_file(FileTest.directory?(@path) ? create_zip(@path) : @path)
     elsif params[:upload] == 'on'
       @path = Pathname.new(File.dirname @path) if File.file? @path
       upload
@@ -43,6 +43,6 @@ class AwsController < ApplicationController
       return
     end
 
-    _unzip(params[:upload_file], @path)
+    unzip(params[:upload_file], @path)
   end
 end

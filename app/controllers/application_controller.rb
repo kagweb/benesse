@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: 'アクセス権がありません。'
   end
 
-  def _create_zip(path)
+  def create_zip(path)
     resolved_path = path.to_s.split /\//
     tmp_filename  = resolved_path.pop + '_' + Time.now.strftime("%Y%m%d%H%M%S%L") + '.zip'
     reduce_path   = resolved_path.join('/')
@@ -43,8 +43,8 @@ class ApplicationController < ActionController::Base
     return Benesse::Application.config.upload_tmp_path.join tmp_filename
   end
 
-  def _unzip(file, path)
-    filename  = _create_tmp_file(file)
+  def unzip(file, path)
+    filename  = create_tmp_file(file)
     Zip::Archive.open Benesse::Application.config.upload_tmp_path.join(filename).to_s do |archive|
       archive.each do |f|
         ## __MACOSX の削除
@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def _create_tmp_file(file)
+  def create_tmp_file(file)
     filename = Time.now.strftime("%Y%m%d%H%M%S%L") + '_' + file.original_filename
     FileUtils.mkdir_p Benesse::Application.config.upload_tmp_path
     fs = File.open Benesse::Application.config.upload_tmp_path.join(filename), 'w'
