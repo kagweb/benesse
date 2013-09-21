@@ -125,35 +125,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def update_branch
-    project = Project.find params[:id]
-    project.update_branch
-    redirect_to project
-  end
-
-  def confirm
-    project = Project.find params[:id]
-    project.confirmed = true
-    project.status = 1
-    project.save
-    redirect_to project, notice: "#{project.name} が承認されました。"
-  end
-
-  def confirm_html
-    project = Project.find params[:id]
-    project.status = 2
-    project.save
-    redirect_to project, notice: '納品データが承認されました。'
-  end
-
-  def remind_mail
-    project = Project.find params[:id]
-    pp params[:to] # TOに付けるユーザの ID 一覧
-    pp params[:cc] # CCに付けるユーザの ID 一覧
-    pp params[:mail_text] # メール本文
-    redirect_to project
-  end
-
   private
 
   def _status_slug(code)

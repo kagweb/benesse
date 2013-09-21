@@ -5,8 +5,8 @@
   <% end %>
   <%= link_to raw('<i class="icon-folder-open"></i> ' + t('view.file_viewer.buttons.folder')), project_path(@project) , class: 'btn' %>
   <% if allow? 'promoter' and @project.status == 1 %>
-    <%= link_to raw('<i class="icon-ok"></i> ' + t('view.file_viewer.buttons.confirm')), { controller: 'projects', action: 'confirm_html' }, class: 'btn btn-primary', confirm: t('view.confirm.confirm_html') %>
-    <%= link_to raw('<i class="icon-remove"></i> ' + t('view.file_viewer.buttons.cancel')), { controller: 'projects', action: 'update_branch' } , class: 'btn btn-danger', confirm: t('view.confirm.cancel_html') %>
+    <%= link_to raw('<i class="icon-ok"></i> ' + t('view.file_viewer.buttons.confirm')), aws_confirms_url, class: 'btn btn-primary', confirm: t('view.confirm.confirm_html') %>
+    <%= link_to raw('<i class="icon-remove"></i> ' + t('view.file_viewer.buttons.cancel')), update_branch_confirms_url , class: 'btn btn-danger', confirm: t('view.confirm.cancel_html') %>
   <% end %>
   <button type="submit" class="btn file_action" data-action="download" name="download" value="on"><i class="icon-download"></i> <%= t 'view.file_viewer.buttons.download' %></button>
   <% if allow? 'promoter' %>

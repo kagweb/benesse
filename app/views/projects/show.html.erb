@@ -71,7 +71,7 @@
 
     <% if allow? 'authorizer' and ! @project.confirmed %>
       <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'),
-        { controller: 'projects', action: 'confirm' }, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
+        project_confirms_url, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
     <% end %>
 
     <% if allow? 'promoter', 'operator' %>
@@ -85,10 +85,10 @@
     <% end %>
 
     <%= link_to raw('<i class="icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'),
-      { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
+      update_branch_confirms_url, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
   </div>
 
-  <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>
+  <%= form_tag remind_mail_index_path, class: 'span7' do %>
     <% if (0..6).include? @project.status %>
       <div class="alert alert-warinig">
       <% if @project.status == 0 %>

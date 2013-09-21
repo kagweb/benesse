@@ -10,23 +10,29 @@ Benesse::Application.routes.draw do
       put :authors, action: :author_update
       get :check, constraints: { status: /^html|^test|^production/ }
       put :check, action: :check_confirmation
-      get :update_branch
-      get :confirm
-      get :confirm_html
       get :downloads, controller: :downloads, action: :index
-      post :remind_mail
       post :comment
 
-      resources :close_outs, only: [:test, :production] do
+      resources :close_outs do
         collection do
           get :test
           get :production
         end
       end
 
-      resources :confirms, only: [:authors] do
+      resources :confirms do
         collection do
           get :authority
+          get :aws
+          get :project
+          get :update_branch
+        end
+      end
+
+      resources :mail do
+        collection do
+          post :remind
+          post :confirmation_request
         end
       end
     end
@@ -38,7 +44,7 @@ Benesse::Application.routes.draw do
   resources :departments, except: [:show]
   resources :users, except: [:show]
   resources :sessions, only: [:new, :create, :destroy]
-  resources :aws, only: [:index, :actions] do
+  resources :aws, only: [:index] do
     collection do
       get :index
       post :actions
