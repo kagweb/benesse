@@ -45,6 +45,11 @@ ul.comments {
 }
 
 .file_viewer {
+  .actions-box {
+    float: left;
+    margin-right: 10px;
+  }
+
   ul.files {
     border: 1px solid #ccc;
     margin-top: 10px;
