@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
     session[:return_to_url] = request.url
   end
 
+  def return_to_url
+    session[:return_to_url] || root_rul
+  end
+
   def is_promotion_department?
     current_user && current_user.is_promotion_department?
   end
