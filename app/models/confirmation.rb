@@ -13,7 +13,15 @@ class Confirmation < ActiveRecord::Base
 
     confirmation_status = { 2 => 0, 4 => 1, 6=> 2 }
     project.parties.each do |party|
-      next unless party.required
+      case confirmation_status[project.status]
+      when 0
+        next unless party.aws_confirm_required
+      when 1
+        next unless party.test_confirm_required
+      when 2
+        next unless party.production_confirm_required
+      end
+
       updated = false unless 'ok' == project.confirmations.where(user_id: party.user.id, status: confirmation_status[project.status]).first.try(:response)
     end
 
@@ -28,5 +36,6 @@ class Confirmation < ActiveRecord::Base
       end
       project.save
     end
+
   end
 end

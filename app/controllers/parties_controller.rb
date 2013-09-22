@@ -13,7 +13,11 @@ class PartiesController < ApplicationController
   end
 
   def create
-    @party = Party.new required: params[:party][:required]
+    @party = Party.new(
+      aws_confirm_required: params[:party][:aws_confirm_required],
+      test_confirm_required: params[:party][:test_confirm_required],
+      production_confirm_required: params[:party][:production_confirm_required]
+    )
     @party.project = Project.find params[:party][:project_id]
     @party.user = User.find params[:party][:user]
 

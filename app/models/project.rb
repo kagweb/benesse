@@ -61,7 +61,9 @@ class Project < ActiveRecord::Base
   def add_parties
     [authorizer, promoter, operator].each do |user|
       party = parties.new
-      party.required = true
+      party.aws_confirm_required = true
+      party.test_confirm_required = true
+      party.production_confirm_required = true
       party.user = user
       party.save
     end

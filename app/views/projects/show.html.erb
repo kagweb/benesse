@@ -124,7 +124,6 @@
         <tr>
           <th class="center">TO</th>
           <th class="center">CC</th>
-          <th class="center"><%= t 'view.utility.required' %></th>
           <th class="center"><%= t 'activerecord.attributes.user.department' %></th>
           <th class="center"><%= t 'activerecord.attributes.user.name' %></th>
           <th class="center"><%= t 'view.project.html' %></th>
@@ -138,12 +137,20 @@
         <tr>
           <td class="center"><input type="checkbox" name="to[<%= party.user.id %>]"></td>
           <td class="center"><input type="checkbox" name="cc[<%= party.user.id %>]"></td>
-          <td class="center"><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
           <td><%= party.user.department.name %></td>
           <td><%= party.user.name %></td>
-          <td class="center"><%= response(party.user, 0).upcase %></td>
-          <td class="center"><%= response(party.user, 1).upcase %></td>
-          <td class="center"><%= response(party.user, 2).upcase %></td>
+          <td class="center">
+            <% if party.aws_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
+            <%= response(party.user, 0).upcase %>
+          </td>
+          <td class="center">
+            <% if party.aws_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
+            <%= response(party.user, 1).upcase %>
+          </td>
+          <td class="center">
+            <% if party.aws_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
+            <%= response(party.user, 2).upcase %>
+          </td>
           <td class="center">
             <% if allow? 'promoter' %>
               <%= link_to t('view.utility.edit'),

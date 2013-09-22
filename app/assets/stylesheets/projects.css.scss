@@ -15,6 +15,11 @@
   table.parties {
     th, td {
       font-size: 90%;
+      vertical-align: middle;
+
+      input {
+        margin: 0;
+      }
     }
   }
 }
