@@ -33,7 +33,7 @@
   <tbody>
 
   <% @projects.each do |project| %>
-    <tr>
+    <tr class="<%= 'error' if project.status == 7%>">
       <td>
         <%= project.name %><br>
         <small>[<%= project_number project %>]</small><br>
@@ -74,7 +74,14 @@
       <td class="center"><%= project.promoter.name %></td>
       <td class="center"><%= l(project.test_upload_at, format: :date) %></td>
       <td class="center"><%= l(project.production_upload_at, format: project.register_datetime ? :short : :long) %></td>
-      <td class="span4"><%= truncate project.comments.last.try(:comment) || '' %></td>
+      <td class="span4">
+        <% if project.comments.present? %>
+          <i class="icon-user"></i>
+          <%= project.comments.last.user.name %>&nbsp;
+          <small><%= l project.comments.last.created_at, format: "%Y/%m/%d(%a) %H:%M" %></small><br>
+          <%= truncate(project.comments.last.comment, length: 50) %>
+        <% end %>
+      </td>
       <td class="center"><%= link_to '個票', project %></td>
     </tr>
   <% end %>

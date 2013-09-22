@@ -71,7 +71,7 @@
 
     <% if allow? 'authorizer' and ! @project.confirmed %>
       <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'),
-        project_confirms_url, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
+        project_confirms_url, { class: 'btn btn-primary', confirm: t('view.confirm.confirm_project') } %>
     <% end %>
 
     <% if allow? 'promoter', 'operator' %>
