@@ -51,6 +51,7 @@ $ ->
     $('a.list').attr 'href',  href[0] + '?' + new_params
 
   set_download_path = (path) ->
+    $('.preview_link').attr('href', $('.preview_link').attr('base_url') + path)
     $('.download_path').html path
     $('input[type="hidden"][name="path"]').val path
 
