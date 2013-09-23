@@ -7,11 +7,11 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_return_to_url
-    session[:return_to_url] = request.url
+    session[:benesse_return_to_url] = request.url
   end
 
   def return_to_url
-    session[:return_to_url] || root_rul
+    session[:benesse_return_to_url] || root_rul
   end
 
   def is_promotion_department?
