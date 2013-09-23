@@ -5,7 +5,7 @@ ja:
     attributes:
       user:
         username: ユーザーID
-        name: ユーザ名
+        name: 氏名
         email: メールアドレス
         password: パスワード
         department: 所属部署

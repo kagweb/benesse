@@ -11,7 +11,7 @@ ja:
         no_upload: 未移送
         blank: ''
       progress: 進捗
-      aws: AWS納品
+      aws: HTML〜納品
       test: テスト環境
       production: 本番環境
       transition: 年度以降対象
@@ -36,9 +36,9 @@ ja:
         folder: フォルダ表示
         download: ダウンロード
         upload: アップロード
-        delete: 削除
-        confirm: 承認
-        cancel: 取消
+        delete: AWS削除
+        confirm: AWS承認
+        cancel: AWS取消
         mail: AWS確認依頼メール
     utility:
       undefined: 登録されていません。
