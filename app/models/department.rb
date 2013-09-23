@@ -3,9 +3,5 @@ class Department < ActiveRecord::Base
 
   attr_accessible :name
 
-  before_create :check_deplicated_name
-
-  def check_deplicated_name
-    ! Department.pluck(:name).include? name
-  end
+  validates :name, presence: true, uniqueness: true
 end

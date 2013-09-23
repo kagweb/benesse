@@ -1,8 +1,5 @@
 <h1>新規部署追加</h1>
 
-<%= simple_form_for @department do |f| %>
-  <%= f.input :name %>
-  <%= f.button :wrapped, class: 'btn btn-primary' %>
-<% end %>
+<%= render 'form' %>
 
 <%= link_to 'Back', departments_path %>

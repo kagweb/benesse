@@ -52,7 +52,7 @@
 
     <p>
       <b><%= t 'activerecord.attributes.project.upload_url' %>:</b>
-      <%= link_to url_for(controller: 'upload', action: 'index', project_id: @project.id, only_path: false), {controller: 'upload', action: 'index', project_id: @project.id} %>
+      <%= link_to upload_index_url, upload_index_url %>
     </p>
 
     <p>
@@ -71,7 +71,7 @@
 
     <% if allow? 'authorizer' and ! @project.confirmed %>
       <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'),
-        { controller: 'projects', action: 'confirm' }, { class: 'btn btn-danger', confirm: t('view.confirm.confirm_project') } %>
+        project_confirms_url, { class: 'btn btn-primary', confirm: t('view.confirm.confirm_project') } %>
     <% end %>
 
     <% if allow? 'promoter', 'operator' %>
@@ -85,14 +85,10 @@
     <% end %>
 
     <%= link_to raw('<i class="icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'),
-      { controller: 'projects', action: 'update_branch' }, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
-
-    <% if current_user.is_promotion_department? %>
-      <%= link_to t('view.utility.delete'), @project, method: :delete, class: 'btn btn-danger pull-right', data: { confirm: t('view.confirm.project_delete')} %>
-    <% end %>
+      update_branch_confirms_url, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
   </div>
 
-  <%= form_tag "/projects/#{params[:id]}/remind_mail", class: 'span7' do %>
+  <%= form_tag remind_mail_index_path, class: 'span7' do %>
     <% if (0..6).include? @project.status %>
       <div class="alert alert-warinig">
       <% if @project.status == 0 %>
@@ -114,10 +110,9 @@
     <% end %>
 
     <ul class="row status_buttons unstyled">
-      <% for i in ['html', 'test', 'production'] %>
+      <% for i in ['aws', 'test', 'production'] %>
       <li class="span2">
-        <%= link_to t('view.project.'  + i),
-          { controller: 'projects', action: 'check', status: i, id: @project.id },
+        <%= link_to t('view.project.'  + i), check_project_path(status: i),
           { class: "btn btn-large btn-block #{disabled i}", onclick: "if ('disabled' === '#{disabled i}') return false;" } %>
         <p class="text-center"><%= t 'view.project.status.'  + (now_status @project, i) %></p>
       </li>
@@ -129,10 +124,9 @@
         <tr>
           <th class="center">TO</th>
           <th class="center">CC</th>
-          <th class="center"><%= t 'view.utility.required' %></th>
           <th class="center"><%= t 'activerecord.attributes.user.department' %></th>
           <th class="center"><%= t 'activerecord.attributes.user.name' %></th>
-          <th class="center"><%= t 'view.project.html' %></th>
+          <th class="center"><%= t 'view.project.aws' %></th>
           <th class="center"><%= t 'view.project.test' %></th>
           <th class="center"><%= t 'view.project.production' %></th>
           <th></th>
@@ -143,12 +137,20 @@
         <tr>
           <td class="center"><input type="checkbox" name="to[<%= party.user.id %>]"></td>
           <td class="center"><input type="checkbox" name="cc[<%= party.user.id %>]"></td>
-          <td class="center"><%= raw party.required ? '<i class="icon-ok"></i>' : '' %></td>
           <td><%= party.user.department.name %></td>
           <td><%= party.user.name %></td>
-          <td class="center"><%= response(party.user, 0).upcase %></td>
-          <td class="center"><%= response(party.user, 1).upcase %></td>
-          <td class="center"><%= response(party.user, 2).upcase %></td>
+          <td class="center">
+            <% if party.aws_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
+            <%= response(party.user, 0).upcase %>
+          </td>
+          <td class="center">
+            <% if party.test_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
+            <%= response(party.user, 1).upcase %>
+          </td>
+          <td class="center">
+            <% if party.production_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
+            <%= response(party.user, 2).upcase %>
+          </td>
           <td class="center">
             <% if allow? 'promoter' %>
               <%= link_to t('view.utility.edit'),
@@ -168,7 +170,9 @@
       <p class="text-error">関係者が登録されていません。</p>
     <% end %>
 
-    <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right' } %>
+    <div class="clearfix">
+      <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right clearfix' } %>
+    </div>
 
     <div class="clearfix">
       <textarea rows="10" class="input-block-level" name="mail_text"></textarea>
@@ -179,4 +183,10 @@
 
 <%= render 'projects/file_viewer', for_project: true %>
 
-<%= link_to 'Back', projects_path %>
+
+<div class="clearfix">
+  <%= link_to 'Back', projects_path %>
+  <% if current_user.is_promotion_department? %>
+    <%= link_to t('view.project.delete'), @project, method: :delete, class: 'btn btn-danger pull-right', data: { confirm: t('view.confirm.project_delete')} %>
+  <% end %>
+</div>

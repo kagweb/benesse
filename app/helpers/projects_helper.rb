@@ -2,7 +2,7 @@ module ProjectsHelper
 
   def now_status ( project, place )
     case place
-    when 'html'
+    when 'aws'
       return 'preparing'  if project.status == 0
       return 'no_upload'  if project.status == 1
       return 'working'    if project.status == 2
@@ -22,7 +22,7 @@ module ProjectsHelper
 
   def disabled ( place )
     case place
-    when 'html'
+    when 'aws'
       return 'disabled' if @project.status <= 1
     when 'test'
       return 'disabled' if @project.status <= 3
@@ -34,20 +34,20 @@ module ProjectsHelper
   end
 
   def confirmation_enabled?(project)
-    (params[:status] == 'html' and project.status == 2) or
+    (params[:status] == 'aws' and project.status == 2) or
     (params[:status] == 'test' and project.status == 4) or
     (params[:status] == 'production' and project.status == 6)
   end
 
   def status_slug(code)
-    return code if ['html', 'test', 'production'].include? code
-    status = { 0 => 'html', 1 => 'html', 2 => 'html', 3 => 'test', 4 => 'test', 5 => 'production', 6 => 'production', 7 => 'closed' }
-    return status[code.to_i]
+    return code if ['aws', 'test', 'production'].include? code
+    status = { 0 => 'aws', 1 => 'aws', 2 => 'aws', 3 => 'test', 4 => 'test', 5 => 'production', 6 => 'production', 7 => 'closed' }
+    return status[code.to_i] || 'aws'
   end
 
   def status_code(slug)
     return slug if [0..2].include? slug
-    status = { 'html' => 0, 'test' => 1, 'production' => 2 }
+    status = { 'aws' => 0, 'test' => 1, 'production' => 2 }
     return status[slug]
   end
 
@@ -58,9 +58,9 @@ module ProjectsHelper
 
   def folder ( name, info )
     # ファイルの情報
-    tmp  = "<div class=\"pull-right span2\">#{info['_updated_at_']} </div>"
-    tmp += "<div class=\"pull-right span1\">#{info['_size_']}</div>"
-    tmp += "<div class=\"pull-right span1\">#{info['_type_'].upcase}</div>"
+    tmp  = "<div class=\"pull-right span2 file_info\">#{info['_updated_at_']} </div>"
+    tmp += "<div class=\"pull-right span1 file_info\">#{info['_size_']}</div>"
+    tmp += "<div class=\"pull-right span1 file_info\">#{info['_type_'].upcase}</div>"
 
     # ディレクトリでない場合は li 要素を返す
     return "<li class=\"file\"><a href=\"#{info['_basepath_']}/#{info['_path_']}\" data-root=\"#{info['_root_']}\"><i class=\"icon-file\"></i> #{name} #{tmp} </a></li>" unless info['_type_'] == 'dir'

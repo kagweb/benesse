@@ -30,6 +30,16 @@ $ ->
     set_download_path $(this).attr('data-path')
     set_list_path $(this).attr('data-path')
 
+  $('.file_viewer .file_action').on 'click', ->
+    msg = []
+    msg['download'] = false
+    msg['upload']   = false
+    msg['delete']   = "変更は取り消すことができません。\n削除してもよろしいですか？"
+    type = $(this).attr('data-action')
+    return Boolean alert('ファイルが選択されていません') unless $('input[type="hidden"][name="path"]').val()
+    return confirm msg[type] if msg[type]
+#     return download() if type == 'download'
+
   # List 表示画面へのリンクのパラメータを書き換え
   set_list_path = (path) ->
     href = $('a.list').attr('href').split '?'
@@ -44,6 +54,14 @@ $ ->
     $('.download_path').html path
     $('input[type="hidden"][name="path"]').val path
 
+  download = ->
+    win = window.open()
+    win.location.href = '/downloads'
+    setTimeout( ->
+      win.close()
+    , 5000)
+    return false
+
   $('#project_register_datetime').on 'change', ->
     if $(this).is ':checked'
       $('#project_production_upload_at_3i, #project_production_upload_at_4i, #project_production_upload_at_5i, .separator').hide()
@@ -53,3 +71,4 @@ $ ->
 
   if $('#project_register_datetime').size() > 0 and $('#project_register_datetime').is ':checked'
     $('#project_production_upload_at_3i, #project_production_upload_at_4i, #project_production_upload_at_5i, .separator').hide()
+

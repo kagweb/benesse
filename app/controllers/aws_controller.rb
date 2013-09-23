@@ -15,21 +15,27 @@ class AwsController < ApplicationController
     alert = "アップロードするファイルが添付されていません。" if params[:upload] == 'on' and params[:upload_file].blank?
 
     if alert
-      redirect_to session[:return_to_url], alert: alert
+      redirect_to return_to_url, alert: alert
       return false
     end
 
     if params[:download] == 'on'
-      send_file(FileTest.directory?(@path) ? _create_zip(@path) : @path)
+      if FileTest.directory?(@path)
+        @path = create_zip(@path)
+        send_file @path
+        # remove_tmp_file @path
+      else
+        send_file @path
+      end
     elsif params[:upload] == 'on'
       @path = Pathname.new(File.dirname @path) if File.file? @path
       upload
-      redirect_to session[:return_to_url], notice: 'アップロードに成功しました。'
+      redirect_to return_to_url, notice: 'アップロードに成功しました。'
     elsif params[:delete] == 'on'
       FileUtils.rm_rf @path
-      redirect_to session[:return_to_url], notice: 'ファイルの削除に成功しました。'
+      redirect_to return_to_url, notice: 'ファイルの削除に成功しました。'
     else
-      redirect_to session[:return_to_url], alert: "ファイルの操作に失敗しました。"
+      redirect_to return_to_url, alert: "ファイルの操作に失敗しました。"
     end
 
     return false
@@ -39,10 +45,12 @@ class AwsController < ApplicationController
 
   def upload
     unless params[:upload_file].original_filename.split(/\./).last == 'zip'
-      open(@path.join(filename), 'wb') {|t| t << params[:upload_file].read }
+      open(@path.join(params[:upload_file].original_filename), 'wb') {|t| t << params[:upload_file].read }
       return
     end
 
-    _unzip(params[:upload_file], @path)
+    tmp_file  = create_tmp_file(params[:upload_file])
+    unzip(tmp_file, @path)
+    remove_tmp_file tmp_file
   end
 end

@@ -41,7 +41,10 @@ if Rails.env.development?
   projects.each do |project|
     parties = []
     # 開発用ログインユーザを各プロジェクトの関係者にアサイン
-    party = project.parties.new required: true
+    party = project.parties.new
+    party.aws_confirm_required = true
+    party.test_confirm_required = true
+    party.production_confirm_required = true
     party.project = project
     party.user = admin
     party.save
