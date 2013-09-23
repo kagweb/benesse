@@ -1,18 +1,16 @@
 # encoding: utf-8
 class ProjectsController < ApplicationController
   before_filter :require_login, except: :index
-  before_filter :supplier_department_except
+  before_filter :supplier_department_except, except: :upload
 
   def index
     redirect_to login_url unless current_user
-
+    @search = Project.order('register_datetime ASC, production_upload_at ASC').search(params[:q])
+    @projects = @search.result
+    closed_projects = []
+    @projects.each_with_index {|project, i| closed_projects << @projects.delete_at(i) if project.status == 7 }
+    @projects += closed_projects
     @date = params[:date] ? Date.strptime(params[:date]) : Date.new(Time.now.year, Time.now.month, 1)
-
-    if params[:server] and ! params[:server].empty?
-      @projects = Project.where(['production_upload_at >= ? and production_upload_at < ? and upload_server = ?', @date, @date >> 1, params[:server]]).order('production_upload_at')
-    else
-      @projects = Project.where(['production_upload_at >= ? and production_upload_at < ?', @date, @date >> 1]).order('production_upload_at')
-    end
   end
 
   def show
@@ -119,52 +117,23 @@ class ProjectsController < ApplicationController
     status = _status_slug params[:comment][:status].to_i
 
     if @comment.save
-      redirect_to "/projects/#{params[:id]}/check/#{status}", notice: 'コメントを追加しました。'
+      redirect_to check_project_url(status: status), notice: 'コメントを投稿しました。'
     else
-      redirect_to "/projects/#{params[:id]}/check/#{status}"
+      redirect_to check_project_url(status: status), alert: 'コメントの投稿に失敗しました。'
     end
-  end
-
-  def update_branch
-    project = Project.find params[:id]
-    project.update_branch
-    redirect_to project
-  end
-
-  def confirm
-    project = Project.find params[:id]
-    project.confirmed = true
-    project.status = 1
-    project.save
-    redirect_to project, notice: "#{project.name} が承認されました。"
-  end
-
-  def confirm_html
-    project = Project.find params[:id]
-    project.status = 2
-    project.save
-    redirect_to project, notice: '納品データが承認されました。'
-  end
-
-  def remind_mail
-    project = Project.find params[:id]
-    pp params[:to] # TOに付けるユーザの ID 一覧
-    pp params[:cc] # CCに付けるユーザの ID 一覧
-    pp params[:mail_text] # メール本文
-    redirect_to project
   end
 
   private
 
   def _status_slug(code)
-    return code if ['html', 'test', 'production'].include? code
-    status = { 0 => 'html', 1 => 'test', 2 => 'production' }
-    return status[code.to_i]
+    return code if ['aws', 'test', 'production'].include? code
+    status = { 0 => 'aws', 1 => 'test', 2 => 'production' }
+    return status[code.to_i] || 'aws'
   end
 
   def _status_code(slug)
     return slug if [0..2].include? slug
-    status = { 'html' => 0, 'test' => 1, 'production' => 2 }
+    status = { 'aws' => 0, 'test' => 1, 'production' => 2 }
     return status[slug]
   end
 end

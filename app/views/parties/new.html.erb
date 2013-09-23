@@ -3,7 +3,9 @@
 <%= simple_form_for [@party.project, @party] do |f| %>
   <%= f.error_notification %>
   <%= f.input :project_id, as: 'hidden'%>
-  <%= f.input :required, label: false, inline_label: '必須'%>
+  <%= f.input :aws_confirm_required, label: false, inline_label: '要 AWS納品確認'%>
+  <%= f.input :test_confirm_required, label: false, inline_label: '要 テスト環境'%>
+  <%= f.input :production_confirm_required, label: false, inline_label: '要 本番環境'%>
   <div class="control-group">
     <%= label :departments, :name, t('activerecord.attributes.department.name'), class: 'control-label' %>
     <div class="controls">

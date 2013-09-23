@@ -41,7 +41,10 @@ if Rails.env.development?
   projects.each do |project|
     parties = []
     # 開発用ログインユーザを各プロジェクトの関係者にアサイン
-    party = project.parties.new required: true
+    party = project.parties.new
+    party.aws_confirm_required = true
+    party.test_confirm_required = true
+    party.production_confirm_required = true
     party.project = project
     party.user = admin
     party.save
@@ -49,7 +52,7 @@ if Rails.env.development?
 
     # 関係者を3~5人適当に登録
     (rand 2..5).times do |i|
-      party = project.parties.new required: rand(2) == 1
+      party = project.parties.new aws_confirm_required: false, test_confirm_required: false, production_confirm_required: false
       party.project = project
       party.user = users[rand(users.length)]
       party.save

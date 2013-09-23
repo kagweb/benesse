@@ -3,14 +3,6 @@ class PartiesController < ApplicationController
   before_filter :require_login
   before_filter :supplier_department_except
 
-  def index
-    @parties = Party.all
-  end
-
-  def show
-    @party = Party.find params[:id]
-  end
-
   def new
     @party = Party.new
     @party.project = Project.find params[:project_id]
@@ -21,7 +13,11 @@ class PartiesController < ApplicationController
   end
 
   def create
-    @party = Party.new required: params[:party][:required]
+    @party = Party.new(
+      aws_confirm_required: params[:party][:aws_confirm_required],
+      test_confirm_required: params[:party][:test_confirm_required],
+      production_confirm_required: params[:party][:production_confirm_required]
+    )
     @party.project = Project.find params[:party][:project_id]
     @party.user = User.find params[:party][:user]
 
@@ -43,8 +39,7 @@ class PartiesController < ApplicationController
 
   def destroy
     @party = Party.find params[:id]
-    project = @party.project
     @party.destroy
-    redirect_to project
+    redirect_to @party.project
   end
 end

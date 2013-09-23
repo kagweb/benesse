@@ -103,7 +103,7 @@ module Benesse
     end
 
     # AWS のルート URL
-    config.aws_root_url = 'http://benesse.ne.jp/'
+    config.aws_root_url = 'http://bkzemi.crasp.biz/'
 
     # アップロードディレクトリ関連で利用するパス
     config.upload_tmp_path      = Rails.root.join 'tmp/upload'

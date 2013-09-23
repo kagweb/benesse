@@ -29,8 +29,23 @@ h3 {
   border: none;
 }
 
-.table td {
-  vertical-align: middle;
+table.table {
+  tr {
+    &.closed, &.closed td {
+      background: #ddd;
+      color: #888;
+
+      .label {
+        filter: alpha(opacity=25);
+        -moz-opacity:0.25;
+        opacity:0.25;
+      }
+    }
+
+    td {
+      vertical-align: middle;
+    }
+  }
 }
 
 select:disabled {

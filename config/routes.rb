@@ -1,6 +1,7 @@
 Benesse::Application.routes.draw do
   get "api/user_list" => 'api#user_list'
   get "api/projects" => 'api#projects'
+  get "downloads" => 'downloads#optional'
 
   root to: 'projects#index'
 
@@ -8,38 +9,44 @@ Benesse::Application.routes.draw do
     member do
       get :authors
       put :authors, action: :author_update
-#       get :check, constraints: { status: /^html|^test|^production/ }
-      get :update_branch
-      get :confirm
-      get :confirm_html
-      get :upload_compleat
+      get :check, constraints: { status: /^aws|^test|^production/ }
+      put :check, action: :check_confirmation
       get :downloads, controller: :downloads, action: :index
-      post :remind_mail
       post :comment
 
-      resources :close_outs, only: [:test, :production] do
+      resources :close_outs, only: [] do
         collection do
           get :test
           get :production
         end
       end
 
-      resources :confirms, only: [:authors] do
+      resources :confirms, only: [] do
         collection do
           get :authority
+          get :aws
+          get :project
+          get :update_branch
         end
       end
+
+      resources :mail, only: [] do
+        collection do
+          post :remind
+          post :confirmation_request
+        end
+      end
+
+      resources :upload, only: [:index, :create]
     end
 
-    resources :parties
-    resources :branches
-    resources :confirmations
-    resources :upload, only: [:index, :create]
+    resources :parties, except: [:index, :show]
   end
-  resources :departments
-  resources :users
+
+  resources :departments, except: [:show]
+  resources :users, except: [:show]
   resources :sessions, only: [:new, :create, :destroy]
-  resources :aws, only: [:index, :actions] do
+  resources :aws, only: [:index] do
     collection do
       get :index
       post :actions
@@ -48,9 +55,6 @@ Benesse::Application.routes.draw do
 
   match 'login' => 'sessions#new', as: :login
   match 'logout' => 'sessions#destroy', as: :logout
-
-  match 'projects/:id/check/:status' => 'projects#check', via: :get
-  match 'projects/:id/check/:status' => 'projects#check_confirmation', via: :put
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

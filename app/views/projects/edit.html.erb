@@ -7,6 +7,7 @@
   <% if allow? 'promoter' %>
     <%= f.input :name %>
     <%= f.input :year_migrate, inline_label: '年度移行対象', label: false %>
+    <%= f.input :delection, inline_label: '削除案件', label: false %>
     <% unless @project.miss %>
       <%= f.input :miss, inline_label: 'ミスあり', label: false %>
     <% end %>
@@ -17,7 +18,7 @@
   <%= f.input :test_upload_at, { as: :date, input_html: { class: 'input-small' } } %>
   <%= f.input :production_upload_at, { input_html: { class: 'input-small' }, datetime_separator: raw('<span class="separator">- </span>'), time_separator: raw('<span class="separator">: </span>') } %>
   <%= f.input :register_datetime, { inline_label: '本番環境移送日の日と時間を未定にする', label: false,  } %>
-  <%= f.input :memo %>
+  <%= f.input :memo, input_html: { class: 'span5' } %>
   <%= f.button :wrapped, class: 'btn btn-primary' %>
 <% end %>
 
