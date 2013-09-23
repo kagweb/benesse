@@ -1,6 +1,6 @@
 <div class="clearfix">
 
-  <h1><%= t 'view.project.check' %> <small><%= t('view.project.' + params[:status])  %></small></h1>
+  <h1><%= t 'view.project.check' %> <small><%= t('view.project.' + status_slug(params[:status]))  %></small></h1>
 
   <div class="row">
     <div class="span4">
@@ -40,32 +40,29 @@
           <% @project.parties.each do |party| %>
           <tr>
             <td><%= party.user.department.name %></td>
-            <td><%= party.user.name %></td>
+            <td>
+              <%= party.user.name %>
+              <% if party.send("#{status_slug params[:status]}_confirm_required") %><span class="label label-important">必須</span><% end %>
+            </td>
 
             <% if current_user == party.user and confirmation_enabled?(@project) %>
               <td class="center">
-                <% if party.aws_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
                 <%= radio_button :confirmation, :response, 'feedback' , { checked: response(current_user) == 'feedback' } %>
               </td>
               <td class="center">
-                <% if party.test_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
                 <%= radio_button :confirmation, :response, 'ok' , { checked: response(current_user) == 'ok' } %>
               </td>
               <td class="center">
-                <% if party.production_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
                 <%= radio_button :confirmation, :response, 'ng' , { checked: response(current_user) == 'ng' } %>
               </td>
             <% else %>
               <td class="center">
-                <% if party.aws_confirm_required %><span class="label label-important">必須</span><% end %>
                 <%= raw response(party.user) == 'feedback' ? '<i class="icon-ok"></i>' : '' %>
               </td>
               <td class="center">
-                <% if party.test_confirm_required %><span class="label label-important">必須</span><% end %>
                 <%= raw response(party.user) == 'ok' ? '<i class="icon-ok"></i>' : '' %>
               </td>
               <td class="center">
-                <% if party.production_confirm_required %><span class="label label-important">必須</span><% end %>
                 <%= raw response(party.user) == 'ng' ? '<i class="icon-ok"></i>' : '' %>
               </td>
             <% end %>
@@ -103,7 +100,7 @@
   <%= hidden_field :comment, :project_id %>
   <%= hidden_field :comment, :status  %>
   <%= text_area :comment, :comment, { class: 'input-block-level', rows: 10 } %>
-  <input type="submit" class="btn btn-primary btn-large pull-right" value="comment">
+  <input type="submit" class="btn btn-primary btn-large pull-right" value="投稿">
 <% end %>
 
 <%= link_to 'Back', @project %>

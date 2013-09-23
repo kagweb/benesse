@@ -17,7 +17,7 @@
     <% end %>
   </div>
 
-  <%= form_tag actions_aws_path, method: 'post', class: 'actions-box', target: 'blank', multipart: true do %>
+  <%= form_tag actions_aws_path, method: 'post', class: 'actions-box', target: '_blank' do %>
     <input type="hidden" value="" name="path">
     <button type="submit" class="btn file_action" data-action="download" name="download" value="on">
       <i class="icon-download"></i> <%= t 'view.file_viewer.buttons.download' %>

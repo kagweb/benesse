@@ -1,7 +1,7 @@
 # encoding: utf-8
 class ProjectsController < ApplicationController
   before_filter :require_login, except: :index
-  before_filter :supplier_department_except
+  before_filter :supplier_department_except, except: :upload
 
   def index
     redirect_to login_url unless current_user
@@ -119,23 +119,23 @@ class ProjectsController < ApplicationController
     status = _status_slug params[:comment][:status].to_i
 
     if @comment.save
-      redirect_to "/projects/#{params[:id]}/check/#{status}", notice: 'コメントを追加しました。'
+      redirect_to check_project_url(status: status), notice: 'コメントを投稿しました。'
     else
-      redirect_to "/projects/#{params[:id]}/check/#{status}"
+      redirect_to check_project_url(status: status), alert: 'コメントの投稿に失敗しました。'
     end
   end
 
   private
 
   def _status_slug(code)
-    return code if ['html', 'test', 'production'].include? code
-    status = { 0 => 'html', 1 => 'test', 2 => 'production' }
-    return status[code.to_i]
+    return code if ['aws', 'test', 'production'].include? code
+    status = { 0 => 'aws', 1 => 'test', 2 => 'production' }
+    return status[code.to_i] || 'aws'
   end
 
   def _status_code(slug)
     return slug if [0..2].include? slug
-    status = { 'html' => 0, 'test' => 1, 'production' => 2 }
+    status = { 'aws' => 0, 'test' => 1, 'production' => 2 }
     return status[slug]
   end
 end

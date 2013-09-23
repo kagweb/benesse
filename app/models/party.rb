@@ -22,5 +22,6 @@ class Party < ActiveRecord::Base
   end
 
   def check_status
+    project.check_status
   end
 end

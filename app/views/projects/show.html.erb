@@ -52,7 +52,7 @@
 
     <p>
       <b><%= t 'activerecord.attributes.project.upload_url' %>:</b>
-      <%= link_to url_for(controller: 'upload', action: 'index', project_id: @project.id, only_path: false), {controller: 'upload', action: 'index', project_id: @project.id} %>
+      <%= link_to upload_index_url, upload_index_url %>
     </p>
 
     <p>
@@ -110,7 +110,7 @@
     <% end %>
 
     <ul class="row status_buttons unstyled">
-      <% for i in ['html', 'test', 'production'] %>
+      <% for i in ['aws', 'test', 'production'] %>
       <li class="span2">
         <%= link_to t('view.project.'  + i), check_project_path(status: i),
           { class: "btn btn-large btn-block #{disabled i}", onclick: "if ('disabled' === '#{disabled i}') return false;" } %>
@@ -126,7 +126,7 @@
           <th class="center">CC</th>
           <th class="center"><%= t 'activerecord.attributes.user.department' %></th>
           <th class="center"><%= t 'activerecord.attributes.user.name' %></th>
-          <th class="center"><%= t 'view.project.html' %></th>
+          <th class="center"><%= t 'view.project.aws' %></th>
           <th class="center"><%= t 'view.project.test' %></th>
           <th class="center"><%= t 'view.project.production' %></th>
           <th></th>
@@ -144,11 +144,11 @@
             <%= response(party.user, 0).upcase %>
           </td>
           <td class="center">
-            <% if party.aws_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
+            <% if party.test_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
             <%= response(party.user, 1).upcase %>
           </td>
           <td class="center">
-            <% if party.aws_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
+            <% if party.production_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
             <%= response(party.user, 2).upcase %>
           </td>
           <td class="center">

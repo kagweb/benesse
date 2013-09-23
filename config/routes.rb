@@ -1,6 +1,7 @@
 Benesse::Application.routes.draw do
   get "api/user_list" => 'api#user_list'
   get "api/projects" => 'api#projects'
+  get "downloads" => 'downloads#optional'
 
   root to: 'projects#index'
 
@@ -8,19 +9,19 @@ Benesse::Application.routes.draw do
     member do
       get :authors
       put :authors, action: :author_update
-      get :check, constraints: { status: /^html|^test|^production/ }
+      get :check, constraints: { status: /^aws|^test|^production/ }
       put :check, action: :check_confirmation
       get :downloads, controller: :downloads, action: :index
       post :comment
 
-      resources :close_outs do
+      resources :close_outs, only: [] do
         collection do
           get :test
           get :production
         end
       end
 
-      resources :confirms do
+      resources :confirms, only: [] do
         collection do
           get :authority
           get :aws
@@ -29,16 +30,17 @@ Benesse::Application.routes.draw do
         end
       end
 
-      resources :mail do
+      resources :mail, only: [] do
         collection do
           post :remind
           post :confirmation_request
         end
       end
+
+      resources :upload, only: [:index, :create]
     end
 
     resources :parties, except: [:index, :show]
-    resources :upload, only: [:index, :create]
   end
 
   resources :departments, except: [:show]

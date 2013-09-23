@@ -1,13 +1,14 @@
 # encoding: utf-8
 class UploadController < ApplicationController
   before_filter :require_login
+  skip_before_filter :supplier_department_except
 
   def index
-    @project = Project.find params[:project_id]
+    @project = Project.find params[:id]
   end
 
   def create
-    @project = Project.find params[:project_id]
+    @project = Project.find params[:id]
 
     # ファイルが指定されていない時と、指定されたファイルの拡張子が zip でない時
     if params['upload'].blank? or params['upload']['files'].blank? or ! ['zip', 'ZIP'].include? params['upload']['files'].original_filename.split('.').last
@@ -20,7 +21,7 @@ class UploadController < ApplicationController
     upload_files tmp_file, 'test' if @project.exists_test_server
     remove_tmp_file tmp_file
 
-    redirect_to project_upload_index_url(@project), notice: "#{params['upload']['files'].original_filename} のアップロードに成功しました。"
+    redirect_to upload_index_url, notice: "#{params['upload']['files'].original_filename} のアップロードに成功しました。"
   end
 
   private

@@ -10,4 +10,8 @@ class DownloadsController < ApplicationController
     File.file? zip.to_s ? send_file(zip.to_s) : redirect_to(projects_path, notice: "データのダウンロードに失敗しました。")
     return false
   end
+
+  def optional
+    send_file Benesse::Application.config.upload_root_path.join 'sample.txt'
+  end
 end

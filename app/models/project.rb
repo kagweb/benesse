@@ -27,7 +27,7 @@ class Project < ActiveRecord::Base
 
   def status_slug
     tmp = []
-    tmp.fill('html', 0, 3).fill('test', 3, 2).fill('production', 5, 2).fill('closed', 7, 1)
+    tmp.fill('aws', 0, 3).fill('test', 3, 2).fill('production', 5, 2).fill('closed', 7, 1)
     return tmp[self.status]
   end
 
@@ -50,6 +50,39 @@ class Project < ActiveRecord::Base
     response[:deletion] = false # deletion
     response[:year_migrate] = year_migrate
     return response
+  end
+
+  def check_status
+    return false unless [2,4,6].include?(status)
+
+    updated = true
+
+    confirmation_status = { 2 => 0, 4 => 1, 6=> 2 }
+    parties.each do |party|
+      case confirmation_status[status]
+      when 0
+        next unless party.aws_confirm_required
+      when 1
+        next unless party.test_confirm_required
+      when 2
+        next unless party.production_confirm_required
+      end
+
+      updated = false unless 'ok' == confirmations.where(user_id: party.user.id, status: confirmation_status[status]).first.try(:response)
+    end
+
+    if updated
+      case status
+      when 2
+        self.status = 3
+      when 4
+        self.status = 5
+      when 6
+        self.status = 7
+      end
+
+      self.save
+    end
   end
 
   private

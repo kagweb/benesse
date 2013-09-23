@@ -11,7 +11,7 @@ ja:
         no_upload: 未移送
         blank: ''
       progress: 進捗
-      html: AWS納品
+      aws: AWS納品
       test: テスト環境
       production: 本番環境
       transition: 年度以降対象
@@ -63,6 +63,7 @@ ja:
       confirm_project: "この案件を承認してもよろしいですか？\n承認は取り消すことができません。"
       confirm_html: 以下のファイルを承認してもよろしいですか？
       cancel_html: 以下のファイルを承認せず、枝番を上げてもよろしいですか？
+      change_authority: "付替えを行ってもよろしいですか？\nこの処理は取り消すことができません"
     alert:
       confirm: 承認者による案件承認が完了していないため、進捗確認を行う事ができません。
       confirm_html: 業者より納品されたデータを確認し、承認してください。
