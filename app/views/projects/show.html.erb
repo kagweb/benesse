@@ -51,7 +51,7 @@
     </p>
 
     <p>
-      <b><%= t 'activerecord.attributes.project.upload_url' %>:</b>
+      <b><%= t 'activerecord.attributes.project.upload_url' %>:</b><br />
       <%= link_to upload_index_url, upload_index_url %>
     </p>
 
@@ -171,7 +171,7 @@
     <% end %>
 
     <div class="clearfix">
-      <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right clearfix' } %>
+      <%= link_to t('view.project.add_party'), { controller: 'parties', action: 'new', project_id: @project.id }, { class: 'pull-right clearfix add_party' } %>
     </div>
 
     <div class="clearfix">

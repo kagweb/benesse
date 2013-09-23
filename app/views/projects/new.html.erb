@@ -6,6 +6,7 @@
 
   <%= f.input :name %>
   <%= f.input :exists_test_server, inline_label: 'テスト環境あり', label: false %>
+  <%= f.input :delection, inline_label: '削除案件として登録', label: false %>
   <%= f.input :authorizer, collection: User.where(['department_id != ?', Department.find_by_name('業者').try(:id)]), label_method: :name, value_method: :id, include_blank: false %>
   <%= f.input :promoter, collection: User.where(['department_id != ?', Department.find_by_name('業者').try(:id)]), label_method: :name, value_method: :id, include_blank: false %>
   <%= f.input :operator, collection: User.where(['department_id != ?', Department.find_by_name('業者').try(:id)]), label_method: :name, value_method: :id, include_blank: false %>
