@@ -1,5 +1,5 @@
 .login_form {
-    max-width: 300px;
+    max-width: 600px;
     padding: 19px 29px 29px;
     margin: 0 auto 20px;
     background-color: #fff;
@@ -24,5 +24,14 @@
 
     .forget_pass {
         margin-top: 16px;
+    }
+
+    .scroll {
+      border: solid 1px #cccccc;
+      height: 100px;
+      padding: 19px 29px 29px;
+      margin: 0 auto 20px;
+      overflow: auto;
+      margin-bottom: 15px;
     }
 }

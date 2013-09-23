@@ -15,8 +15,17 @@
   table.parties {
     th, td {
       font-size: 90%;
+      vertical-align: middle;
+
+      input {
+        margin: 0;
+      }
     }
   }
+
+  .add_party {
+    margin-bottom: 20px;
+   }
 }
 
 ul.comments {
@@ -40,6 +49,11 @@ ul.comments {
 }
 
 .file_viewer {
+  .actions-box {
+    float: left;
+    margin-right: 10px;
+  }
+
   ul.files {
     border: 1px solid #ccc;
     margin-top: 10px;
@@ -55,6 +69,10 @@ ul.comments {
 
       a {
         color: #555;
+      }
+
+      .file_info {
+        font-size: 95%;
       }
 
       &.file {

@@ -6,7 +6,12 @@
 <div class="field">
   <%= password_field_tag :password, params[:password], class: 'input-block-level', placeholder: 'パスワード'  %>
 </div>
+
+<div class="scroll">
+  <%= render 'terms' %>
+</div>
+
 <div class="actions">
-  <%= submit_tag 'ログイン' , class: 'btn btn-large btn-primary' %>
+  <%= submit_tag '約款の内容を確認し、本サービスの利用を申し込みます。' , class: 'btn btn-large btn-primary' %>
 </div>
 <% end %>

@@ -7,7 +7,11 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_return_to_url
-    session[:return_to_url] = request.url
+    session[:benesse_return_to_url] = request.url
+  end
+
+  def return_to_url
+    session[:benesse_return_to_url] || root_rul
   end
 
   def is_promotion_department?
@@ -28,7 +32,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: 'アクセス権がありません。'
   end
 
-  def _create_zip(path)
+  def create_zip(path)
     resolved_path = path.to_s.split /\//
     tmp_filename  = resolved_path.pop + '_' + Time.now.strftime("%Y%m%d%H%M%S%L") + '.zip'
     reduce_path   = resolved_path.join('/')
@@ -43,9 +47,8 @@ class ApplicationController < ActionController::Base
     return Benesse::Application.config.upload_tmp_path.join tmp_filename
   end
 
-  def _unzip(file, path)
-    filename  = _create_tmp_file(file)
-    Zip::Archive.open Benesse::Application.config.upload_tmp_path.join(filename).to_s do |archive|
+  def unzip(tmp_file, path)
+    Zip::Archive.open tmp_file.to_s do |archive|
       archive.each do |f|
         ## __MACOSX の削除
         next if f.name =~ /^__MACOSX/
@@ -64,13 +67,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def _create_tmp_file(file)
+  def create_tmp_file(file)
     filename = Time.now.strftime("%Y%m%d%H%M%S%L") + '_' + file.original_filename
+    filepath = Benesse::Application.config.upload_tmp_path.join filename
     FileUtils.mkdir_p Benesse::Application.config.upload_tmp_path
-    fs = File.open Benesse::Application.config.upload_tmp_path.join(filename), 'w'
+    fs = File.open filepath, 'w'
     fs.write file.read.force_encoding('UTF-8')
     fs.close
 
-    return filename
+    return filepath
+  end
+
+  def remove_tmp_file(path)
+    File.delete path if File.exist? path and path.to_s =~ /^#{Benesse::Application.config.upload_tmp_path}/
   end
 end

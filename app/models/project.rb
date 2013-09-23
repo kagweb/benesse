@@ -10,7 +10,7 @@ class Project < ActiveRecord::Base
   belongs_to :old_authorizer, class_name: 'User'
   belongs_to :old_promoter, class_name: 'User'
 
-  attr_accessible :code, :confirmed, :name, :production_upload_at,
+  attr_accessible :confirmed, :name, :production_upload_at,
                   :exists_test_server, :status, :test_upload_at,
                   :upload_server, :registration_status, :year_migrate,
                   :server_update, :memo, :register_datetime, :miss, :deletion
@@ -18,9 +18,16 @@ class Project < ActiveRecord::Base
   after_create :create_branch
   after_create :add_parties
 
+  validates :name, presence: true
+  validates :authorizer, presence: true
+  validates :promoter, presence: true
+  validates :operator, presence: true
+  validates :test_upload_at, presence: true
+  validates :production_upload_at, presence: true
+
   def status_slug
     tmp = []
-    tmp.fill('html', 0, 3).fill('test', 3, 2).fill('production', 5, 2).fill('closed', 7, 1)
+    tmp.fill('aws', 0, 3).fill('test', 3, 2).fill('production', 5, 2).fill('closed', 7, 1)
     return tmp[self.status]
   end
 
@@ -45,6 +52,39 @@ class Project < ActiveRecord::Base
     return response
   end
 
+  def check_status
+    return false unless [2,4,6].include?(status)
+
+    updated = true
+
+    confirmation_status = { 2 => 0, 4 => 1, 6=> 2 }
+    parties.each do |party|
+      case confirmation_status[status]
+      when 0
+        next unless party.aws_confirm_required
+      when 1
+        next unless party.test_confirm_required
+      when 2
+        next unless party.production_confirm_required
+      end
+
+      updated = false unless 'ok' == confirmations.where(user_id: party.user.id, status: confirmation_status[status]).first.try(:response)
+    end
+
+    if updated
+      case status
+      when 2
+        self.status = 3
+      when 4
+        self.status = 5
+      when 6
+        self.status = 7
+      end
+
+      self.save
+    end
+  end
+
   private
 
   def create_branch
@@ -54,7 +94,9 @@ class Project < ActiveRecord::Base
   def add_parties
     [authorizer, promoter, operator].each do |user|
       party = parties.new
-      party.required = true
+      party.aws_confirm_required = true
+      party.test_confirm_required = true
+      party.production_confirm_required = true
       party.user = user
       party.save
     end
