@@ -38,7 +38,7 @@ $ ->
     type = $(this).attr('data-action')
     return Boolean alert('ファイルが選択されていません') unless $('input[type="hidden"][name="path"]').val()
     return confirm msg[type] if msg[type]
-#     return download() if type == 'download'
+    return download() if type == 'download'
 
   # List 表示画面へのリンクのパラメータを書き換え
   set_list_path = (path) ->
@@ -55,11 +55,22 @@ $ ->
     $('input[type="hidden"][name="path"]').val path
 
   download = ->
-    win = window.open()
-    win.location.href = '/downloads'
-    setTimeout( ->
-      win.close()
-    , 5000)
+    $.ajax
+      url: '/downloads/get_url',
+      type: 'post',
+      data:
+        path: $('input[type="hidden"][name="path"]').val()
+      dataType: 'json',
+      success: (res) ->
+        win = window.open()
+        win.location.href = res['url']
+        setTimeout( ->
+          win.close()
+          location.reload()
+        , 3000)
+      ,
+      error: ->
+        alert('ダウンロードに失敗しました。\nリロード後、再度ダウンロードしてください。');
     return false
 
   $('#project_register_datetime').on 'change', ->
