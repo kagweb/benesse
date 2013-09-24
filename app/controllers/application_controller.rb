@@ -33,7 +33,12 @@ class ApplicationController < ActionController::Base
   end
 
   def create_zip(path)
+    path = Benesse::Application.config.upload_root_path.join.join(path) unless path.to_s =~ /^#{Benesse::Application.config.upload_root_path}/
+    return false unless File.exist? path
+
     resolved_path = path.to_s.split /\//
+    return false if resolved_path.blank?
+
     tmp_filename  = resolved_path.pop + '_' + Time.now.strftime("%Y%m%d%H%M%S%L") + '.zip'
     reduce_path   = resolved_path.join('/')
 

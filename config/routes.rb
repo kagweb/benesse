@@ -2,6 +2,7 @@ Benesse::Application.routes.draw do
   get "api/user_list" => 'api#user_list'
   get "api/projects" => 'api#projects'
   get "downloads" => 'downloads#optional'
+  post "downloads/get_url" => 'downloads#get_url'
 
   root to: 'projects#index'
 

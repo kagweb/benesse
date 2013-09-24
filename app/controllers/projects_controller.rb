@@ -10,7 +10,6 @@ class ProjectsController < ApplicationController
     closed_projects = []
     @projects.each_with_index {|project, i| closed_projects << @projects.delete_at(i) if project.status == 7 }
     @projects += closed_projects
-    @date = params[:date] ? Date.strptime(params[:date]) : Date.new(Time.now.year, Time.now.month, 1)
   end
 
   def show
