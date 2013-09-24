@@ -1,5 +1,28 @@
 module ProjectsHelper
 
+  def create_projects_url_by_month(type)
+    days = []
+    if params['q']
+      ['gt', 'lt'].each do |d|
+        days << Date.new(params['q']["production_upload_at_#{d}eq(1i)"].try(:to_i) || Time.now.year, params['q']["production_upload_at_#{d}eq(2i)"].try(:to_i) || Time.now.month, 1)
+      end
+    else
+      2.times {|i| days << Date::today}
+    end
+
+    date = type == 'next' ? days[1] >> 1 : days[0] << 1
+    last_date = (date >> 1) - 1
+
+    return projects_url q: {
+      'production_upload_at_gteq(1i)' => date.year,
+      'production_upload_at_gteq(2i)' => date.month,
+      'production_upload_at_gteq(3i)' => date.day,
+      'production_upload_at_lteq(1i)' => last_date.year,
+      'production_upload_at_lteq(2i)' => last_date.month,
+      'production_upload_at_lteq(3i)' => last_date.day,
+    }
+  end
+
   def now_status ( project, place )
     case place
     when 'aws'

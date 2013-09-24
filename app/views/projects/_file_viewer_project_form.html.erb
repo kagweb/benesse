@@ -17,12 +17,12 @@
     <% end %>
   </div>
 
-  <%= form_tag actions_aws_path, method: 'post', class: 'actions-box', target: '_blank' do %>
+  <div class="actions-box">
     <input type="hidden" value="" name="path">
-    <button type="submit" class="btn file_action" data-action="download" name="download" value="on">
+    <button type="submit" class="btn file_action" data-action="download" name="download">
       <i class="icon-download"></i> <%= t 'view.file_viewer.buttons.download' %>
     </button>
-  <% end %>
+  </div>
 
   <%= form_tag actions_aws_path, method: 'post', class: 'actions-box', multipart: true do %>
     <input type="hidden" value="" name="path">
@@ -38,4 +38,8 @@
   <% end %>
 </div>
 
-<p class="well well-small">URL: <a href="#"><%= Benesse::Application.config.aws_root_url %><span class="download_path"></span></a></p>
+<p class="well well-small">URL:
+  <%= link_to Benesse::Application.config.preview_url, { target: '_blank',  base_url: Benesse::Application.config.preview_url, class: 'preview_link' } do %>
+    <%= Benesse::Application.config.preview_url %><span class="download_path"></span>
+  <% end %>
+</p>
