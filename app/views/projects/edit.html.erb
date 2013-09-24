@@ -7,7 +7,7 @@
   <% if allow? 'promoter' %>
     <%= f.input :name %>
     <%= f.input :year_migrate, inline_label: '年度移行対象', label: false %>
-    <%= f.input :delection, inline_label: '削除案件', label: false %>
+    <%= f.input :deletion, inline_label: '削除案件', label: false %>
     <% unless @project.miss %>
       <%= f.input :miss, inline_label: 'ミスあり', label: false %>
     <% end %>
