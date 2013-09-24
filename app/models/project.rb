@@ -37,14 +37,14 @@ class Project < ActiveRecord::Base
 
   def to_api
     response = Hash.new
-    # case status
-    # when 3
+    case status
+    when 3
       response[:status] = 'test'
-    # when 5
-    #   response[:status] = 'production'
-    # else
-    #   return false
-    # end
+    when 5
+      response[:status] = 'production'
+    else
+      return false
+    end
     response[:id] = id
     response[:upload_server] = upload_server
     response[:deletion] = deletion
