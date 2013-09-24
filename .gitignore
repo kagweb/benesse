@@ -52,10 +52,11 @@
 Icon^M^M
 
 # Upload files
-/files/aws/go.nkd/htdocs/
-/files/aws/kzemi/htdocs/
-/files/aws/kzemi/ssl_htdocs/
-/files/aws/NKD/htdocs/k123/
-/files/aws/NKD/htdocs/zemi/
-/files/projects/production/
-/files/projects/test/
+
+/public/files/aws/go.nkd/htdocs/
+/public/files/aws/kzemi/htdocs/
+/public/files/aws/kzemi/ssl_htdocs/
+/public/files/aws/NKD/htdocs/k123/
+/public/files/aws/NKD/htdocs/zemi/
+/public/files/projects/production/
+/public/files/projects/test/
