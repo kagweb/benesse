@@ -47,7 +47,7 @@ class Project < ActiveRecord::Base
     # end
     response[:id] = id
     response[:upload_server] = upload_server
-    response[:deletion] = false # deletion
+    response[:deletion] = deletion
     response[:year_migrate] = year_migrate
     return response
   end
