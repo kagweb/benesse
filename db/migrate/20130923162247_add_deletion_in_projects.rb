@@ -1,9 +1,9 @@
 class AddDeletionInProjects < ActiveRecord::Migration
   def up
-    add_column :projects, :delection, :boolean, null: true, default: false
+    add_column :projects, :deletion, :boolean, null: true, default: false
   end
 
   def down
-    remove_column :projects, :delection
+    remove_column :projects, :deletion
   end
 end
