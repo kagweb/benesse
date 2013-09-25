@@ -65,6 +65,11 @@
       <%= @project.production_upload_at.blank? ? '未登録' : l(@project.production_upload_at, format: @project.register_datetime ? :short : :long ) %>
     </p>
 
+    <p>
+      <b><%= t 'activerecord.attributes.project.upload_server' %>:</b>
+      <%= @project.upload_server %>
+    </p>
+
     <p class="well">
       <%= @project.memo.blank? ? 'メモは登録されていません。' : @project.memo %>
     </p>
