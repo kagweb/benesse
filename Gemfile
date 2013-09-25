@@ -16,6 +16,7 @@ gem 'sorcery'
 gem 'simple_form'
 gem 'ransack'
 gem 'zipruby'
+gem 'actionmailer'
 
 group :development do
   gem 'thin'
