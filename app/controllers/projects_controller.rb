@@ -35,7 +35,15 @@ class ProjectsController < ApplicationController
       @project.operator   = user if user.id == users[2].to_i
     end
 
-    @project.save ? redirect_to(@project, notice: "移送案件[ #{@project.name} ]の新規登録しました。") : render(:new)
+    if @project.save
+      mail = UserMailer.require_confirm_email @project
+      mail.transport_encoding = '8bit'
+      mail.deliver
+
+      redirect_to @project, notice: "移送案件[ #{@project.name} ]の新規登録しました。"
+    else
+      render :new
+    end
   end
 
   def update
@@ -82,7 +90,15 @@ class ProjectsController < ApplicationController
       end
     end
 
-    @project.save ? redirect_to(@project, notice: '付替えが完了しました。') : render(:authors)
+    if @project.save
+      mail = UserMailer.changed_authorities_email @project
+      mail.transport_encoding = '8bit'
+      mail.deliver
+
+      redirect_to @project, notice: '付替えが完了しました。'
+    else
+      render :authors
+    end
   end
 
   def check
