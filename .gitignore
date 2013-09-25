@@ -39,6 +39,8 @@
 # Ignore uploaded images
 /public/uploads/
 
+/public/files/
+
 # Ignore .DS_Store
 .DS_Store
 
