@@ -75,7 +75,7 @@
         <p class="text-error">関係者が登録されていません。</p>
       <% end %>
 
-      <% if confirmation_enabled? @project %>
+      <% if @project.include_user_in_party? current_user and confirmation_enabled? @project %>
         <input type="submit" class="btn btn-primary btn-large pull-right" value="登録">
       <% end%>
     <% end %>

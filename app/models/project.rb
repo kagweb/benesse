@@ -85,6 +85,11 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def include_user_in_party? (user)
+    parties.each {|u| return true if u.user == user }
+    return false
+  end
+
   private
 
   def create_branch
