@@ -146,7 +146,7 @@
           <td><%= party.user.name %></td>
           <td class="center">
             <% if party.aws_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
-            <%= response(party.user, 0).upcase %>
+            <%= response(party.user, 0).upcase == 'FEEDBACK' ? 'FBあり' : response(party.user, 0).upcase %>
           </td>
           <td class="center">
             <% if party.test_confirm_required %><span class="label label-important">必須</span>&nbsp;<% end %>
