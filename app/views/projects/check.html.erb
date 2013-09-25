@@ -31,7 +31,7 @@
           <tr>
             <th><%= t 'activerecord.attributes.user.department' %></th>
             <th><%= t 'activerecord.attributes.user.name' %></th>
-            <th class="center">Feedback</th>
+            <th class="center">FBあり</th>
             <th class="center">OK</th>
             <th class="center">NG</th>
           </tr>
@@ -84,9 +84,9 @@
 
 <h2><%= t 'view.utility.comment' %></h2>
 <ul class="well unstyled comments">
-  <% @comments.each do |c| %>
+  <% @comments.each.with_index(1) do |c, n| %>
   <li>
-    <b class="username"><i class="icon-user"></i> <%= c.user.name %></b>
+    <b class="username"><i class="icon-user"></i> <%= "#{n}. #{c.user.name}" %></b>
     <span class="time"><%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %></span>
     <p><%= raw c.comment.gsub(/\r\n|\r|\n/, "<br />") %></p>
   </li>
