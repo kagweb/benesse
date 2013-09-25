@@ -7,7 +7,7 @@ module ProjectsHelper
         days << Date.new(params['q']["production_upload_at_#{d}eq(1i)"].try(:to_i) || Time.now.year, params['q']["production_upload_at_#{d}eq(2i)"].try(:to_i) || Time.now.month, 1)
       end
     else
-      2.times {|i| days << Date::today}
+      2.times {|i| days << Date.new(Time.now.year, Time.now.month, 1)}
     end
 
     date = type == 'next' ? days[1] >> 1 : days[0] << 1

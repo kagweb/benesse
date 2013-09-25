@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
   validates_length_of :password, minimum: 6, if: :password
   validates_confirmation_of :password, if: :password
 
+  default_scope order('id DESC')
+
   def is_promotion_department?
     department == Department.find_by_name('デジタル推進課')
   end
