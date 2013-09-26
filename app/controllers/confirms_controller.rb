@@ -9,13 +9,13 @@ class ConfirmsController < ApplicationController
     project.old_promoter   = nil if params[:auth] == 'promoter'
     project.save
 
-    redirect_to project
+    redirect_to project, notice: '付替えを承認しました。'
   end
 
   def update_branch
     project = Project.find params[:id]
     project.update_branch
-    redirect_to project
+    redirect_to project, notice: '枝番を更新しました。'
   end
 
   def project

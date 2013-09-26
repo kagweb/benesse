@@ -28,7 +28,7 @@ class Project < ActiveRecord::Base
   def status_slug
     tmp = []
     tmp.fill('aws', 0, 3).fill('test', 3, 2).fill('production', 5, 2).fill('closed', 7, 1)
-    return tmp[self.status]
+    return tmp[self.status].presence || 'aws'
   end
 
   def update_branch
@@ -83,6 +83,11 @@ class Project < ActiveRecord::Base
 
       self.save
     end
+  end
+
+  def include_user_in_party? (user)
+    parties.each {|u| return true if u.user == user }
+    return false
   end
 
   private
