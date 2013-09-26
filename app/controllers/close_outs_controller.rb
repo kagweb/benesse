@@ -5,13 +5,21 @@ class CloseOutsController < ApplicationController
   def test
     project = Project.find params[:id]
     project.status = 4 if project.status == 3
-    render json: { result: project.save }
+    project.save
+    mail = UserMailer.test_require_confirm_email project
+    mail.transport_encoding = '8bit'
+    mail.deliver
+    render json: { result: true }
   end
 
   def production
     project = Project.find params[:id]
     project.status = 6 if project.status == 5
-    render json: { result: project.save }
+    project.save
+    mail = UserMailer.production_require_confirm_email project
+    mail.transport_encoding = '8bit'
+    mail.deliver
+    render json: { result: true }
   end
 
   private
