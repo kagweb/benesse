@@ -31,3 +31,12 @@
   </div>
 
 <% end %>
+
+<ul class="unstyled scroll">
+  <% @files.each do |f| %>
+    <li><%= link_to f, f %></li>
+  <% end%>
+  <% if @files.blank? %>
+    <li class="text-error">アップロードされているファイルはありません。</li>
+  <% end%>
+</ul>

@@ -5,6 +5,13 @@ class UploadController < ApplicationController
 
   def index
     @project = Project.find params[:id]
+    path = Benesse::Application.config.upload_dir['production'].join(format '%07d', @project.id).join(format '%02d', @project.branches.last.code.to_i)
+    FileUtils.mkdir_p path unless File.exist? path
+
+    @files = []
+    Dir.glob(path.join('**/*').to_s).each do |path|
+      @files << Benesse::Application.config.preview_url + path.to_s.gsub(Benesse::Application.config.upload_root_path.to_s, '').gsub(/^\//, '') unless File.directory? path
+    end
   end
 
   def create
