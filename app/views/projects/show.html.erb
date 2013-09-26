@@ -1,8 +1,7 @@
 <% if @project.status == 7 %><div class="alert alert-error">全ての工程が完了した案件です。</div><% end %>
 <div class="row">
+  <h2 class="span12"> <%= @project.name %> <small><%= project_number @project %></small></h2>
   <div class="span5">
-    <h2> <%= @project.name %> <small><%= project_number @project %></small></h2>
-
     <p>
       <% if @project.confirmed %>
         <span class="label label-success"><%= t 'view.utility.confirm.ok' %></span>
