@@ -1,3 +1,4 @@
+# coding: utf-8
 Benesse::Application.configure do
   HOSTNAME = '0.0.0.0:3000'
   # Settings specified here will take precedence over those in config/application.rb
