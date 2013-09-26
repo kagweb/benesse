@@ -31,7 +31,6 @@
           <tr>
             <th><%= t 'activerecord.attributes.user.department' %></th>
             <th><%= t 'activerecord.attributes.user.name' %></th>
-            <th class="center">FBあり</th>
             <th class="center">OK</th>
             <th class="center">NG</th>
           </tr>
@@ -47,18 +46,12 @@
 
             <% if current_user == party.user and confirmation_enabled?(@project) %>
               <td class="center">
-                <%= radio_button :confirmation, :response, 'feedback' , { checked: response(current_user) == 'feedback' } %>
-              </td>
-              <td class="center">
                 <%= radio_button :confirmation, :response, 'ok' , { checked: response(current_user) == 'ok' } %>
               </td>
               <td class="center">
                 <%= radio_button :confirmation, :response, 'ng' , { checked: response(current_user) == 'ng' } %>
               </td>
             <% else %>
-              <td class="center">
-                <%= raw response(party.user) == 'feedback' ? '<i class="icon-ok"></i>' : '' %>
-              </td>
               <td class="center">
                 <%= raw response(party.user) == 'ok' ? '<i class="icon-ok"></i>' : '' %>
               </td>
