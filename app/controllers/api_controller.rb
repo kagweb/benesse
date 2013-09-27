@@ -7,7 +7,7 @@ class ApiController < ApplicationController
   def projects
     render json: { result: false } and return unless params[:token] == Benesse::Application.config.authentication_token
     target_day = Date.today - 0.hour
-    @projects = Project.where{ ((test_upload_at >= target_day) & (test_upload_at < target_day + 1) | (production_upload_at >= target_day) & (production_upload_at < target_day)) }.where(registration_status: true)
+    @projects = Project.where{ ((test_upload_at >= target_day) & (test_upload_at < target_day + 1) | (production_upload_at >= target_day) & (production_upload_at < target_day + 1)) }.where(registration_status: true)
     response = Hash[ result: true, projects: Array.new ]
     @projects.each { |project| response[:projects].push project.to_api if project.to_api }
     render json: response
