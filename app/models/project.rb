@@ -10,10 +10,9 @@ class Project < ActiveRecord::Base
   belongs_to :old_authorizer, class_name: 'User'
   belongs_to :old_promoter, class_name: 'User'
 
-  attr_accessible :confirmed, :name, :production_upload_at,
-                  :exists_test_server, :status, :test_upload_at,
-                  :upload_server, :registration_status, :year_migrate,
-                  :server_update, :memo, :register_datetime, :miss, :deletion
+  attr_accessible :confirmed, :name, :production_upload_at, :exists_test_server, :status,
+                  :test_upload_at, :upload_server, :registration_status, :year_migrate,
+                  :server_update, :memo, :register_datetime, :miss, :deletion, :uploaded
 
   after_create :create_branch
   after_create :add_parties
@@ -33,6 +32,18 @@ class Project < ActiveRecord::Base
 
   def update_branch
     branches.create code: format("%02d", branches.last.code.to_i + 1)
+    confirmations.destroy_all
+    self.status = 1
+    self.uploaded = false
+    self.save
+  end
+
+  def register_miss
+    branches.where(code: '90').first_or_create
+    confirmations.destroy_all
+    self.status = 1
+    self.miss = true
+    self.save
   end
 
   def to_api

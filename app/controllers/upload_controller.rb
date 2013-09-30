@@ -28,6 +28,9 @@ class UploadController < ApplicationController
     upload_files tmp_file, 'test' if @project.exists_test_server
     remove_tmp_file tmp_file
 
+    @project.uploaded = true
+    @project.save
+
     redirect_to upload_index_url, notice: "#{params['upload']['files'].original_filename} のアップロードに成功しました。"
   end
 
