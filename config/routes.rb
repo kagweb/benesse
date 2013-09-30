@@ -28,6 +28,8 @@ Benesse::Application.routes.draw do
           get :aws
           get :project
           get :update_branch
+          get :miss
+          get :aws_reset
         end
       end
 
