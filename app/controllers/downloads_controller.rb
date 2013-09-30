@@ -13,11 +13,11 @@ class DownloadsController < ApplicationController
 
   def get_url
     path = Benesse::Application.config.upload_root_path.join params[:path]
-    return raise('This file is not found.') unless File.exist? path
+    raise('This file is not found.') unless File.exist? path
 
     if File.directory? path
       path = create_zip path
-      return raise('Failed to create a zip file.') unless path and File.exist? path
+      raise('Failed to create a zip file.') unless path and File.exist? path
       filename = path.to_s.split('/').last
       type = 'dir'
     else
