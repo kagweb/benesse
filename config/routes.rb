@@ -13,7 +13,6 @@ Benesse::Application.routes.draw do
       get :check, constraints: { status: /^aws|^test|^production/ }
       put :check, action: :check_confirmation
       get :downloads, controller: :downloads, action: :index
-      get :aws_reset
       post :comment
 
       resources :close_outs, only: [] do
@@ -29,6 +28,8 @@ Benesse::Application.routes.draw do
           get :aws
           get :project
           get :update_branch
+          get :miss
+          get :aws_reset
         end
       end
 

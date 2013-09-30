@@ -1,10 +1,13 @@
 <div class="clearfix">
   <div class="actions-box">
-    <% if allow? 'promoter' and @project.status == 1 %>
-      <%= link_to aws_confirms_url, class: 'btn btn-primary', confirm: t('view.confirm.confirm_html') do %>
-        <i class="icon-ok"></i> <%= t 'view.file_viewer.buttons.confirm' %>
+    <% if @project.uploaded and allow? 'promoter' %>
+      <% if @project.status == 1 %>
+        <%= link_to aws_confirms_url, class: 'btn btn-primary', confirm: t('view.confirm.confirm_html') do %>
+          <i class="icon-ok"></i> <%= t 'view.file_viewer.buttons.confirm' %>
+        <% end %>
       <% end %>
-      <%= link_to aws_reset_project_url , class: 'btn btn-danger', confirm: t('view.confirm.cancel_html') do %>
+
+      <%= link_to aws_reset_confirms_url , class: 'btn btn-danger', confirm: t('view.confirm.cancel_html') do %>
         <i class="icon-remove"></i> <%= t 'view.file_viewer.buttons.cancel' %>
       <% end%>
     <% end %>

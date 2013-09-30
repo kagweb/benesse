@@ -52,7 +52,6 @@ class ProjectsController < ApplicationController
     @project = Project.find params[:id]
     @project.attributes = params[:project]
     @project.operator = operator
-    @project.branches.where(code: '90').first_or_create if @project.miss
 
     if @project.save
       redirect_to @project, notice: "#{@project.name} を編集しました。"
@@ -136,14 +135,6 @@ class ProjectsController < ApplicationController
     else
       redirect_to check_project_url(status: status), alert: 'コメントの投稿に失敗しました。'
     end
-  end
-
-  def aws_reset
-    project = Project.find params[:id]
-    latest_branch = "#{format('%07d', project.id)}/#{format('%02d', project.branches.last.code.to_i)}"
-    FileUtils.rm_rf Benesse::Application.config.upload_dir['production'].join(latest_branch)
-    FileUtils.rm_rf Benesse::Application.config.upload_dir['test'].join(latest_branch)
-    redirect_to project, notice: 'AWS取消しました。'
   end
 
   private

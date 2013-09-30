@@ -73,7 +73,7 @@
       <%= @project.memo.blank? ? 'メモは登録されていません。' : @project.memo %>
     </p>
 
-    <% if allow? 'authorizer' and ! @project.confirmed %>
+    <% if allow? 'authorizer' and @project.status == 0 %>
       <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'),
         project_confirms_url, { class: 'btn btn-primary', confirm: t('view.confirm.confirm_project') } %>
     <% end %>
@@ -90,6 +90,11 @@
 
     <%= link_to raw('<i class="icon-circle-arrow-up"></i> ' + t('view.project.update_branch') + '</a>'),
       update_branch_confirms_url, { class: 'btn', confirm: t('view.confirm.update_branch') } %>
+
+    <% if @project.status == 6 and allow? 'promoter' and ! @project.miss %>
+      <%= link_to raw('<i class="icon-remove"></i> ' + t('view.project.miss') + '</a>'),
+        miss_confirms_url, { class: 'btn btn-danger', confirm: t('view.confirm.miss') } %>
+    <% end %>
   </div>
 
   <%= form_tag remind_mail_index_path, class: 'span7' do %>
