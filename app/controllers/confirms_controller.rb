@@ -33,12 +33,18 @@ class ConfirmsController < ApplicationController
     redirect_to project, notice: '納品データが承認されました。'
   end
 
+  # ・枝番を90番に更新
+  # ・全ての進捗チェックを削除
+  # ・進捗ステータスを業者未アップロード時まで戻す
   def miss
     project = Project.find params[:id]
     project.register_miss
     redirect_to project, notice: 'ミスありに登録されました。'
   end
 
+  # ・現在の枝番でアップロードされているデータの削除
+  # ・全ての進捗チェックを削除
+  # ・進捗ステータスを業者未アップロード時まで戻す
   def aws_reset
     project = Project.find params[:id]
     latest_branch = "#{format('%07d', project.id)}/#{format('%02d', project.branches.last.code.to_i)}"

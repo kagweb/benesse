@@ -34,6 +34,7 @@ class Project < ActiveRecord::Base
     branches.create code: format("%02d", branches.last.code.to_i + 1)
     confirmations.destroy_all
     self.status = 1
+    self.uploaded = false
     self.save
   end
 
