@@ -17,7 +17,6 @@ class DownloadsController < ApplicationController
 
     if File.directory? path
       path = create_zip path
-      raise('Failed to create a zip file.') unless path and File.exist? path
       filename = path.to_s.split('/').last
       type = 'dir'
     else
