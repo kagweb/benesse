@@ -34,7 +34,6 @@ class DownloadsController < ApplicationController
       path = Benesse::Application.config.upload_tmp_path.join params[:f]
     end
 
-    return raise('This file is not found.') unless File.exist? path
     send_file path
   end
 end
