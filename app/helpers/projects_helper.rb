@@ -20,6 +20,8 @@ module ProjectsHelper
       'production_upload_at_lteq(1i)' => last_date.year,
       'production_upload_at_lteq(2i)' => last_date.month,
       'production_upload_at_lteq(3i)' => last_date.day,
+      'production_upload_at_lteq(4i)' => 23,
+      'production_upload_at_lteq(5i)' => 59,
     }
   end
 

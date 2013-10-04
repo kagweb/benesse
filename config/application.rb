@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.expand_path('../boot', __FILE__)
 
 # Pick the frameworks you want:
@@ -34,6 +35,7 @@ module Benesse
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
@@ -69,7 +71,6 @@ module Benesse
     config.servers = [
       'kzemi',
       'NKD',
-      'go.nkd'
     ]
 
     # ダウンロード用ディレクトリ

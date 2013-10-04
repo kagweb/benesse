@@ -26,6 +26,11 @@
   .add_party {
     margin-bottom: 20px;
    }
+
+  #q_production_upload_at_lteq_4i,
+  #q_production_upload_at_lteq_5i {
+    display: none;
+  }
 }
 
 ul.comments {
