@@ -17,7 +17,6 @@ class DownloadsController < ApplicationController
 
     if File.directory? path
       path = create_zip path
-      raise('Failed to create a zip file.') unless path and File.exist? path
       filename = path.to_s.split('/').last
       type = 'dir'
     else
@@ -35,7 +34,6 @@ class DownloadsController < ApplicationController
       path = Benesse::Application.config.upload_tmp_path.join params[:f]
     end
 
-    return raise('This file is not found.') unless File.exist? path
     send_file path
   end
 end

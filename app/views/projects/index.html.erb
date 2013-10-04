@@ -11,7 +11,7 @@
     <%= f.label :production_upload_at, class: 'control-label' %>
     <div class="controls">
       <%= f.date_select :production_upload_at_gteq, {default: Date.new(Time.now.year, Time.now.month, 1)}, {class: 'input-small'} %>〜
-      <%= f.date_select :production_upload_at_lteq, {default: Date.new(Time.now.year, Time.now.month, -1)}, class: 'input-small' %>
+      <%= f.datetime_select :production_upload_at_lteq, {default: DateTime.new(Time.now.year, Time.now.month, -1, 23, 59), datetime_separator: '', time_separator: ''}, class: 'input-small time_hidden' %>
     </div>
   </div>
   <div class="control-group">
