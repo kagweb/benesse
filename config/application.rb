@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.expand_path('../boot', __FILE__)
 
 # Pick the frameworks you want:
@@ -69,7 +70,6 @@ module Benesse
     config.servers = [
       'kzemi',
       'NKD',
-      'go.nkd'
     ]
 
     # ダウンロード用ディレクトリ
