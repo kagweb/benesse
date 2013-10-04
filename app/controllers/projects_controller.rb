@@ -107,7 +107,6 @@ class ProjectsController < ApplicationController
     @comment.project = @project
     @comment.user = current_user
     @comments = @project.comments.where(status: @status).order(:created_at.desc)
-    pp @comments
   end
 
   def check_confirmation
