@@ -106,7 +106,7 @@ class ProjectsController < ApplicationController
     @comment = Comment.new status: @status
     @comment.project = @project
     @comment.user = current_user
-    @comments = @project.comments.where status: @status
+    @comments = @project.comments.where(status: @status).reverse
   end
 
   def check_confirmation
