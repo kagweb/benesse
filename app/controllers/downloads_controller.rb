@@ -17,6 +17,11 @@ class DownloadsController < ApplicationController
 
     if File.directory? path
       path = create_zip path
+
+      timeout 10 do
+        break if File.exist? path
+      end
+
       filename = path.to_s.split('/').last
       type = 'dir'
     else
