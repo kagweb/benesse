@@ -25,26 +25,6 @@ module ProjectsHelper
     }
   end
 
-  def now_status ( project, place )
-    case place
-    when 'aws'
-      return 'preparing'  if project.status == 0
-      return 'no_upload'  if project.status == 1
-      return 'working'    if project.status == 2
-      return 'compleated' if project.status >= 3
-    when 'test'
-      return 'no_upload'  if project.status == 3
-      return 'working'    if project.status == 4
-      return 'compleated' if project.status >= 5
-    when 'production' 
-      return 'no_upload'  if project.status == 5
-      return 'working'    if project.status == 6
-      return 'compleated' if project.status >= 7
-    end
-
-    return 'blank'
-  end
-
   def disabled ( place )
     case place
     when 'aws'
