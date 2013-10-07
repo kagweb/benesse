@@ -62,19 +62,28 @@ module ProjectsHelper
   end
 
   def folder ( name, info )
-    # ファイルの情報
-    tmp  = "<div class=\"pull-right span2 file_info\">#{info['_updated_at_']} </div>"
-    tmp += "<div class=\"pull-right span1 file_info\">#{info['_size_']}</div>"
-    tmp += "<div class=\"pull-right span1 file_info\">#{info['_type_'].upcase}</div>"
+    unless info['_type_'] == 'dir'
+      # ファイルの情報
+      tmp  = content_tag :a, '<i class="icon-file"></i> ' + name + ' ', { href: info['_basepath_'] + '/' + info['_path_'], data: {root: info['_root_']}}, false
+      tmp += content_tag :div, info['_updated_at_'], {class: 'pull-right span2 file_info'}, false
+      tmp += content_tag :div, info['_size_'], {class: 'pull-right span1 file_info'}, false
+      tmp += content_tag :div, info['_type_'], {class: 'pull-right span1 file_info'}, false
+  
+      # ディレクトリでない場合は li 要素を返す
+      return content_tag :li, tmp, {class: 'file'}, false
+    end
 
-    # ディレクトリでない場合は li 要素を返す
-    return "<li class=\"file\"><a href=\"#{info['_basepath_']}/#{info['_path_']}\" data-root=\"#{info['_root_']}\"><i class=\"icon-file\"></i> #{name} #{tmp} </a></li>" unless info['_type_'] == 'dir'
+    tmp  = content_tag :span, '&#9658;', {class: 'folder-control folder-close'}, false
+    tmp += content_tag :a, '<i class="icon-folder-close"></i> ' + name, {href: info['_basepath_'] + '/' + info['_path_'], data: {root: info['_root_']}}, false
 
     # ディレクトリの場合はディレクトリの中身を再帰的に解析
-    element = "<li><span class=\"folder-control folder-close\">&#9658;</span><a href=\"#{info['_basepath_']}/#{info['_path_']}\" data-root=\"#{info['_root_']}\"><i class=\"icon-folder-close\"></i> #{name}</a><ul class=\"unstyled\">"
-    info['_files_'].each {|n, i| element += folder n, i }
+    ul = content_tag :ul, class: 'unstyled' do
+      info['_files_'].each do |n, i|
+        concat folder(n, i)
+      end
+    end
 
-    return element + "</ul></li>"
+    content_tag :li, tmp + ul, nil, false
   end
 
   def directory_to_array(depth = nil)
