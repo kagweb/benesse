@@ -77,7 +77,7 @@ module ProjectsHelper
     return element + "</ul></li>"
   end
 
-  def dir_to_a(depth = nil)
+  def directory_to_array(depth = nil)
     require "find"
 
     path = _create_path
