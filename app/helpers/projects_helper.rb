@@ -62,23 +62,23 @@ module ProjectsHelper
   end
 
   def folder ( name, info )
-    unless info['_type_'] == 'dir'
+    unless info['type'] == 'dir'
       # ファイルの情報
-      tmp  = content_tag :a, '<i class="icon-file"></i> ' + name + ' ', { href: info['_basepath_'] + '/' + info['_path_'], data: {root: info['_root_']}}, false
-      tmp += content_tag :div, info['_updated_at_'], {class: 'pull-right span2 file_info'}, false
-      tmp += content_tag :div, info['_size_'], {class: 'pull-right span1 file_info'}, false
-      tmp += content_tag :div, info['_type_'], {class: 'pull-right span1 file_info'}, false
+      tmp  = content_tag :a, '<i class="icon-file"></i> ' + name + ' ', { href: info['basepath'] + '/' + info['path'], data: {root: info['root']}}, false
+      tmp += content_tag :div, info['updated_at'], {class: 'pull-right span2 file_info'}, false
+      tmp += content_tag :div, info['size'], {class: 'pull-right span1 file_info'}, false
+      tmp += content_tag :div, info['type'], {class: 'pull-right span1 file_info'}, false
   
       # ディレクトリでない場合は li 要素を返す
       return content_tag :li, tmp, {class: 'file'}, false
     end
 
     tmp  = content_tag :span, '&#9658;', {class: 'folder-control folder-close'}, false
-    tmp += content_tag :a, '<i class="icon-folder-close"></i> ' + name, {href: info['_basepath_'] + '/' + info['_path_'], data: {root: info['_root_']}}, false
+    tmp += content_tag :a, '<i class="icon-folder-close"></i> ' + name, {href: info['basepath'] + '/' + info['path'], data: {root: info['root']}}, false
 
     # ディレクトリの場合はディレクトリの中身を再帰的に解析
     ul = content_tag :ul, class: 'unstyled' do
-      info['_files_'].each {|n, i| concat folder(n, i)}
+      info['files'].each {|n, i| concat folder(n, i)}
     end
 
     content_tag :li, tmp + ul, nil, false
@@ -92,41 +92,42 @@ module ProjectsHelper
 
     dir = {}
 
-    Find.find path do |f|
-      next if FileTest.file? f and ['.DS_Store', '.gitkeep'].include? f.to_s.split('/').last
-      resolved_path = f.to_s.gsub(path.to_s, '').gsub(/^\//, '').split /\//
+    Find.find path do |file|
+      next if FileTest.file? file and ['.DS_Store', '.gitkeep'].include? file.to_s.split('/').last
+      resolved_path = file.to_s.gsub(path.to_s, '').gsub(/^\//, '').split /\//
       next if resolved_path.empty?
 
       tmp = dir
-      count = 0
+      depth_count = 0
+      template = {
+        'root' => resolved_path.first,
+        'path' => resolved_path.join('/'),
+        'basepath' => path.to_s.gsub(Benesse::Application.config.upload_root_path.to_s, '').gsub(/^\//, ''),
+        'type' => 'dir',
+        'size' => '',
+        'files' => {},
+        'updated_at' => l(File.mtime file),
+      }
 
       resolved_path.each do |r|
-        count += 1
+        depth_count += 1
+        tmp[r] = template.clone if ! tmp.key? r
 
-        if FileTest.file? f and count == resolved_path.length
-          tmp[r] = {
-            '_root_' => resolved_path.first,
-            '_path_' => resolved_path.join('/'),
-            '_basepath_' => path.to_s.gsub(Benesse::Application.config.upload_root_path.to_s, '').gsub(/^\//, ''),
-            '_type_' => r.split('.').last.upcase,
-            '_size_' => number_to_human_size(File.size? f) || 'empty',
-            '_updated_at_' => l(File.mtime f),
-          }
+        if FileTest.directory? file and depth_count == resolved_path.length
+          tmp[r]['size'] = 0
+          Dir.glob("#{file}/**/*") {|f| tmp[r]['size'] += File.size? f }
+          tmp[r]['size'] = number_to_human_size(tmp[r]['size']) || 'empty'
           break
-        elsif ! tmp.key? r
-          tmp[r] = {
-            '_root_' => resolved_path.first,
-            '_path_' => resolved_path.join('/'),
-            '_basepath_' => path.to_s.gsub(Benesse::Application.config.upload_root_path.to_s, '').gsub(/^\//, ''),
-            '_type_' => 'dir',
-            '_size_' => number_to_human_size(File.size? f ) || 'empty',
-            '_updated_at_' => l(File.mtime f),
-            '_files_' => {},
-          }
         end
 
-        tmp = tmp[r]['_files_']
-        break if ! depth.nil? and count >= depth
+        if FileTest.file? file and depth_count == resolved_path.length
+          tmp[r]['type'] = r.split('.').last.upcase
+          tmp[r]['size'] = number_to_human_size(File.size? file) || 'empty'
+          break
+        end
+
+        tmp = tmp[r]['files']
+        break if ! depth.nil? and depth_count >= depth
       end
     end
 
