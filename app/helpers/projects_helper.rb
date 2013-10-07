@@ -78,9 +78,7 @@ module ProjectsHelper
 
     # ディレクトリの場合はディレクトリの中身を再帰的に解析
     ul = content_tag :ul, class: 'unstyled' do
-      info['_files_'].each do |n, i|
-        concat folder(n, i)
-      end
+      info['_files_'].each {|n, i| concat folder(n, i)}
     end
 
     content_tag :li, tmp + ul, nil, false
