@@ -115,7 +115,7 @@ module ProjectsHelper
 
         if FileTest.directory? file and depth_count == resolved_path.length
           tmp[r]['size'] = 0
-          Dir.glob("#{file}/**/*") {|f| tmp[r]['size'] += File.size? f }
+          Dir.glob("#{file.to_s}/**/*") {|f| tmp[r]['size'] += File.size?(f).to_i }
           tmp[r]['size'] = number_to_human_size(tmp[r]['size']) || 'empty'
           break
         end
