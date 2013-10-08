@@ -38,6 +38,9 @@ $ ->
     type = $(this).attr('data-action')
     return Boolean alert('ファイルが選択されていません') unless $('input[type="hidden"][name="path"]').val()
     return confirm msg[type] if msg[type]
+    $(this).html $(this).children('i')
+    $(this).append ' ' + (type.charAt(0).toUpperCase() + type.slice(1)).replace(/e$/, '') + 'ing <img src="/assets/loader.gif">'
+    $(this).addClass 'disabled'
     return download() if type == 'download'
 
   # List 表示画面へのリンクのパラメータを書き換え
@@ -63,14 +66,19 @@ $ ->
         path: $('input[type="hidden"][name="path"]').val()
       dataType: 'json',
       success: (res) ->
-        win = window.open()
-        win.location.href = res['url']
-        setTimeout( ->
-          win.close()
-          location.reload()
-        , 3000)
+        if res['result']
+          win = window.open()
+          win.location.href = res['url']
+          setTimeout( ->
+            win.close()
+            location.reload()
+          , 3000)
+        else
+          $('button[name="download"]').removeClass('disabled').html($('button[name="download"]').children('i')).append(' ダウンロード')
+          alert res['error']
       ,
       error: ->
+        $('button[name="download"]').removeClass('disabled').html($('button[name="download"]').children('i')).append(' ダウンロード')
         alert('ダウンロードに失敗しました。\nリロード後、再度ダウンロードしてください。');
     return false
 
