@@ -8,7 +8,7 @@
 
     <% if params[:view].blank? or params[:view] != 'list' %>
       <ul class="files unstyled clearfix">
-        <% dir = dir_to_a %>
+        <% dir = directory_to_array %>
         <% if dir.blank? %>
           <li class="text-error">指定されたディレクトリにファイルがアップロードされていません。</li>
         <% else %>
@@ -30,17 +30,17 @@
           </tr>
         </thead>
         <tbody>
-          <% dir = dir_to_a 0 %>
+          <% dir = directory_to_array 0 %>
           <% if dir.blank? %>
             <tr><td><span class="text-error">指定されたディレクトリにファイルがアップロードされていません。</td><td></td><td></td><td></td><td></td></tr>
           <% else %>
             <% dir.each do |name, info| %>
-              <tr class="action_select" data-path="<%= "#{info['_basepath_']}/#{info['_path_']}" %>">
-                <td><%= info['_type_'] == 'dir' ? link_to(name, { view: 'list', path: "#{info['_basepath_']}/#{info['_path_']}" }) : name %></td>
-                <td><%= "#{Benesse::Application.config.aws_root_url}#{info['_basepath_']}/#{info['_path_']}" %></td>
-                <td><%= info['_type_'].upcase %></td>
-                <td><%= info['_size_'] %></td>
-                <td><%= info['_updated_at_'] %></td>
+              <tr class="action_select" data-path="<%= "#{info['basepath']}/#{info['path']}" %>">
+                <td><%= info['type'] == 'dir' ? link_to(name, { view: 'list', path: "#{info['basepath']}/#{info['path']}" }) : name %></td>
+                <td><%= "#{Benesse::Application.config.aws_root_url}#{info['basepath']}/#{info['path']}" %></td>
+                <td><%= info['type'].upcase %></td>
+                <td><%= info['size'] %></td>
+                <td><%= info['updated_at'] %></td>
               </tr>
             <% end %>
           <% end %>

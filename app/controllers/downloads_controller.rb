@@ -17,6 +17,18 @@ class DownloadsController < ApplicationController
 
     if File.directory? path
       path = create_zip path
+
+      begin
+        timeout 10 do
+          loop do
+            break if path.exist?
+          end
+        end
+      rescue Timeout::Error
+        render json: { result: false, error: "ZIPファイルの生成に失敗しました。\nフォルダのサイズが大きすぎる可能性があります。" }
+        return false;
+      end
+
       filename = path.to_s.split('/').last
       type = 'dir'
     else
