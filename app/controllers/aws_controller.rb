@@ -23,7 +23,6 @@ class AwsController < ApplicationController
       if FileTest.directory?(@path)
         @path = create_zip(@path)
         send_file @path
-        # remove_tmp_file @path
       else
         send_file @path
       end

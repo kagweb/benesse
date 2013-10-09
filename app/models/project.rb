@@ -30,6 +30,34 @@ class Project < ActiveRecord::Base
     return tmp[self.status].presence || 'aws'
   end
 
+  def status_detail
+    case status
+    when 0
+      {'aws' => 'preparing', 'test' => 'blank', 'production' => 'blank'}
+    when 1
+      {'aws' => 'no_upload', 'test' => 'blank', 'production' => 'blank'}
+    when 2
+      {'aws' => 'working', 'test' => 'blank', 'production' => 'blank'}
+    when 3
+      {'aws' => 'compleated', 'test' => 'no_upload', 'production' => 'blank'}
+    when 4
+      {'aws' => 'compleated', 'test' => 'working', 'production' => 'blank'}
+    when 5
+      {'aws' => 'compleated', 'test' => 'compleated', 'production' => 'no_upload'}
+    when 6
+      {'aws' => 'compleated', 'test' => 'compleated', 'production' => 'working'}
+    when 7
+      {'aws' => 'compleated', 'test' => 'compleated', 'production' => 'compleated'}
+    else
+      {'aws' => 'blank', 'test' => 'blank', 'production' => 'blank'}
+    end
+  end
+
+  def status_current
+    states = status_detail
+    states[status_slug].presence || 'blank'
+  end
+
   def update_branch
     branches.create code: format("%02d", branches.last.code.to_i + 1)
     confirmations.destroy_all

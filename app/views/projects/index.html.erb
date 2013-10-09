@@ -83,7 +83,7 @@
           <span class="label label-important">Closed</span>
         <% else %>
           <%= t 'view.project.' + status_slug(project.status) %><br>
-          <%= t 'view.project.status.'  + (now_status project, status_slug(project.status)) %>
+          <%= t 'view.project.status.' + project.status_current %>
         <% end %>
       </td>
       <td class="center"><%= project.promoter.name %></td>

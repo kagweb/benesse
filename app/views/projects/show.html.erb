@@ -119,11 +119,11 @@
     <% end %>
 
     <ul class="row status_buttons unstyled">
-      <% for i in ['aws', 'test', 'production'] %>
+      <% @project.status_detail.each do |key, status| %>
       <li class="span2">
-        <%= link_to t('view.project.'  + i), check_project_path(status: i),
-          { class: "btn btn-large btn-block #{disabled i}", onclick: "if ('disabled' === '#{disabled i}') return false;" } %>
-        <p class="text-center"><%= t 'view.project.status.'  + (now_status @project, i) %></p>
+        <%= link_to t('view.project.'  + key), check_project_path(status: key),
+          { class: "btn btn-large btn-block #{disabled key}", onclick: "if ('disabled' === '#{disabled key}') return false;" } %>
+        <p class="text-center"><%= t 'view.project.status.'  + status %></p>
       </li>
       <% end %>
     </ul>
