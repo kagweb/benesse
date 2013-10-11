@@ -39,37 +39,38 @@ class ApplicationController < ActionController::Base
     resolved_path = path.to_s.split /\//
     return false if resolved_path.blank?
 
-    tmp_filename  = resolved_path.pop + '_' + Time.now.strftime("%Y%m%d%H%M%S%L") + '.zip'
-    reduce_path   = resolved_path.join('/')
+    tmp_filename = resolved_path.pop + '_' + Time.now.strftime("%Y%m%d%H%M%S%L") + '.zip'
+    reduce_path  = resolved_path.join '/'
 
-    Zip::Archive.open Benesse::Application.config.upload_tmp_path.join(tmp_filename).to_s, Zip::CREATE do |archive|
+    Zip::File.open Benesse::Application.config.upload_tmp_path.join(tmp_filename).to_s, Zip::File::CREATE do |archive|
       Dir.glob(path.join('**/*').to_s).each do |path|
-        filename = path.to_s.gsub(reduce_path, '').gsub(/^\//, '')
-        File.directory?(path) ? archive.add_dir(filename) : archive.add_file(filename, path)
+        archive.add path.to_s.gsub(reduce_path, '').gsub(/^\//, ''), path
       end
     end
 
     return Benesse::Application.config.upload_tmp_path.join tmp_filename
   end
 
-  def unzip(tmp_file, path)
-    Zip::Archive.open tmp_file.to_s do |archive|
-      archive.each do |f|
+  def unzip(tmp_file_path, target_dir_path)
+    Zip::File.open(tmp_file_path) do |zip|
+      zip.each do |file|
         ## __MACOSX の削除
-        next if f.name =~ /^__MACOSX/
+        next if file.to_s =~ /^__MACOSX/
 
-        if f.directory?
-          FileUtils.mkdir_p(path.join f.name)
+        if file.directory?
+          FileUtils.mkdir_p(target_dir_path.join file.to_s)
           next
         end
 
         # 許可されていない拡張子ファイルの場合、スキップする
-        next unless Benesse::Application.config.accept_extnames.include? f.name.split('.').last.split('.').last
-        dirname = File.dirname(path.join f.name)
-        FileUtils.mkdir_p dirname unless File.exist? dirname
-        open(path.join(f.name), 'wb') {|t| t << f.read }
+        next unless Benesse::Application.config.accept_extnames.include? file.to_s.split('.').last
+
+        # { true } は展開先に同名ファイルが存在する場合に上書きする指定
+        zip.extract file, target_dir_path.join(file.to_s) { true }
       end
     end
+
+    return true
   end
 
   def create_tmp_file(file)
