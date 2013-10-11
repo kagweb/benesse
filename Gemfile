@@ -15,7 +15,7 @@ gem 'active_attr'
 gem 'sorcery'
 gem 'simple_form'
 gem 'ransack'
-gem 'zipruby'
+gem 'rubyzip'
 gem 'actionmailer'
 
 group :development do

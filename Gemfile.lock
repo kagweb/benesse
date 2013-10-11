@@ -141,6 +141,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
+    rubyzip (1.0.0)
     sass (3.2.10)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -190,7 +191,6 @@ GEM
       raindrops (~> 0.7)
     yajl-ruby (1.1.0)
     yard (0.8.7.2)
-    zipruby (0.3.6)
 
 PLATFORMS
   ruby
@@ -211,6 +211,7 @@ DEPENDENCIES
   pry-rails
   rails (= 3.2.13)
   ransack
+  rubyzip
   sass-rails (~> 3.2.3)
   simple_form
   sorcery
@@ -221,4 +222,3 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   unicorn
   yajl-ruby
-  zipruby
