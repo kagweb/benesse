@@ -23,10 +23,10 @@ class UploadController < ApplicationController
       return
     end
 
-    tmp_file = create_tmp_file(params['upload']['files'])
-    upload_files tmp_file, 'production'
-    upload_files tmp_file, 'test' if @project.exists_test_server
-    remove_tmp_file tmp_file
+    tmp_file_path = create_tmp_file(params['upload']['files'])
+    upload_files tmp_file_path, 'production'
+    upload_files tmp_file_path, 'test' if @project.exists_test_server
+    remove_tmp_file tmp_file_path
 
     @project.uploaded = true
     @project.save
@@ -36,15 +36,15 @@ class UploadController < ApplicationController
 
   private
 
-  def upload_files(file, env)
+  def upload_files(tmp_file_path, env)
     # 展開するディレクトリを指定
-    target_path = Benesse::Application.config.upload_dir[env].join(format "%07d", @project.id).join(format "%02d", @project.branches.last.code.to_i)
+    target_dir_path = Benesse::Application.config.upload_dir[env].join(format "%07d", @project.id).join(format "%02d", @project.branches.last.code.to_i)
 
     # もし同一ブランチにアップロードされたデータがあれば、全て削除し、新しくディレクトリを作成
-    FileUtils.rm_rf target_path if target_path.exist?
-    FileUtils.mkdir_p target_path
+    FileUtils.rm_rf target_dir_path if target_dir_path.exist?
+    FileUtils.mkdir_p target_dir_path
 
     # zip を展開
-    unzip(file, target_path)
+    unzip(tmp_file_path, target_dir_path)
   end
 end

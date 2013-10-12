@@ -59,7 +59,7 @@ GEM
     debug_inspector (0.0.2)
     erubis (2.7.0)
     eventmachine (1.0.3)
-    execjs (2.0.1)
+    execjs (2.0.2)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
     fssm (0.2.10)
@@ -88,7 +88,7 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.8.2)
     mime-types (1.25)
-    multi_json (1.8.0)
+    multi_json (1.8.1)
     multipart-post (1.2.0)
     mysql2 (0.3.13)
     oauth (0.4.7)
@@ -141,7 +141,8 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
-    sass (3.2.10)
+    rubyzip (1.0.0)
+    sass (3.2.12)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -180,7 +181,7 @@ GEM
       execjs
       rails (>= 3.1)
       railties (>= 3.1)
-    tzinfo (0.3.37)
+    tzinfo (0.3.38)
     uglifier (2.2.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
@@ -190,7 +191,6 @@ GEM
       raindrops (~> 0.7)
     yajl-ruby (1.1.0)
     yard (0.8.7.2)
-    zipruby (0.3.6)
 
 PLATFORMS
   ruby
@@ -211,6 +211,7 @@ DEPENDENCIES
   pry-rails
   rails (= 3.2.13)
   ransack
+  rubyzip
   sass-rails (~> 3.2.3)
   simple_form
   sorcery
@@ -221,4 +222,3 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   unicorn
   yajl-ruby
-  zipruby
