@@ -48,8 +48,8 @@ class AwsController < ApplicationController
       return
     end
 
-    tmp_file  = create_tmp_file(params[:upload_file])
-    unzip(tmp_file, @path)
-    remove_tmp_file tmp_file
+    tmp_file_path  = create_tmp_file(params[:upload_file])
+    unzip(tmp_file_path, @path)
+    remove_tmp_file tmp_file_path
   end
 end
