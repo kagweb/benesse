@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module ProjectsHelper
 
   def create_projects_url_by_month(type)
@@ -68,7 +69,7 @@ module ProjectsHelper
       tmp += content_tag :div, info['updated_at'], {class: 'pull-right span2 file_info'}, false
       tmp += content_tag :div, info['size'], {class: 'pull-right span1 file_info'}, false
       tmp += content_tag :div, info['type'], {class: 'pull-right span1 file_info'}, false
-  
+
       # ディレクトリでない場合は li 要素を返す
       return content_tag :li, tmp, {class: 'file'}, false
     end
