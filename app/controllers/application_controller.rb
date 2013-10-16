@@ -54,6 +54,7 @@ class ApplicationController < ActionController::Base
   def unzip(tmp_file_path, target_dir_path)
     Zip::File.open(tmp_file_path) do |zip|
       zip.each do |file|
+
         ## __MACOSX の削除
         next if file.to_s =~ /^__MACOSX/
 
@@ -64,6 +65,16 @@ class ApplicationController < ActionController::Base
 
         # 許可されていない拡張子ファイルの場合、スキップする
         next unless Benesse::Application.config.accept_extnames.include? file.to_s.split('.').last
+
+        if file.file?
+          dirname = File.dirname file.to_s
+          dirnames = dirname.split('/')
+          current_path = target_dir_path
+          dirnames.each do |dirname|
+            current_path = current_path.join dirname
+            FileUtils.mkdir_p(current_path)
+          end
+        end
 
         # { true } は展開先に同名ファイルが存在する場合に上書きする指定
         zip.extract file, target_dir_path.join(file.to_s) { true }
