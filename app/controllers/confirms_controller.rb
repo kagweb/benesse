@@ -15,6 +15,8 @@ class ConfirmsController < ApplicationController
   def update_branch
     project = Project.find params[:id]
     project.update_branch
+    project.registration_status = false
+    project.save
     redirect_to project, notice: '枝番を更新しました。'
   end
 
