@@ -28,8 +28,8 @@ module ProjectsHelper
 
   def disabled ( place )
     case place
-    when 'aws'
-      return 'disabled' if @project.status <= 1
+#     when 'aws'
+#       return 'disabled' if @project.status <= 1
     when 'test'
       return 'disabled' if @project.status <= 3
     when 'production'
@@ -40,7 +40,7 @@ module ProjectsHelper
   end
 
   def confirmation_enabled?(project)
-    (params[:status] == 'aws' and project.status == 2) or
+    (params[:status] == 'aws' and project.status <= 2) or
     (params[:status] == 'test' and project.status == 4) or
     (params[:status] == 'production' and project.status == 6)
   end
