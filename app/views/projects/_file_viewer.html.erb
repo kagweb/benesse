@@ -1,51 +1,15 @@
 <div class="row clearfix">
   <div class="span12 file_viewer">
-    <% if for_project %>
+    <% if for_project.present? %>
       <%= render 'projects/file_viewer_project_form' %>
     <% else %>
       <%= render 'projects/file_viewer_aws_form' %>
     <% end %>
 
     <% if params[:view].blank? or params[:view] != 'list' %>
-      <ul class="files unstyled clearfix">
-        <% dir = directory_to_array %>
-        <% if dir.blank? %>
-          <li class="text-error">指定されたディレクトリにファイルがアップロードされていません。</li>
-        <% else %>
-          <% dir.each do |name, info| %>
-            <%= raw folder(name, info) %>
-          <% end %>
-        <% end %>
-        <%= render 'projects/file_viewer_path_form' if for_project %>
-      </ul>
+      <%= render 'projects/file_viewer_list', for_project: for_project %>
     <% else %>
-      <table class="files table table-striped table-condensed table-hover">
-        <thead>
-          <tr>
-            <th>ファイル名</th>
-            <th>パス</th>
-            <th>種類</th>
-            <th>サイズ</th>
-            <th class="span3">更新日</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% dir = directory_to_array 0 %>
-          <% if dir.blank? %>
-            <tr><td><span class="text-error">指定されたディレクトリにファイルがアップロードされていません。</td><td></td><td></td><td></td><td></td></tr>
-          <% else %>
-            <% dir.each do |name, info| %>
-              <tr class="action_select" data-path="<%= "#{info['basepath']}/#{info['path']}" %>">
-                <td><%= info['type'] == 'dir' ? link_to(name, { view: 'list', path: "#{info['basepath']}/#{info['path']}" }) : name %></td>
-                <td><%= "#{Benesse::Application.config.aws_root_url}#{info['basepath']}/#{info['path']}" %></td>
-                <td><%= info['type'].upcase %></td>
-                <td><%= info['size'] %></td>
-                <td><%= info['updated_at'] %></td>
-              </tr>
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
+      <%= render 'projects/file_viewer_table' %>
     <% end %>
   </div>
 </div>
