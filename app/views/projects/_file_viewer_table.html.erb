@@ -1,0 +1,27 @@
+<table class="files table table-striped table-condensed table-hover">
+  <thead>
+    <tr>
+      <th>ファイル名</th>
+      <th>パス</th>
+      <th>種類</th>
+      <th>サイズ</th>
+      <th class="span3">更新日</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% dir = directory_to_array 0 %>
+    <% if dir.blank? %>
+      <tr><td colspan="5"><span class="text-error">指定されたディレクトリにファイルがアップロードされていません。</td></tr>
+    <% else %>
+      <% dir.each do |name, info| %>
+        <tr class="action_select" data-path="<%= "#{info['basepath']}/#{info['path']}" %>">
+          <td><%= info['type'] == 'dir' ? link_to(name, { view: 'list', path: "#{info['basepath']}/#{info['path']}" }) : name %></td>
+          <td><%= "#{Benesse::Application.config.aws_root_url}#{info['basepath']}/#{info['path']}" %></td>
+          <td><%= info['type'].upcase %></td>
+          <td><%= info['size'] %></td>
+          <td><%= info['updated_at'] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
