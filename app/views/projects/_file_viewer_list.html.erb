@@ -1,0 +1,11 @@
+<ul class="files unstyled clearfix">
+  <% dir = directory_to_array 0 %>
+  <% if dir.blank? %>
+    <li class="text-error">指定されたディレクトリにファイルがアップロードされていません。</li>
+  <% else %>
+    <% dir.each do |name, info| %>
+      <%= raw folder(name, info) %>
+    <% end %>
+  <% end %>
+  <%= render 'projects/file_viewer_path_form' if for_project %>
+</ul>

@@ -17,6 +17,7 @@ gem 'simple_form'
 gem 'ransack'
 gem 'rubyzip', :require => 'zip/filesystem'
 gem 'actionmailer'
+gem 'jbuilder'
 
 group :development do
   gem 'thin'
@@ -30,7 +31,6 @@ end
 group :production do
   gem 'unicorn'
 end
-
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
