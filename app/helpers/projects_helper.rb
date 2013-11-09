@@ -65,7 +65,7 @@ module ProjectsHelper
   def folder ( name, info )
     unless info['type'] == 'dir'
       # ファイルの情報
-      tmp  = content_tag :a, '<i class="icon-file"></i> ' + name + ' ', { href: info['basepath'] + '/' + info['path'], data: {root: info['root']}}, false
+      tmp  = content_tag :a, '<i class="icon-file"></i> ' + name + ' ', { href: "#{info['basepath']}/#{info['path']}", class: '', data: {root: info['root']}}, false
       tmp += content_tag :div, info['updated_at'], {class: 'pull-right span2 file_info'}, false
       tmp += content_tag :div, info['size'], {class: 'pull-right span1 file_info'}, false
       tmp += content_tag :div, info['type'], {class: 'pull-right span1 file_info'}, false
@@ -74,8 +74,8 @@ module ProjectsHelper
       return content_tag :li, tmp, {class: 'file'}, false
     end
 
-    tmp  = content_tag :span, '&#9658;', {class: 'folder-control folder-close'}, false
-    tmp += content_tag :a, '<i class="icon-folder-close"></i> ' + name, {href: info['basepath'] + '/' + info['path'], data: {root: info['root']}}, false
+    tmp  = content_tag :span, '&#9658;', {class: 'folder-control folder-closed'}, false
+    tmp += content_tag :a, '<i class="icon-folder-close"></i> ' + name, {href: "#{info['basepath']}/#{info['path']}", data: {root: info['root']}}, false
 
     # ディレクトリの場合はディレクトリの中身を再帰的に解析
     ul = content_tag :ul, class: 'unstyled' do
@@ -86,14 +86,12 @@ module ProjectsHelper
   end
 
   def directory_to_array(depth = nil)
-    require "find"
-
     path = _create_path
     return [] unless path and File.exist? path
 
     dir = {}
 
-    Find.find path do |file|
+    Dir.glob path.join('*') do |file|
       next if FileTest.file? file and ['.DS_Store', '.gitkeep'].include? file.to_s.split('/').last
       resolved_path = file.to_s.gsub(path.to_s, '').gsub(/^\//, '').split /\//
       next if resolved_path.empty?
@@ -116,8 +114,8 @@ module ProjectsHelper
 
         if FileTest.directory? file and depth_count == resolved_path.length
           tmp[r]['size'] = 0
-          Dir.glob("#{file.to_s}/**/*") {|f| tmp[r]['size'] += File.size?(f).to_i }
-          tmp[r]['size'] = number_to_human_size(tmp[r]['size']) || 'empty'
+          # Dir.glob("#{file.to_s}/**/*") {|f| tmp[r]['size'] += File.size?(f).to_i }
+          # tmp[r]['size'] = number_to_human_size(tmp[r]['size']) || 'empty'
           break
         end
 

@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-  $('.file_viewer ul.files li a').on 'click', ->
+  $('body').on 'click', '.file_viewer ul.files li a', ->
     $('.selected').removeClass 'selected'
     $(this).parent('li').addClass 'selected'
     set_download_path $(this).attr('href')
@@ -11,26 +11,62 @@ $ ->
     $('span.domain').html $(this).attr('data-root') + '.' if $('span.domain').size() > 0
     return false
 
-  $('.file_viewer ul.files li .folder-control').on 'click', ->
-    if $(this).hasClass 'folder-open'
-      $(this).removeClass 'folder-open'
-      $(this).addClass 'folder-close'
+  $('body').on 'click', '.file_viewer ul.files li .folder-control', ->
+    if $(this).hasClass 'folder-opened'
+      $(this).removeClass 'folder-opened'
+      $(this).addClass 'folder-closed'
       $(this).html "&#9658;"
       $(this).parent('li').children('ul').slideUp 200
+      $(this).parent('li').children('ul').empty()
     else
-      $(this).removeClass 'folder-close'
-      $(this).addClass 'folder-open'
+      $target = $(this).parent 'li'
+      $loading = $target.children('a').append ' <img src="/assets/loader.gif">'
+
+      $.ajax
+        url: '/api/file_structure',
+        type: 'post',
+        data:
+          path: $target.children('a').attr 'href'
+        dataType: 'json',
+        success: (res) ->
+          for r in res
+            filename = r.file[0]
+            fileinfo = r.file[1]
+
+            if fileinfo.type == 'dir'
+              tag = '<li>'
+              tag += '<span class="folder-control folder-closed">&#9658;</span>'
+              tag += '<a href="' + fileinfo.basepath + '/' + fileinfo.path + '" data-root="' + fileinfo.root + '">' + '<i class="icon-folder-close"></i> ' + filename + '</a>'
+              tag += '<ul class="unstyled"></ul>'
+              tag += '</li>'
+            else
+              tag = '<li class="file">'
+              tag += '<a href="' + fileinfo.basepath + '" data-root="' + fileinfo.root + '">' + '<i class="icon-file"></i> ' + filename + '</a>'
+              tag += '<div class="pull-right span2 file_info">' + fileinfo.updated_at + '</div>'
+              tag += '<div class="pull-right span1 file_info">' + fileinfo.size + '</div>'
+              tag += '<div class="pull-right span1 file_info">' + fileinfo.type + '</div>'
+              tag += '</li>'
+            $target.children('ul').append tag
+          $loading.children('img').remove();
+        ,
+        error: (xhr, status, error) ->
+          console.log xhr
+          console.log status
+          console.log error
+
+      $(this).removeClass 'folder-closed'
+      $(this).addClass 'folder-opened'
       $(this).html "&#9660;"
-      $(this).parent('li').children('ul').slideDown 200
+      $target.children('ul').slideDown 200
     return
 
-  $('.file_viewer table.files tr').on 'click', ->
+  $('body').on 'click', '.file_viewer table.files tr', ->
     $('tr.selected').removeClass 'selected'
     $(this).addClass 'selected'
     set_download_path $(this).attr('data-path')
     set_list_path $(this).attr('data-path')
 
-  $('.file_viewer .file_action').on 'click', ->
+  $('body').on 'click', '.file_viewer .file_action', ->
     msg = []
     msg['download'] = false
     msg['upload']   = false
