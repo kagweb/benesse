@@ -40,10 +40,10 @@ Benesse::Application.routes.draw do
 #   match 'login' => 'sessions#new', as: :login
 #   match 'logout' => 'sessions#destroy', as: :logout
 
-
   # リファクタリング前
   get "api/user_list" => 'api#user_list'
   get "api/projects" => 'api#projects'
+  post "api/file_structure" => 'api#file_structure'
   get "downloads" => 'downloads#optional'
   post "downloads/get_url" => 'downloads#get_url'
 
