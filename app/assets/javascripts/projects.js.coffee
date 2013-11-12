@@ -41,7 +41,7 @@ $ ->
               tag += '</li>'
             else
               tag = '<li class="file">'
-              tag += '<a href="' + fileinfo.basepath + '" data-root="' + fileinfo.root + '">' + '<i class="icon-file"></i> ' + filename + '</a>'
+              tag += '<a href="' + fileinfo.basepath + '/' + fileinfo.path + '" data-root="' + fileinfo.root + '">' + '<i class="icon-file"></i> ' + filename + '</a>'
               tag += '<div class="pull-right span2 file_info">' + fileinfo.updated_at + '</div>'
               tag += '<div class="pull-right span1 file_info">' + fileinfo.size + '</div>'
               tag += '<div class="pull-right span1 file_info">' + fileinfo.type + '</div>'
