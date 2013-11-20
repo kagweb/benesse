@@ -77,7 +77,9 @@ class ApplicationController < ActionController::Base
         end
 
         # { true } は展開先に同名ファイルが存在する場合に上書きする指定
-        zip.extract file, target_dir_path.join(file.to_s) { true }
+        zip.extract file, target_dir_path.join(file.to_s) do |dest_path|
+          true
+        end
       end
     end
 
