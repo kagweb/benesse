@@ -105,7 +105,7 @@ module ProjectsHelper
         'type' => 'dir',
         'size' => '',
         'files' => {},
-        'updated_at' => l(File.mtime file),
+        'updated_at' => l(File.mtime(file) + 60*60*9),
       }
 
       resolved_path.each do |r|
