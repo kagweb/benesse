@@ -5,8 +5,13 @@ class ProjectsController < ApplicationController
 
   def index
     redirect_to login_url unless current_user
-    @search = Project.order('register_datetime ASC, production_upload_at ASC').search(params[:q])
-    @projects = @search.result
+    if params[:q].present?
+      @search = Project.order('register_datetime ASC, production_upload_at ASC').search(params[:q])
+      @projects = @search.result
+    else
+      @search = Project.search params[:q]
+      @projects = Project.where(created_at: Date.new(Date.today.year,Date.today.month, 1)..Date.new(Date.today.year,Date.today.month, -1)).order('register_datetime ASC, production_upload_at ASC')
+    end
     closed_projects = []
     @projects.each_with_index {|project, i| closed_projects << @projects.delete_at(i) if project.status == 7 }
     @projects += closed_projects

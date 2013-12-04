@@ -69,9 +69,7 @@
       <%= @project.upload_server %>
     </p>
 
-    <p class="well">
-      <%= @project.memo.blank? ? 'メモは登録されていません。' : @project.memo %>
-    </p>
+    <div class="well clearfix line-break"><%= @project.memo.blank? ? 'メモは登録されていません。' : @project.memo %></div>
 
     <% if allow? 'authorizer' and @project.status == 0 %>
       <%= link_to raw('<i class=" icon-ok"></i> ' + t('view.project.authenticate') + '</a>'),
