@@ -12,7 +12,7 @@ class Project < ActiveRecord::Base
 
   attr_accessible :confirmed, :name, :production_upload_at, :exists_test_server, :status,
                   :test_upload_at, :upload_server, :registration_status, :year_migrate,
-                  :server_update, :memo, :register_datetime, :miss, :deletion, :uploaded
+                  :server_update, :memo, :register_datetime, :miss, :deletion, :uploaded, :number
 
   after_create :set_number
   after_create :create_branch
@@ -24,6 +24,10 @@ class Project < ActiveRecord::Base
   validates :operator, presence: true
   validates :test_upload_at, presence: true
   validates :production_upload_at, presence: true
+
+  def created_date
+    created_at.to_date
+  end
 
   def status_slug
     tmp = []
@@ -133,7 +137,7 @@ class Project < ActiveRecord::Base
   private
 
   def set_number
-     self.number = "#{created_at.to_date.strftime('%y')}#{created_at.to_date.strftime('%m')}#{created_at.to_date.strftime('%d')}#{format '%02d', Project.where(created_at: created_at.to_date...created_at.to_date.next).count}"
+     self.number = "#{created_date.strftime('%y')}#{created_date.strftime('%m')}#{created_date.strftime('%d')}#{format '%02d', Project.where(created_at: created_date...created_date.next).count}"
      self.save
   end
 
