@@ -14,6 +14,7 @@ class Project < ActiveRecord::Base
                   :test_upload_at, :upload_server, :registration_status, :year_migrate,
                   :server_update, :memo, :register_datetime, :miss, :deletion, :uploaded
 
+  after_create :set_number
   after_create :create_branch
   after_create :add_parties
 
@@ -130,6 +131,11 @@ class Project < ActiveRecord::Base
   end
 
   private
+
+  def set_number
+     self.number = "#{created_at.to_date.strftime('%y')}#{created_at.to_date.strftime('%m')}#{created_at.to_date.strftime('%d')}#{format '%02d', Project.where(created_at: created_at.to_date...created_at.to_date.next).count}"
+     self.save
+  end
 
   def create_branch
     branches.create code: '01'
