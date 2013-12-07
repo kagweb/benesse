@@ -32,7 +32,7 @@ class UserMailer < ActionMailer::Base
 
       Dir.glob(basepath.join('**/*').to_s).each do |path|
         next if File.directory? path
-        next unless ['html', 'HTML', 'pdf', 'PDF'].include? path.to_s.split('.').last
+        next unless ['htm', 'HTM', 'html', 'HTML', 'pdf', 'PDF'].include? path.to_s.split('.').last
         path = path.to_s.gsub(basepath.to_s, '').gsub(/^\//, '')
 
         case @project.upload_server
@@ -56,6 +56,6 @@ class UserMailer < ActionMailer::Base
   private
 
   def subject(project)
-    "#{Time.now.strftime('%y%m%d')}#{format("%07d", project.id)}－#{format("%02d", project.branches.last.code.to_i)}/#{project.name}"
+    "#{project.number}－#{format("%02d", project.branches.last.code.to_i)}/#{project.name}"
   end
 end
