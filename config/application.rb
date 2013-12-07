@@ -86,6 +86,7 @@ module Benesse
       'html',
       'jpg',
       'jpeg',
+      'gif',
       'js',
       'mht',
       'pdf',
@@ -96,6 +97,9 @@ module Benesse
       'xls',
       'xlsx',
       'xml',
+      'jsp',
+      'swf',
+      'psd'
     ]
     config.accept_extnames = []
     accept_extnames.each do |e|
