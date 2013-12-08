@@ -137,7 +137,7 @@ class Project < ActiveRecord::Base
   private
 
   def set_number
-     self.number = "#{created_date.strftime('%y')}#{created_date.strftime('%m')}#{created_date.strftime('%d')}#{format '%02d', Project.where(created_at: created_date...created_date.next).count}"
+     self.number = "#{created_date.strftime('%y')}#{created_date.strftime('%m')}#{created_date.strftime('%d')}#{format '%03d', Project.where(created_at: created_date...created_date.next).count}"
      self.save
   end
 
