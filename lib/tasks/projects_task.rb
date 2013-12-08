@@ -20,7 +20,7 @@ class Tasks::ProjectsTask
       puts "■ #{date}" if dry_run
 
       projects.each do |project|
-        project.number = "#{project.created_date.strftime('%y')}#{project.created_date.strftime('%m')}#{project.created_date.strftime('%d')}#{format '%02d', i}"
+        project.number = "#{project.created_date.strftime('%y')}#{project.created_date.strftime('%m')}#{project.created_date.strftime('%d')}#{format '%03d', i}"
         project.save unless dry_run
         i += 1
         puts " - #{project.name} : #{project.number}" if dry_run
