@@ -10,7 +10,7 @@ class ProjectsController < ApplicationController
       @projects = @search.result
     else
       @search = Project.search params[:q]
-      @projects = Project.where(created_at: Date.new(Date.today.year,Date.today.month, 1)..Date.new(Date.today.year,Date.today.month, -1)).order('register_datetime ASC, production_upload_at ASC')
+      @projects = Project.where(production_upload_at: Date.new(Date.today.year,Date.today.month, 1)..Date.new(Date.today.year,Date.today.month, -1)).order('register_datetime ASC, production_upload_at ASC')
     end
     closed_projects = []
     @projects.each_with_index {|project, i| closed_projects << @projects.delete_at(i) if project.status == 7 }
