@@ -47,7 +47,9 @@ class UserMailer < ActionMailer::Base
         end
       end
 
-      to = @project.parties.inject([]) { |confirmers, party| confirmers << party.user.email if party.send("#{status_slug}_confirm_required") }
+      confirmers = []
+      @project.parties.each { |party| confirmers << party.user.email if party.send("#{status_slug}_confirm_required") }
+      to = confirmers
       mail to: to, subject: "【テスト環境確認依頼】#{subject @project}" if @project.status == 4
       mail to: to, subject: "【本番環境確認依頼】#{subject @project}" if @project.status == 6
     end
