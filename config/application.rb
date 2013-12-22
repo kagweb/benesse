@@ -111,11 +111,11 @@ module Benesse
 
     # AWS のルート URL
     config.aws_root_url = 'http://bkzemi.crasp.biz/'
-    config.preview_url = config.aws_root_url + 'files/'
+    config.preview_url = config.aws_root_url # + 'files/'
 
     # アップロードディレクトリ関連で利用するパス
     config.upload_tmp_path      = Rails.root.join 'tmp/upload'
-    config.upload_root_path     = Rails.root.join 'public/files'
+    config.upload_root_path     = Rails.root.join 'public' #'public/files'
     config.upload_aws_path      = config.upload_root_path.join 'aws'
     config.upload_projects_path = config.upload_root_path.join 'projects'
     config.upload_dir = {

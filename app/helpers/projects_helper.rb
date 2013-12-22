@@ -121,7 +121,7 @@ module ProjectsHelper
 
         if FileTest.file? file and depth_count == resolved_path.length
           tmp[r]['type'] = r.split('.').last.upcase
-          tmp[r]['size'] = number_to_human_size(File.size? file) || 'empty'
+          tmp[r]['size'] = File.size?(file).present? ? number_to_human_size(File.size? file) : 'empty'
           break
         end
 
