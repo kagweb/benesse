@@ -25,6 +25,7 @@ group :development do
   gem 'pry-doc'
   gem 'pry-rails'
   gem 'better_errors'
+  gem 'quiet_assets'
   gem 'binding_of_caller'
 end
 
