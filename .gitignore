@@ -54,7 +54,14 @@
 Icon^M^M
 
 # Upload files
+/public/aws/KZEMI/htdocs/
+/public/aws/KZEMI/ssl_htdocs/
+/public/aws/NKD/htdocs/k123/
+/public/aws/NKD/htdocs/zemi/
+/public/projects/production/
+/public/projects/test/
 
+# Upload files (Old)
 /public/files/aws/go.nkd/htdocs/
 /public/files/aws/kzemi/htdocs/
 /public/files/aws/kzemi/ssl_htdocs/

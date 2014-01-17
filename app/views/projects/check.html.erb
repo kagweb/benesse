@@ -44,7 +44,7 @@
               <% if party.send("#{status_slug params[:status]}_confirm_required") %><span class="label label-important">必須</span><% end %>
             </td>
 
-            <% if current_user == party.user and confirmation_enabled?(@project) %>
+            <% if current_user == party.user && confirmation_enabled?(@project) %>
               <td class="center">
                 <%= radio_button :confirmation, :response, 'ok' , { checked: response(current_user) == 'ok' } %>
               </td>

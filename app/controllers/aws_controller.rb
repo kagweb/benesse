@@ -28,8 +28,9 @@ class AwsController < ApplicationController
       end
     elsif params[:upload] == 'on'
       @path = Pathname.new(File.dirname @path) if File.file? @path
-      upload
-      redirect_to :back, notice: 'アップロードに成功しました。'
+      result = upload
+      flash[:notice] = 'アップロードに成功しました。' if result
+      redirect_to :back
     elsif params[:delete] == 'on'
       FileUtils.rm_rf @path
       redirect_to :back, notice: 'ファイルの削除に成功しました。'
@@ -44,12 +45,24 @@ class AwsController < ApplicationController
 
   def upload
     unless params[:upload_file].original_filename.split(/\./).last == 'zip'
+      # 許可されていない拡張子ファイルの場合、スキップする
+      unless Benesse::Application.config.accept_extnames.include? params[:upload_file].original_filename.split('.').last
+        flash[:alert] = "ファイルの拡張子が許可されていないため、アップロードに失敗しました。"
+        return false
+      end
+
+      if params[:upload_file].original_filename =~ /[^ -~｡-ﾟ]/
+        flash[:alert] = "ファイル名にマルチバイト文字が含まれているため、アップロードに失敗しました。"
+        return false
+      end
+
       open(@path.join(params[:upload_file].original_filename), 'wb') {|t| t << params[:upload_file].read }
-      return
+      return true
     end
 
     tmp_file_path  = create_tmp_file(params[:upload_file])
     unzip(tmp_file_path, @path)
     remove_tmp_file tmp_file_path
+    return true
   end
 end

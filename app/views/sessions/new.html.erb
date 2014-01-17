@@ -1,5 +1,5 @@
 <%= form_tag sessions_path, class: 'login_form', method: :post do %>
-<h2 class="heading">ログイン</h2>
+<h2 class="heading"><%= "ログイン#{('(2号)' unless Benesse::Application.config.first)}" %></h2>
 <div class="field">
   <%= text_field_tag :username, params[:username], class: 'input-block-level email', placeholder: 'ユーザーID' %>
 </div>
