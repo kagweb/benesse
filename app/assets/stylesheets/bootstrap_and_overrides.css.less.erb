@@ -28,3 +28,22 @@
 //
 // Example:
 // @linkColor: #ff0000;
+
+<%=
+  ".navbar-inverse .navbar-inner {
+     background-color: @orange;
+     background-image: -moz-linear-gradient(top, @orange, lighten(@orange, 10%));
+     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@orange), lighten(@orange, 10%));
+     background-image: -webkit-linear-gradient(top, @orange, lighten(@orange, 10%));
+     background-image: -o-linear-gradient(top, @orange, lighten(@orange, 10%));
+     background-image: linear-gradient(to bottoam, @orange, lighten(@orange, 10%));
+     background-repeat: repeat-x;
+     border-color: @orange;
+   }" unless Benesse::Application.config.first
+%>
+<%=
+  ".navbar-inverse .brand, .navbar-inverse .nav > li > a {
+     color: @pink;
+     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+   }" unless Benesse::Application.config.first
+%>
