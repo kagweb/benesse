@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 require File.expand_path('../boot', __FILE__)
 
 # Pick the frameworks you want:
@@ -21,6 +21,8 @@ module Benesse
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    config.first = true
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib/extras)
@@ -110,7 +112,7 @@ module Benesse
     end
 
     # AWS のルート URL
-    config.aws_root_url = 'http://bkzemi.crasp.biz/'
+    config.aws_root_url = config.first ? 'http://bkzemi.crasp.biz/' : 'http://bkzemi2.crasp.biz/'
     config.preview_url = config.aws_root_url # + 'files/'
 
     # アップロードディレクトリ関連で利用するパス
