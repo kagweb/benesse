@@ -52,22 +52,34 @@ class ApplicationController < ActionController::Base
   end
 
   def unzip(tmp_file_path, target_dir_path)
+    unexpect_extname_flag = false
+    unexpect_character_flag = false
+
     Zip::File.open(tmp_file_path) do |zip|
       zip.each do |file|
+        filename = file.to_s.force_encoding("UTF-8")
 
         ## __MACOSX の削除
-        next if file.to_s =~ /^__MACOSX/
+        next if filename =~ /^__MACOSX/
 
         if file.directory?
-          FileUtils.mkdir_p(target_dir_path.join file.to_s)
+          FileUtils.mkdir_p(target_dir_path.join filename)
           next
         end
 
         # 許可されていない拡張子ファイルの場合、スキップする
-        next unless Benesse::Application.config.accept_extnames.include? file.to_s.split('.').last
+        unless Benesse::Application.config.accept_extnames.include? filename.split('.').last
+          unexpect_extname_flag = true
+          next
+        end
+
+        if filename =~ /[^ -~｡-ﾟ]/
+          unexpect_character_flag = true
+          next
+        end
 
         if file.file?
-          dirname = File.dirname file.to_s
+          dirname = File.dirname filename
           dirnames = dirname.split('/')
           current_path = target_dir_path
           dirnames.each do |dirname|
@@ -77,11 +89,15 @@ class ApplicationController < ActionController::Base
         end
 
         # { true } は展開先に同名ファイルが存在する場合に上書きする指定
-        zip.extract file, target_dir_path.join(file.to_s) do |dest_path|
+        zip.extract file, target_dir_path.join(filename) do |dest_path|
           true
         end
       end
     end
+
+    flash[:alert] = []
+    flash[:alert] << "許可されていない拡張子のファイルをスキップしました。\n" if unexpect_extname_flag
+    flash[:alert] << "ファイル名にマルチバイト文字が含まれているファイルをスキップしました。" if unexpect_character_flag
 
     return true
   end
