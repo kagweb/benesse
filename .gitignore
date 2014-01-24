@@ -16,8 +16,11 @@
 # Ignore database.yml
 /config/database.yml
 
-# Ignore database.yml
+# Ignore application.rb
 /config/application.rb
+
+# Ignore production.rb
+/config/environments/production.rb
 
 # Ignore all logfiles and tempfiles.
 /log
