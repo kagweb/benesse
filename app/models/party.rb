@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Party < ActiveRecord::Base
   belongs_to :project
   belongs_to :user
