@@ -82,7 +82,7 @@
   <li>
     <b class="username"><i class="icon-user"></i> <%= "#{count - n + 1}. #{c.user.name}" %></b>
     <span class="time"><%= l c.created_at, format: "%Y/%m/%d(%a) %H:%M" %></span>
-    <p class="line-break"><%= raw c.comment.gsub(/\r\n|\r|\n/, "<br />") %></p>
+    <p class="line-break"><%= c.comment.gsub(/\r\n|\r|\n/, "<br />") %></p>
   </li>
   <% end %>
   <% if @comments.blank? %>

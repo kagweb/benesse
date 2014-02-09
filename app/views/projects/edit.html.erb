@@ -4,7 +4,7 @@
 
   <%= f.error_notification %>
 
-  <% if allow? 'promoter' %>
+  <% if allow? 'promoter', 'operator' %>
     <%= f.input :name %>
     <%= f.input :year_migrate, inline_label: '年度移行対象', label: false %>
     <%= f.input :deletion, inline_label: '削除案件', label: false %>

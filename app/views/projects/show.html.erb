@@ -159,7 +159,7 @@
             <%= response(party.user, 2).upcase %>
           </td>
           <td class="center">
-            <% if allow? 'promoter' %>
+            <% if allow? 'promoter', 'operator' %>
               <%= link_to t('view.utility.edit'),
                 { controller: 'parties', action: 'edit', project_id: @project.id, id: party.id},
                 { class: 'btn btn-mini'} %>

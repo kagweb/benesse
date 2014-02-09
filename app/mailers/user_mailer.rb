@@ -37,10 +37,11 @@ class UserMailer < ActionMailer::Base
 
         case @project.upload_server
         when 'kzemi'
+          test_num = (config.first ? '-t' : '-t3')
           if path.to_s.split('/').first == 'htdocs'
-            @files << "http://kzemi#{@project.status == 4 ? '-t' : ''}.benesse.ne.jp/" + path.to_s.gsub(/^htdocs\//, '')
+            @files << "http://kzemi#{@project.status == 4 ? test_num : ''}.benesse.ne.jp/" + path.to_s.gsub(/^htdocs\//, '')
           elsif path.to_s.split('/').first == 'ssl_htdocs'
-            @files << "https://kzemi#{@project.status == 4 ? '-t' : ''}.benesse.ne.jp/" + path.to_s.gsub(/^ssl_htdocs\//, '')
+            @files << "https://kzemi#{@project.status == 4 ? test_num : ''}.benesse.ne.jp/" + path.to_s.gsub(/^ssl_htdocs\//, '')
           end
         when 'NKD'
           @files << "http://nkd#{@project.status == 4 ? '-test3' : ''}.benesse.ne.jp/" + path.to_s
